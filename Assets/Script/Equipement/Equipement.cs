@@ -4,7 +4,13 @@ public enum EquipementType
 {
     Consumable = 0,
     Weapon = 1,
-    Armor = 2
+    Armor = 2,
+    Passive = 3
+}
+
+public enum PassiveObjectName
+{
+    Toolbag = 0
 }
 
 [System.Serializable]
