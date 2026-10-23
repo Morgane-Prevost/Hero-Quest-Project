@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8161404178866412603}
   - component: {fileID: 4180298370415945694}
   m_Layer: 0
-  m_Name: Sorcier de la terreur
+  m_Name: Dread Sorcerer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

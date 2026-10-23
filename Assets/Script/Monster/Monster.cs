@@ -8,7 +8,6 @@ public class Monster : MonoBehaviour
     public int mindPoints;
     public int attackDices;
     public int defenseDices;
-
     public int movementDices;
 
     //To add when classes are implemented

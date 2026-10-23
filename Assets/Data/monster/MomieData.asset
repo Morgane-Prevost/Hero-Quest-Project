@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee74c86305849f1aacd4fe9ff5bacfe, type: 3}
+  m_Name: MomieData
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  prefab: {fileID: 6492330546316687010, guid: 77a6bffbad544744e9faef8c4ca029a4, type: 3}
+  texture: {fileID: 0}
+  monsterName: Momie
+  healthPoints: 2
+  mindPoints: 0
+  attackDices: 3
+  defenseDices: 4
+  movementDices: 4

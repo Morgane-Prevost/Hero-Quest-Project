@@ -8,7 +8,7 @@ public class MonsterManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        CreateMonster(monsters[0], Vector3.zero);
     }
 
     // Update is called once per frame
@@ -17,10 +17,19 @@ public class MonsterManager : MonoBehaviour
         
     }
 
-    public void CreateMonster(MonsterData monsterData, string name)
+    public MonsterData GetData(string monsterName)
     {
-        // Create a new monster instance
-        var monster = new Monster();
-        monster.Initialize(monsterData, name);
+        return monsters.Find(m => m.monsterName == monsterName);
+    }
+    
+    public Monster CreateMonster(MonsterData data, Vector3 position)
+    {
+        GameObject monsterObj = Instantiate(data.prefab, position, Quaternion.identity);
+
+        if (!monsterObj.TryGetComponent(out Monster monster))
+            monster = monsterObj.AddComponent<Monster>();
+
+        monster.Initialize(data, data.monsterName);
+        return monster;
     }
 }

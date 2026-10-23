@@ -18,3 +18,4 @@ public class MonsterData : ScriptableObject
     //To add when classes are implemented
 
 }
+

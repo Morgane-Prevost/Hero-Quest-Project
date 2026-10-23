@@ -11,13 +11,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="08bd4d44-4170-4959-a684-d9ec85683297" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs.meta" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Script/Hero/HeroManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Hero/HeroManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Hero-Quest-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Hero-Quest-Project/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/Monster/Guerrier de la Terreur.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/Monster/Guerrier de la Terreur.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/Monster/Sorcier de la terreur.prefab" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Prefab/Monster/Sorcier de la terreur.prefab.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/SampleScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,63 +52,64 @@
     <commands />
     <urls />
   </component>
+  <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="NextEditCompletionFeaturesState">
     <decayedCancelled>
-      <entry key="MS100" value="1.0000000001027602" />
-      <entry key="MS500" value="1.0100546034945412" />
-      <entry key="S2" value="1.3166585634308043" />
-      <entry key="S5" value="1.6313010258176939" />
-      <entry key="S10" value="1.794567217179046" />
-      <entry key="S30" value="2.0063222291835485" />
-      <entry key="S60" value="2.8385103228399826" />
-      <entry key="M2" value="5.706349009627243" />
-      <entry key="M5" value="12.292549400106195" />
-      <entry key="M10" value="17.06885744365283" />
-      <entry key="M15" value="19.247607448370577" />
-      <entry key="M30" value="21.849789302694685" />
-      <entry key="H1" value="23.34679183414438" />
-      <entry key="H2" value="24.152473198849794" />
-      <entry key="H4" value="24.570816957112783" />
-      <entry key="D1" value="24.927700003445086" />
-      <entry key="W1" value="24.989652360790842" />
+      <entry key="MS100" value="1.203063099089059" />
+      <entry key="MS500" value="1.7269862586601552" />
+      <entry key="S2" value="1.9233836603637182" />
+      <entry key="S5" value="1.9731065364390101" />
+      <entry key="S10" value="2.051182494840406" />
+      <entry key="S30" value="2.469985751926214" />
+      <entry key="S60" value="3.538195773334584" />
+      <entry key="M2" value="6.210008110611017" />
+      <entry key="M5" value="11.512156763761265" />
+      <entry key="M10" value="16.670626443273996" />
+      <entry key="M15" value="19.881703607897023" />
+      <entry key="M30" value="25.20276750025717" />
+      <entry key="H1" value="31.67997559599725" />
+      <entry key="H2" value="39.551255758844434" />
+      <entry key="H4" value="46.471470336897795" />
+      <entry key="D1" value="54.91633048245496" />
+      <entry key="W1" value="56.69300071551806" />
     </decayedCancelled>
     <decayedSelected>
-      <entry key="MS100" value="0.0" />
-      <entry key="MS500" value="2.4058085972424356E-104" />
-      <entry key="S2" value="1.2454183723681212E-26" />
-      <entry key="S5" value="4.346364123889889E-11" />
-      <entry key="S10" value="6.592696052367263E-6" />
-      <entry key="S30" value="0.01875085251475422" />
-      <entry key="S60" value="0.13693415333810907" />
-      <entry key="M2" value="0.37067889666337106" />
-      <entry key="M5" value="0.7244542831819444" />
-      <entry key="M10" value="1.048948446886032" />
-      <entry key="M15" value="1.2504406331651785" />
-      <entry key="M30" value="1.5479042271069798" />
-      <entry key="H1" value="1.7497295132385353" />
-      <entry key="H2" value="1.8680585674178194" />
-      <entry key="H4" value="1.9322235637577543" />
-      <entry key="D1" value="1.9884437621255933" />
-      <entry key="W1" value="1.9983426115571095" />
+      <entry key="MS100" value="1.1841797311987113E-85" />
+      <entry key="MS500" value="1.0417422883401285E-17" />
+      <entry key="S2" value="7.317918294537471E-5" />
+      <entry key="S5" value="0.03222844539580697" />
+      <entry key="S10" value="0.2519836877359953" />
+      <entry key="S30" value="1.0011463502973796" />
+      <entry key="S60" value="1.4288698827364708" />
+      <entry key="M2" value="1.8019077301271187" />
+      <entry key="M5" value="2.362741313915895" />
+      <entry key="M10" value="2.957433463940422" />
+      <entry key="M15" value="3.3598008170838534" />
+      <entry key="M30" value="4.026861778061639" />
+      <entry key="H1" value="4.714320041053449" />
+      <entry key="H2" value="5.449519892347743" />
+      <entry key="H4" value="6.069897894121875" />
+      <entry key="D1" value="6.816533066022927" />
+      <entry key="W1" value="6.972979529091941" />
     </decayedSelected>
     <decayedShown>
-      <entry key="MS100" value="0.920187650716848" />
-      <entry key="MS500" value="0.9933361144442551" />
-      <entry key="S2" value="1.310757248081308" />
-      <entry key="S5" value="1.6282401368357016" />
-      <entry key="S10" value="1.7928589981603464" />
-      <entry key="S30" value="2.021954601823795" />
-      <entry key="S60" value="2.9639840132575928" />
-      <entry key="M2" value="6.0565897901549075" />
-      <entry key="M5" value="12.996405121332087" />
-      <entry key="M10" value="18.102634838834696" />
-      <entry key="M15" value="20.48627775285228" />
-      <entry key="M30" value="23.390725898280326" />
-      <entry key="H1" value="25.092700812415522" />
-      <entry key="H2" value="26.01852686465023" />
-      <entry key="H4" value="26.502012935520636" />
-      <entry key="D1" value="26.915968876352256" />
-      <entry key="W1" value="26.98796989758734" />
+      <entry key="MS100" value="1.0783072519803698" />
+      <entry key="MS500" value="1.693686152970141" />
+      <entry key="S2" value="1.9143352268150817" />
+      <entry key="S5" value="1.9871878193009251" />
+      <entry key="S10" value="2.2290474180647477" />
+      <entry key="S30" value="3.352057781637289" />
+      <entry key="S60" value="4.87556898327064" />
+      <entry key="M2" value="7.9490700434850226" />
+      <entry key="M5" value="13.838313929072909" />
+      <entry key="M10" value="19.604553150626064" />
+      <entry key="M15" value="23.22371864188633" />
+      <entry key="M30" value="29.21900067282245" />
+      <entry key="H1" value="36.38792091422409" />
+      <entry key="H2" value="44.99693337607852" />
+      <entry key="H4" value="52.53915575848346" />
+      <entry key="D1" value="61.73243505525057" />
+      <entry key="W1" value="63.665917227738916" />
     </decayedShown>
   </component>
   <component name="ProblemsViewState">
@@ -190,13 +192,14 @@
       <option name="presentableId" value="Default" />
       <updated>1792617672225</updated>
       <workItem from="1792617675439" duration="40000" />
-      <workItem from="1792737186199" duration="3154000" />
+      <workItem from="1792737186199" duration="7688000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
   <component name="UnityProjectDiscoverer">
     <option name="hasUnityReference" value="true" />
