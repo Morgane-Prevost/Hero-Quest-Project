@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakeProjectFlavorService">
+    <option name="flavorId" value="CMakePlainProjectFlavor" />
+  </component>
+  <component name="CMakeSettings">
+    <configurations />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="08bd4d44-4170-4959-a684-d9ec85683297" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs.meta" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs.meta" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Hero/HeroManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Hero/HeroManager.cs" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="4840" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ArelleNox"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Morgane-Prevost/Hero-Quest-Project.git",
+    "accountId": "64679313-897f-4395-b707-3dcd4bac863f"
+  }
+}]]></component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.0000000001027602" />
+      <entry key="MS500" value="1.0100546034945412" />
+      <entry key="S2" value="1.3166585634308043" />
+      <entry key="S5" value="1.6313010258176939" />
+      <entry key="S10" value="1.794567217179046" />
+      <entry key="S30" value="2.0063222291835485" />
+      <entry key="S60" value="2.8385103228399826" />
+      <entry key="M2" value="5.706349009627243" />
+      <entry key="M5" value="12.292549400106195" />
+      <entry key="M10" value="17.06885744365283" />
+      <entry key="M15" value="19.247607448370577" />
+      <entry key="M30" value="21.849789302694685" />
+      <entry key="H1" value="23.34679183414438" />
+      <entry key="H2" value="24.152473198849794" />
+      <entry key="H4" value="24.570816957112783" />
+      <entry key="D1" value="24.927700003445086" />
+      <entry key="W1" value="24.989652360790842" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="2.4058085972424356E-104" />
+      <entry key="S2" value="1.2454183723681212E-26" />
+      <entry key="S5" value="4.346364123889889E-11" />
+      <entry key="S10" value="6.592696052367263E-6" />
+      <entry key="S30" value="0.01875085251475422" />
+      <entry key="S60" value="0.13693415333810907" />
+      <entry key="M2" value="0.37067889666337106" />
+      <entry key="M5" value="0.7244542831819444" />
+      <entry key="M10" value="1.048948446886032" />
+      <entry key="M15" value="1.2504406331651785" />
+      <entry key="M30" value="1.5479042271069798" />
+      <entry key="H1" value="1.7497295132385353" />
+      <entry key="H2" value="1.8680585674178194" />
+      <entry key="H4" value="1.9322235637577543" />
+      <entry key="D1" value="1.9884437621255933" />
+      <entry key="W1" value="1.9983426115571095" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="0.920187650716848" />
+      <entry key="MS500" value="0.9933361144442551" />
+      <entry key="S2" value="1.310757248081308" />
+      <entry key="S5" value="1.6282401368357016" />
+      <entry key="S10" value="1.7928589981603464" />
+      <entry key="S30" value="2.021954601823795" />
+      <entry key="S60" value="2.9639840132575928" />
+      <entry key="M2" value="6.0565897901549075" />
+      <entry key="M5" value="12.996405121332087" />
+      <entry key="M10" value="18.102634838834696" />
+      <entry key="M15" value="20.48627775285228" />
+      <entry key="M30" value="23.390725898280326" />
+      <entry key="H1" value="25.092700812415522" />
+      <entry key="H2" value="26.01852686465023" />
+      <entry key="H4" value="26.502012935520636" />
+      <entry key="D1" value="26.915968876352256" />
+      <entry key="W1" value="26.98796989758734" />
+    </decayedShown>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 7,
+  "fromUser": false
+}]]></component>
+  <component name="ProjectId" id="3L5HoBAmSvBXNQ3R1cmcmCuYUCy" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.MCP Project settings loaded": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "Monsters-Prefab",
+    "ignore.virus.scanning.warn.message": "true",
+    "junie.onboarding.icon.badge.shown": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "editor.preferences.smartKeys_rider",
+    "to.speed.mode.migration.done": "true"
+  }
+}]]></component>
+  <component name="RunManager" selected="Attach to Unity Editor.Attach to Unity Editor">
+    <configuration name="Start Unity" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.21f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-projectPath C:\Users\JJ\Documents\Unity\Hero-Quest-Project -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\JJ\Documents\Unity\Hero-Quest-Project" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Unit Tests (batch mode)" type="RunUnityExe" factoryName="Unity Executable">
+      <option name="EXE_PATH" value="C:\Program Files\Unity\Hub\Editor\6000.3.21f1\Editor\Unity.exe" />
+      <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath C:\Users\JJ\Documents\Unity\Hero-Quest-Project -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
+      <option name="WORKING_DIRECTORY" value="C:\Users\JJ\Documents\Unity\Hero-Quest-Project" />
+      <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="ENV_FILE_PATHS" value="" />
+      <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="MIXED_MODE_DEBUG" value="0" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+      <option name="allowRunningInParallel" value="false" />
+      <option name="coreClr" value="false" />
+      <option name="listenPortForConnections" value="false" />
+      <option name="pid" />
+      <option name="projectPathOnTarget" />
+      <option name="selectedOptions">
+        <list />
+      </option>
+      <method v="2" />
+    </configuration>
+    <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="08bd4d44-4170-4959-a684-d9ec85683297" name="Changes" comment="" />
+      <created>1792617672225</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1792617672225</updated>
+      <workItem from="1792617675439" duration="40000" />
+      <workItem from="1792737186199" duration="3154000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="true" />
+  <component name="UnityProjectDiscoverer">
+    <option name="hasUnityReference" value="true" />
+    <option name="unityProject" value="true" />
+    <option name="unityProjectFolder" value="true" />
+  </component>
+  <component name="UnityUnitTestConfiguration" currentTestLauncher="Both" />
+  <component name="VcsManagerConfiguration">
+    <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
+          <option name="timeStamp" value="2" />
+        </breakpoint>
+        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
+          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
+          <option name="timeStamp" value="3" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

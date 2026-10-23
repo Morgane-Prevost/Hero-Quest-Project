@@ -17,11 +17,11 @@ public class HeroManager : MonoBehaviour
         
     }
 
-    void createCharacter()
+    public void CreateCharacter()
     {
         foreach (HeroData heroData in heroes)
         {
-            GameObject heroObject = Instantiate(heroData.prefab, testStartPos, Quaternion.identity);
+            GameObject heroObject = Instantiate(heroData.prefab, Vector3.zero, Quaternion.identity);
             Hero heroComponent = heroObject.AddComponent<Hero>();
             heroComponent.Initialize(heroData, heroData.name); // To be modified to take the name from the character creation UI
         }
