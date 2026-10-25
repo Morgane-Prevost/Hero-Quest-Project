@@ -17,7 +17,7 @@ public class HeroManager : MonoBehaviour
         
     }
 
-    void createCharacter()
+    public void CreateCharacter()
     {
         foreach (HeroData heroData in heroes)
         {
