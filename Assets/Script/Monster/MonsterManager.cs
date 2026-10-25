@@ -8,7 +8,6 @@ public class MonsterManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        CreateMonster(monsters[0], Vector3.zero);
     }
 
     // Update is called once per frame
