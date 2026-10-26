@@ -10,12 +10,14 @@ public enum HeroType
     Wizard = 3
 }
 
-public class Hero : MonoBehaviour
+public class Hero : MonoBehaviour, IPotionTarget
 {
     public string heroName { get; set; }
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
     public int mindPoints { get; set; }
+
+    public int currentBodyPoints { get; private set; }
     public int attackDices { get; set; }
     public int defenseDices { get; set; }
 
@@ -28,10 +30,15 @@ public class Hero : MonoBehaviour
     private List<CardSO> inventory = new List<CardSO>();
     private bool hasAToolBag = false;
 
+    private int pendingAttackDiceBonus;
+    private int pendingDefenseDiceBonus;
+    private int pendingExtraAttacks;
+
     public void Initialize(HeroData heroData, string name)
     {
         heroName = name;
         bodyPoints = heroData.bodyPoints;
+        currentBodyPoints = bodyPoints;
         mindPoints = heroData.mindPoints;
         attackDices = heroData.attackDices;
         defenseDices = heroData.defenseDices;
@@ -133,50 +140,39 @@ public class Hero : MonoBehaviour
         }
     }
 
-    public bool UseConsumable(ConsumableCardSO consumable, IRandomPicker picker)
+    public bool UsePotion(PotionSO potion, IRandomPicker picker)
     {
-        if(consumable == null || !inventory.Contains(consumable)) return false;
+        if (potion == null || !inventory.Contains(potion)) return false;
 
-        consumable.Use(this, picker);
-        RemoveCardFromInventory(consumable);
+        potion.Use(this, picker);
+        RemoveCardFromInventory(potion);
         return true;
     }
 
     // Inventory management methods
     #endregion
 
-    #region Pending consumable effects
-    // State created by consumables. It lives on the hero, never on the card asset.
-    // Counters (not bools) because the rulebook allows drinking several potions (p.16).
-
-    public int PendingAttackDiceBonus { get; private set; }
-    public int PendingDefenseDiceBonus { get; private set; }
-    public int PendingExtraAttacks { get; private set; }
-
-    public void AddAttackDiceBonus(int dice) => PendingAttackDiceBonus += dice;
-    public void AddDefenseDiceBonus(int dice) => PendingDefenseDiceBonus += dice;
-    public void AddExtraAttacks(int count) => PendingExtraAttacks += count;
-
-    // Each Consume method returns the stored bonus and resets it to 0 (single use).
-    public int ConsumeAttackDiceBonus()
+    #region IPotionTarget
+    public void Heal(int amount)
     {
-        int bonus = PendingAttackDiceBonus;
-        PendingAttackDiceBonus = 0;
-        return bonus;
+        // bodyPoints holds the starting total
+        currentBodyPoints = Mathf.Min(currentBodyPoints + amount, bodyPoints);
+    }
+    public void AddAttackDiceNextAttack(int extraDice) => pendingAttackDiceBonus += extraDice;
+    public void AddDefenseDiceNextDefense(int extraDice) => pendingDefenseDiceBonus += extraDice;
+    public void AttackTwiceNextAttack() => pendingExtraAttacks++;
+
+    // Called by the combat code when the roll really happens: returns the bonus and resets it (single use).
+    public int ConsumeAttackDiceBonus() => TakeAndReset(ref pendingAttackDiceBonus);
+    public int ConsumeDefenseDiceBonus() => TakeAndReset(ref pendingDefenseDiceBonus);
+    public int ConsumeExtraAttacks() => TakeAndReset(ref pendingExtraAttacks);
+
+    private static int TakeAndReset(ref int value)
+    {
+        int taken = value;
+        value = 0;
+        return taken;
     }
 
-    public int ConsumeDefenseDiceBonus()
-    {
-        int bonus = PendingDefenseDiceBonus;
-        PendingDefenseDiceBonus = 0;
-        return bonus;
-    }
-
-    public int ConsumeExtraAttacks()
-    {
-        int extra = PendingExtraAttacks;
-        PendingExtraAttacks = 0;
-        return extra;
-    }
     #endregion
 }
