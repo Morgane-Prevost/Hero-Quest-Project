@@ -3,34 +3,34 @@ using UnityEngine;
 
 namespace HeroQuest.Board
 {
-    /// <summary>Comment un prefab importé est adapté à la cellule / au segment visé.</summary>
+    /// <summary>How an imported prefab is fitted to the target cell / segment.</summary>
     public enum PrefabFitMode
     {
-        Native,          // taille d'origine, simplement recentré (X/Z) et posé sur Y=0
-        UniformByLength, // échelle uniforme pour que la longueur (X) = cible, proportions conservées
-        Stretch          // échelle par axe (X/Y/Z) ; un axe cible <= 0 garde sa taille native
+        Native,         // original size, simply recentered (X/Z) and placed at Y=0
+        UniformByLength, // uniform scale so length (X) = target, proportions preserved
+        Stretch         // per-axis scale (X/Y/Z); a target axis <= 0 keeps its native size
     }
 
     /// <summary>
-    /// Remplace un style de sol procédural par des assets importés.
-    /// styleId = un id de floorStyles du BoardLayout.json.
-    /// Priorité : tilePrefabs > materials > textures > PNG du JSON > procédural.
+    /// Replaces a procedural floor style with imported assets.
+    /// styleId = a floorStyles id from BoardLayout.json.
+    /// Priority: tilePrefabs > materials > textures > JSON PNG > procedural.
     /// </summary>
     [Serializable]
     public class FloorStyleBinding
     {
         public string styleId;
-        [Tooltip("Dalle 3D (1 prefab par variante). Adaptée automatiquement à la taille d'une case.")]
+        [Tooltip("3D tile (1 prefab per variant). Automatically fitted to the size of a cell.")]
         public GameObject[] tilePrefabs;
-        [Tooltip("Matériaux prêts à l'emploi (1 par variante).")]
+        [Tooltip("Ready-to-use materials (1 per variant).")]
         public Material[] materials;
-        [Tooltip("Textures : un matériau est créé à partir du Floor Base Material.")]
+        [Tooltip("Textures: a material is created from the Floor Base Material.")]
         public Texture[] textures;
     }
 
     /// <summary>
-    /// Instancie un prefab importé et l'adapte à une taille cible grâce à ses Bounds.
-    /// Retourne un GameObject « holder » : pivot au centre X/Z, base (ou sommet) à Y=0.
+    /// Instantiates an imported prefab and fits it to a target size using its Bounds.
+    /// Returns a "holder" GameObject: pivot at X/Z center, base (or top) at Y=0.
     /// </summary>
     public static class PrefabFit
     {

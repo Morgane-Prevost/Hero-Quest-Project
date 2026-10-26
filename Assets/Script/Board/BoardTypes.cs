@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace HeroQuest.Board
 {
-    /// <summary>Directions de grille. N = +Y grille (= +Z monde), E = +X.</summary>
+    /// <summary>Grid directions. N = +Y grid (= +Z world), E = +X.</summary>
     public enum Dir : byte { N = 0, E = 1, S = 2, W = 3 }
 
     public enum CellKind : byte { Void = 0, Corridor = 1, Room = 2 }
@@ -17,10 +17,10 @@ namespace HeroQuest.Board
     }
 
     /// <summary>
-    /// Identifiant unique d'une arête entre deux cases (porte, mur, piège de bord...).
-    /// horizontal = segment le long de X, à la ligne y, sous la case (x,y) : sépare (x,y-1) et (x,y).
-    /// vertical   = segment le long de Z, à la ligne x, à droite de la case (x-1,y) : sépare (x-1,y) et (x,y).
-    /// Une même arête a toujours la même clé, quel que soit le côté d'où on la décrit.
+    /// Unique identifier for an edge between two cells (door, wall, boundary trap...).
+    /// horizontal = segment along X, at line y, below cell (x,y): separates (x,y-1) and (x,y).
+    /// vertical   = segment along Z, at line x, to the right of cell (x-1,y): separates (x-1,y) and (x,y).
+    /// The same edge always has the same key, regardless of which side it is described from.
     /// </summary>
     public readonly struct EdgeKey : IEquatable<EdgeKey>
     {
@@ -29,7 +29,7 @@ namespace HeroQuest.Board
 
         public EdgeKey(int x, int y, bool horizontal) { this.x = x; this.y = y; this.horizontal = horizontal; }
 
-        /// <summary>Arête située sur le côté 'side' de la case (cx,cy).</summary>
+        /// <summary>Edge located on the 'side' of cell (cx,cy).</summary>
         public static EdgeKey FromCell(int cx, int cy, Dir side)
         {
             switch (side)
@@ -41,7 +41,7 @@ namespace HeroQuest.Board
             }
         }
 
-        /// <summary>Arête entre deux cases adjacentes (false si elles ne sont pas voisines).</summary>
+        /// <summary>Edge between two adjacent cells (false if they are not neighbors).</summary>
         public static bool TryBetween(Vector2Int a, Vector2Int b, out EdgeKey edge)
         {
             int dx = b.x - a.x, dy = b.y - a.y;
@@ -53,9 +53,9 @@ namespace HeroQuest.Board
             return false;
         }
 
-        /// <summary>Case du côté Sud (arête horizontale) ou Ouest (verticale).</summary>
+        /// <summary>Cell on the South side (horizontal edge) or West side (vertical edge).</summary>
         public Vector2Int CellA { get { return horizontal ? new Vector2Int(x, y - 1) : new Vector2Int(x - 1, y); } }
-        /// <summary>Case du côté Nord (arête horizontale) ou Est (verticale).</summary>
+        /// <summary>Cell on the North side (horizontal edge) or East side (vertical edge).</summary>
         public Vector2Int CellB { get { return new Vector2Int(x, y); } }
 
         public bool Equals(EdgeKey o) { return x == o.x && y == o.y && horizontal == o.horizontal; }

@@ -4,8 +4,8 @@ using UnityEngine;
 namespace HeroQuest.Board
 {
     /// <summary>
-    /// Génère les textures de sol (1 texture = 1 case, avec lignes de grille intégrées),
-    /// ou charge un PNG externe (extensions). Utilitaires de shaders indépendants du pipeline.
+    /// Generates floor textures (1 texture = 1 tile, with integrated grid lines),
+    /// or loads an external PNG (extensions). Pipeline-independent shader utilities.
     /// </summary>
     public static class FloorStyleFactory
     {
@@ -43,7 +43,7 @@ namespace HeroQuest.Board
 
         public static Texture2D BuildTexture(FloorStyleData s, int variant)
         {
-            // 1) Texture externe (extension client)
+            // 1) External texture (client extension)
             if (!string.IsNullOrEmpty(s.texturePath))
             {
                 string p = Path.Combine(Application.streamingAssetsPath, s.texturePath);
@@ -53,10 +53,10 @@ namespace HeroQuest.Board
                     if (ext.LoadImage(File.ReadAllBytes(p))) { ext.wrapMode = TextureWrapMode.Clamp; ext.name = s.id + "_ext"; return ext; }
                     Object.Destroy(ext);
                 }
-                Debug.LogWarning("[Board] Texture introuvable/illisible : " + s.texturePath + " (génération procédurale)");
+                Debug.LogWarning("[Board] Texture not found / unreadable: " + s.texturePath + " (procedural generation used)");
             }
 
-            // 2) Génération procédurale
+            // 2) Procedural generation
             int n = Mathf.Clamp(s.tileTexturePx, 32, 512);
             int lw = Mathf.Clamp(s.lineWidthPx, 0, n / 8);
             Color a = ParseColor(s.colorA, new Color(0.61f, 0.56f, 0.48f));
@@ -82,18 +82,18 @@ namespace HeroQuest.Board
                     {
                         int pl = j * 4 / n;
                         c = Color.Lerp(a, b, tone[pl]);
-                        if (j % (n / 4) < 1) c *= 0.65f;                         // joint entre planches
-                        c *= 1f + 0.05f * Mathf.Sin(i * 0.12f + pl * 2.3f);      // veinage
+                        if (j % (n / 4) < 1) c *= 0.65f;                     // joint between planks
+                        c *= 1f + 0.05f * Mathf.Sin(i * 0.12f + pl * 2.3f);     // wood grain
                     }
                     else // flagstone / cracked
                     {
                         int bx = i * 2 / n, by = j * 2 / n, bs = n / 2;
                         c = Color.Lerp(a, b, tone[by * 2 + bx]);
-                        if (i % bs < 1 || j % bs < 1) c *= 0.7f;                 // joint de mortier
+                        if (i % bs < 1 || j % bs < 1) c *= 0.7f;              // mortar joint
                     }
                     c *= 1f + ((float)rng.NextDouble() - 0.5f) * 0.08f;          // grain
                     c.a = 1f;
-                    if (lw > 0 && (i < lw || j < lw || i >= n - lw || j >= n - lw)) c = line; // grille lisible
+                    if (lw > 0 && (i < lw || j < lw || i >= n - lw || j >= n - lw)) c = line; // readable grid
                     px[j * n + i] = c;
                 }
 

@@ -9,32 +9,32 @@ using UnityEditor;
 namespace HeroQuest.Board
 {
     /// <summary>
-    /// Construit la GRID MAP : sol coloré 26x19, rien d'autre (ni murs, ni portes).
-    /// Les murs et le contenu viennent de LevelBuilder.
+    /// Builds the GRID MAP: 26x19 colored floor.
+    /// Walls and content come from LevelBuilder.
     /// </summary>
     public class BoardBuilder : MonoBehaviour
     {
         [Header("Grid map (JSON)")]
-        [Tooltip("GridMap.json du projet (Assets/Script/Board/Levels). Prioritaire.")]
+        [Tooltip("Project GridMap.json (Assets/Script/Board/Levels). Priority.")]
         [FormerlySerializedAs("layoutJson")] public TextAsset gridMapJson;
-        [Tooltip("Chemin relatif à StreamingAssets : utilisé seulement si Grid Map Json est vide (extensions).")]
+        [Tooltip("Path relative to StreamingAssets: used only if Grid Map Json is empty (extensions).")]
         [FormerlySerializedAs("layoutPath")] public string gridMapPath = "";
         public bool buildOnStart = true;
 
-        [Header("Géométrie (unités Unity)")]
+        [Header("Geometry (Unity units)")]
         public float tileSize = 1f;
-        public bool floorColliders = true;   // nécessaire au picking souris
-        public bool randomizeFloorRotation = true; // à désactiver si les textures ont un éclairage « cuit »
+        public bool floorColliders = true;    // required for mouse picking
+        public bool randomizeFloorRotation = true; // disable if textures have "baked" lighting
 
-        [Header("Sols importés (remplacent les placeholders procéduraux)")]
-        [Tooltip("Matériau de base copié pour chaque style procédural / texture. Recommandé en build.")]
+        [Header("Imported floors (replaces procedural placeholders)")]
+        [Tooltip("Base material copied for each procedural / texture style. Recommended in build.")]
         public Material floorBaseMaterial;
         public List<FloorStyleBinding> floorStyleBindings = new List<FloorStyleBinding>();
 
-        [Header("Calque des éléments de plateau")]
-        public string boardLayerName = "Board"; // si absent : Default
+        [Header("Board Elements Layer")]
+        public string boardLayerName = "Board"; // if missing: Default
 
-        // ---- API publique ----
+        // ---- Public API ----
         public BoardModel Model { get; private set; }
         public GridMapData Data { get; private set; }
         public int BoardLayer { get { return layer; } }
@@ -66,7 +66,7 @@ namespace HeroQuest.Board
         void Start() { if (buildOnStart) Build(); }
         void OnDestroy() { DestroyOwned(); }
 
-        // ================== Coordonnées ==================
+        // ================== Coordinates ==================
         public Vector3 CellToLocal(int x, int y) { return new Vector3((x + 0.5f) * tileSize, 0f, (y + 0.5f) * tileSize); }
         public Vector3 CellToWorld(int x, int y) { return transform.TransformPoint(CellToLocal(x, y)); }
 
@@ -89,6 +89,23 @@ namespace HeroQuest.Board
         {
             return (cells != null && Model != null && Model.InBounds(x, y)) ? cells[x, y] : null;
         }
+        /// <summary>Cell located under a world point (null if out of bounds / void).</summary>
+        public CellView GetCellAtWorld(Vector3 world)
+        {
+            Vector2Int c;
+            return WorldToCell(world, out c) ? GetCell(c.x, c.y) : null;
+        }
+
+        /// <summary>Snaps a world point to the center of its cell.</summary>
+        public bool TrySnapToCenter(Vector3 world, out Vector2Int cell, out Vector3 center)
+        {
+            center = world;
+            if (!WorldToCell(world, out cell)) return false;
+            CellView cv = GetCell(cell.x, cell.y);
+            if (cv == null) return false;
+            center = cv.Center;
+            return true;
+        }
 
         // ================== Construction ==================
         [ContextMenu("Build Grid Map")]
@@ -102,7 +119,7 @@ namespace HeroQuest.Board
             return BuildFromData(data);
         }
 
-        /// <summary>Pour le chargeur d'extensions (Mission 2).</summary>
+        /// <summary>For the extension loader (Mission 2).</summary>
         public bool BuildFromJson(string json, string sourceName = "extension")
         {
             GridMapData data; string err;
@@ -130,7 +147,7 @@ namespace HeroQuest.Board
             BuildStyles();
             BuildFloors(NewChild(root, "Floors"));
 
-            Debug.Log("[Board] Grid map OK : " + Model.width + "x" + Model.height + ", " + Model.roomCount + " salles.");
+            Debug.Log("[Board] Grid map OK: " + Model.width + "x" + Model.height + ", " + Model.roomCount + " rooms.");
             if (BoardBuilt != null) BoardBuilt(this);
             return true;
         }
@@ -138,7 +155,7 @@ namespace HeroQuest.Board
         [ContextMenu("Clear Grid Map")]
         public void Clear()
         {
-            if (BoardCleared != null) BoardCleared(); // le LevelBuilder se vide aussi
+            if (BoardCleared != null) BoardCleared(); // LevelBuilder also clears itself
             var t = transform.Find(RootName);
             if (t != null) { t.name = RootName + "_old"; SafeDestroy(t.gameObject); }
             DestroyOwned();
@@ -166,7 +183,7 @@ namespace HeroQuest.Board
             return t;
         }
 
-        // ---------- Styles de sol ----------
+        // ---------- Floor Styles ----------
         static bool Any(UnityEngine.Object[] a)
         {
             if (a == null) return false;
@@ -204,12 +221,12 @@ namespace HeroQuest.Board
                 FloorStyleBinding bind; bindings.TryGetValue(s.id, out bind);
 
                 bool hasPrefab = bind != null && Any(bind.tilePrefabs);
-                if (hasPrefab && s.id != fallbackStyleId) continue; // pas de matériaux inutiles
+                if (hasPrefab && s.id != fallbackStyleId) continue; // no unnecessary materials
 
                 var list = new List<Material>();
                 if (bind != null && Any(bind.materials))
                 {
-                    foreach (var m in bind.materials) if (m != null) list.Add(m);   // matériaux de l'artiste (non détruits)
+                    foreach (var m in bind.materials) if (m != null) list.Add(m);   // artist materials (not destroyed)
                 }
                 else if (bind != null && Any(bind.textures))
                 {
@@ -230,9 +247,9 @@ namespace HeroQuest.Board
             }
 
             foreach (var id in bindings.Keys)
-                if (!known.Contains(id)) Debug.LogWarning("[Board] floorStyleBindings : styleId '" + id + "' absent du JSON (ignoré).");
+                if (!known.Contains(id)) Debug.LogWarning("[Board] floorStyleBindings: styleId '" + id + "' missing from JSON (ignored).");
             if (stillProcedural.Count > 0)
-                Debug.Log("[Board] Styles encore procéduraux (placeholders) : " + string.Join(", ", stillProcedural.ToArray()));
+                Debug.Log("[Board] Styles still procedural (placeholders): " + string.Join(", ", stillProcedural.ToArray()));
         }
 
         string ResolveStyleId(int zone)
@@ -250,11 +267,11 @@ namespace HeroQuest.Board
         {
             Material[] a;
             if (!string.IsNullOrEmpty(id) && styleMats.TryGetValue(id, out a) && a.Length > 0) return a;
-            Debug.LogWarning("[Board] Style de sol inconnu '" + id + "' → style par défaut.");
+            Debug.LogWarning("[Board] Unknown floor style '" + id + "' → default style.");
             return styleMats[fallbackStyleId];
         }
 
-        // ---------- Sols ----------
+        // ---------- Floors ----------
         void BuildFloors(Transform parent)
         {
             cells = new CellView[Model.width, Model.height];
@@ -273,7 +290,7 @@ namespace HeroQuest.Board
 
                     if (bind != null && Any(bind.tilePrefabs))
                     {
-                        // Dalle 3D importée : adaptée à la case, face supérieure à Y=0
+                        // Imported 3D tile: fitted to cell, top face at Y=0
                         var valid = new List<GameObject>();
                         foreach (var p in bind.tilePrefabs) if (p != null) valid.Add(p);
                         var pf = valid[Hash(x, y, 2) % valid.Count];
@@ -317,7 +334,7 @@ namespace HeroQuest.Board
                 }
         }
 
-        // ================== Utilitaires ==================
+        // ================== Utilities ==================
         static int Hash(int x, int y, int salt)
         {
             unchecked

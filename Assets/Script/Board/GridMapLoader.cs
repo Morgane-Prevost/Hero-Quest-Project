@@ -4,47 +4,47 @@ using UnityEngine;
 
 namespace HeroQuest.Board
 {
-    /// <summary>Lecture + validation de la grid map (TextAsset du projet, ou fichier d'extension).</summary>
+    /// <summary>Reads and validates the grid map (project TextAsset or extension file).</summary>
     public static class GridMapLoader
     {
         public static bool TryParse(string json, string sourceName, out GridMapData data, out string error)
         {
             data = null; error = null;
-            if (string.IsNullOrEmpty(json)) { error = "JSON vide : " + sourceName; return false; }
+            if (string.IsNullOrEmpty(json)) { error = "Empty JSON: " + sourceName; return false; }
             try
             {
                 data = JsonUtility.FromJson<GridMapData>(json);
-                if (data == null) { error = "JSON invalide : " + sourceName; return false; }
+                if (data == null) { error = "Invalid JSON: " + sourceName; return false; }
                 return true;
             }
-            catch (System.Exception ex) { error = "JSON illisible (" + sourceName + ") : " + ex.Message; return false; }
+            catch (System.Exception ex) { error = "Unreadable JSON (" + sourceName + "): " + ex.Message; return false; }
         }
 
-        /// <summary>Lecture d'un fichier de StreamingAssets (extensions client). Cible PC.</summary>
+        /// <summary>Reads a file from StreamingAssets (client extensions). PC target.</summary>
         public static bool TryLoad(string relativePath, out GridMapData data, out string error)
         {
             data = null; error = null;
-            if (string.IsNullOrEmpty(relativePath)) { error = "Aucun TextAsset ni chemin StreamingAssets renseigné pour la grid map."; return false; }
+            if (string.IsNullOrEmpty(relativePath)) { error = "No TextAsset or StreamingAssets path provided for the grid map."; return false; }
             string path = Path.Combine(Application.streamingAssetsPath, relativePath);
-            if (!File.Exists(path)) { error = "Fichier introuvable : " + path; return false; }
+            if (!File.Exists(path)) { error = "File not found: " + path; return false; }
             return TryParse(File.ReadAllText(path), path, out data, out error);
         }
 
         public static bool TryBuildModel(GridMapData d, out BoardModel model,
-                                         List<string> errors, List<string> warnings)
+                                        List<string> errors, List<string> warnings)
         {
             model = null;
-            if (d == null) { errors.Add("Données nulles."); return false; }
-            if (d.width <= 0 || d.height <= 0) { errors.Add("width/height invalides."); return false; }
+            if (d == null) { errors.Add("Null data."); return false; }
+            if (d.width <= 0 || d.height <= 0) { errors.Add("Invalid width/height."); return false; }
             if (d.rows == null || d.rows.Length != d.height)
             {
-                errors.Add("rows doit contenir " + d.height + " lignes (trouvé " + (d.rows == null ? 0 : d.rows.Length) + ").");
+                errors.Add("rows must contain " + d.height + " lines (found " + (d.rows == null ? 0 : d.rows.Length) + ").");
                 return false;
             }
 
             var sym = d.symbols ?? new BoardSymbols();
             if (string.IsNullOrEmpty(sym.corridor) || string.IsNullOrEmpty(sym.voidCell) || string.IsNullOrEmpty(sym.rooms))
-            { errors.Add("symbols incomplet."); return false; }
+            { errors.Add("Incomplete symbols."); return false; }
 
             char cCor = sym.corridor[0], cVoid = sym.voidCell[0];
             var roomIndex = new Dictionary<char, int>();
@@ -52,7 +52,7 @@ namespace HeroQuest.Board
             {
                 char ch = sym.rooms[i];
                 if (ch == cCor || ch == cVoid || roomIndex.ContainsKey(ch))
-                { errors.Add("Symbole de salle en conflit : '" + ch + "'."); continue; }
+                { errors.Add("Conflicting room symbol: '" + ch + "'."); continue; }
                 roomIndex[ch] = i + 1;
             }
 
@@ -64,8 +64,8 @@ namespace HeroQuest.Board
             {
                 string row = d.rows[r];
                 if (row == null || row.Length != w)
-                { errors.Add("Ligne " + r + " : " + (row == null ? 0 : row.Length) + " caractères au lieu de " + w + "."); continue; }
-                int y = h - 1 - r; // rows[0] = Nord
+                { errors.Add("Row " + r + ": " + (row == null ? 0 : row.Length) + " characters instead of " + w + "."); continue; }
+                int y = h - 1 - r; // rows[0] = North
                 for (int x = 0; x < w; x++)
                 {
                     char ch = row[x];
@@ -73,7 +73,7 @@ namespace HeroQuest.Board
                     if (ch == cCor) z = 0;
                     else if (ch == cVoid) z = -1;
                     else if (!roomIndex.TryGetValue(ch, out z))
-                    { errors.Add("Caractère inconnu '" + ch + "' en ligne " + r + ", colonne " + x + "."); z = -1; }
+                    { errors.Add("Unknown character '" + ch + "' at row " + r + ", column " + x + "."); z = -1; }
                     zone[x, y] = z;
                     if (z > 0) present.Add(z);
                 }
@@ -81,9 +81,9 @@ namespace HeroQuest.Board
             if (errors.Count > 0) return false;
 
             if (d.expectedRoomCount > 0 && present.Count != d.expectedRoomCount)
-                errors.Add("Salles présentes : " + present.Count + " (attendu " + d.expectedRoomCount + ").");
+                errors.Add("Rooms present: " + present.Count + " (expected " + d.expectedRoomCount + ").");
 
-            // Connexité de chaque zone (une salle ou le réseau de couloirs en un seul bloc)
+            // Connectivity of each zone (a room or the corridor network in a single block)
             var seen = new bool[w, h];
             var comps = new Dictionary<int, int>();
             var stack = new Stack<Vector2Int>();
@@ -107,7 +107,7 @@ namespace HeroQuest.Board
                 }
             foreach (var kv in comps)
                 if (kv.Value > 1)
-                    warnings.Add((kv.Key == 0 ? "Couloirs" : "Salle " + kv.Key) + " en " + kv.Value + " morceaux non connectés.");
+                    warnings.Add((kv.Key == 0 ? "Corridors" : "Room " + kv.Key) + " in " + kv.Value + " unconnected pieces.");
 
             if (errors.Count > 0) return false;
             model = new BoardModel(d.id, zone, sym.rooms.Length);

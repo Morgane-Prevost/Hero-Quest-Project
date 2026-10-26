@@ -72,6 +72,5 @@
     { "id": "stone_rose",      "pattern": "cracked",   "colorA": "#C68078", "colorB": "#B3716A", "lineColor": "#5A2C28", "lineWidthPx": 2, "tileTexturePx": 128, "variants": 3, "texturePath": "" },
     { "id": "stone_brown",     "pattern": "flagstone", "colorA": "#9A7448", "colorB": "#86633B", "lineColor": "#3A2814", "lineWidthPx": 2, "tileTexturePx": 128, "variants": 3, "texturePath": "" },
     { "id": "stone_green",     "pattern": "cracked",   "colorA": "#8FA860", "colorB": "#7D964F", "lineColor": "#33401E", "lineWidthPx": 2, "tileTexturePx": 128, "variants": 3, "texturePath": "" }
-  ],
-  "torches": { "enabled": true, "cellsPerTorch": 6, "minPerRoom": 1, "maxPerRoom": 4, "corridorSpacing": 6.0, "lightVoidWalls": false }
+  ]
 }

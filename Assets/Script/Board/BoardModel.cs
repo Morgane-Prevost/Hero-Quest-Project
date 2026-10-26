@@ -4,9 +4,9 @@ using UnityEngine;
 namespace HeroQuest.Board
 {
     /// <summary>
-    /// Modèle de la grid map en lecture seule (aucune dépendance à la scène).
-    /// Zones : -1 = vide, 0 = couloir, 1..N = salle N.
-    /// Les murs réels dépendent du niveau : voir LevelModel.
+    /// Read-only grid map model (no scene dependency).
+    /// Zones: -1 = void, 0 = corridor, 1..N = room N.
+    /// Actual walls depend on the level: see LevelModel.
     /// </summary>
     public sealed class BoardModel
     {
@@ -18,7 +18,7 @@ namespace HeroQuest.Board
         readonly List<EdgeKey> zoneBoundaries = new List<EdgeKey>();
         static readonly List<Vector2Int> NoCells = new List<Vector2Int>();
 
-        /// <summary>Toutes les arêtes séparant deux zones différentes (y compris le pourtour du plateau).</summary>
+        /// <summary>All edges separating two different zones (including the board perimeter).</summary>
         public IReadOnlyList<EdgeKey> ZoneBoundaryEdges { get { return zoneBoundaries; } }
 
         public BoardModel(string id, int[,] zone, int roomCount)
@@ -39,7 +39,7 @@ namespace HeroQuest.Board
                     list.Add(new Vector2Int(x, y));
                 }
 
-            // Arêtes horizontales (y = 0..height) puis verticales (x = 0..width)
+            // Horizontal edges (y = 0..height) then vertical edges (x = 0..width)
             for (int x = 0; x < width; x++)
                 for (int y = 0; y <= height; y++)
                 {
@@ -56,7 +56,7 @@ namespace HeroQuest.Board
 
         public bool InBounds(int x, int y) { return x >= 0 && y >= 0 && x < width && y < height; }
 
-        /// <summary>Zone de la case, -1 si vide ou hors plateau.</summary>
+        /// <summary>Zone of the cell, -1 if void or out of bounds.</summary>
         public int ZoneAt(int x, int y) { return InBounds(x, y) ? zone[x, y] : -1; }
 
         public CellKind KindAt(int x, int y)
@@ -73,7 +73,7 @@ namespace HeroQuest.Board
             return roomCells.TryGetValue(roomZone, out l) ? (IReadOnlyList<Vector2Int>)l : NoCells;
         }
 
-        /// <summary>Zones différentes de part et d'autre du côté 'side' de la case ?</summary>
+        /// <summary>Are the zones different on either side of the cell's 'side' edge?</summary>
         public bool IsZoneBoundary(int x, int y, Dir side)
         {
             int nx = x + DirUtil.DX[(int)side], ny = y + DirUtil.DY[(int)side];
