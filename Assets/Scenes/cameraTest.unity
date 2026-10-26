@@ -509,6 +509,8 @@ MonoBehaviour:
   inputActions: {fileID: -944628639613478452, guid: f4753806534fbcd4483f197eadb81d64, type: 3}
   panSpeed: 0.01
   rotateSpeed: 0.2
+  minPitch: 0
+  maxPitch: 80
   zoomStep: 5
   zoomSmooth: 8
   minFOV: 20

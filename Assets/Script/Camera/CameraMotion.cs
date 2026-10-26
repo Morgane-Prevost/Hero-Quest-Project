@@ -9,6 +9,8 @@ public class CameraMotion : MonoBehaviour
     [Header("Motion")]
     [SerializeField] private float panSpeed = 0.01f;
     [SerializeField] private float rotateSpeed = 0.2f;
+    [SerializeField] private float minPitch = 0f;
+    [SerializeField] private float maxPitch = 80f;
 
     [Header("Zoom")]
     [SerializeField] private float zoomStep = 5f;
@@ -96,7 +98,12 @@ public class CameraMotion : MonoBehaviour
 
         if (rotateAction.IsPressed())
         {
-            transform.Rotate(-delta.y * rotateSpeed, 0, 0);
+            float pitch = Mathf.DeltaAngle(0f, transform.eulerAngles.x);
+
+            pitch += -delta.y * rotateSpeed;
+            pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
+
+            transform.eulerAngles = new Vector3(pitch, transform.eulerAngles.y, transform.eulerAngles.z);
         }
 
         if (scroll != 0)
