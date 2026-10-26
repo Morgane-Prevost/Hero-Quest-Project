@@ -35,7 +35,7 @@ public class MonsterActionExecutor : MonoBehaviour
 
     private IEnumerator RunTurn()
     {
-        // Copy: monsters can die (and leave the manager) during the turn.
+        // monsters can die (and leave the manager) during the turn.
         List<Monster> snapshot = new List<Monster>(monsterManager.ActiveMonsters);
 
         foreach (Monster monster in snapshot)
