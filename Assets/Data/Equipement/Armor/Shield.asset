@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec40e8ebbd199d43b0fe35f28f3548c, type: 3}
   m_Name: Shield
   m_EditorClassIdentifier: Assembly-CSharp::ArmorData
+  displayName: 
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Shield
     type: 2
     cost: 150
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
+  armorType: 2
   defenseDice: 1
   movementPenalty: 0
   useWithWizard: 0
