@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "WeaponData", menuName = "GameDatas/Equipement/WeaponData")]
-public class WeaponData : ScriptableObject
+public class WeaponData : CardSO
 {
     public Equipement equipement;
     public int attackDice;
