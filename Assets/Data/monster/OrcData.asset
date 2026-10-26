@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ee74c86305849f1aacd4fe9ff5bacfe, type: 3}
+  m_Name: OrcData
+  m_EditorClassIdentifier: Assembly-CSharp::MonsterData
+  prefab: {fileID: 2024370957134170556, guid: 2f180c88084c79a49a2d534e8e8a01aa, type: 3}
+  texture: {fileID: 2800000, guid: b4ab9a3b3292b0c40b2f4d54caceeec5, type: 3}
+  monsterName: Orc
+  healthPoints: 1
+  mindPoints: 2
+  attackDices: 3
+  defenseDices: 2
+  movementDices: 8
