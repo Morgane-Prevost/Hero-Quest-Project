@@ -14,11 +14,52 @@ public class ActionManager : MonoBehaviour
     //return damage inflicted
     public int Fight(Hero hero, Monster monster, bool heroIsAttacking)
     {
+        int finalResult = 0;
+
         if (heroIsAttacking)
         {
+            for (int i = 0; i < hero.attackDices; i++)
+            {
+                WhiteDiceFaces result = RollWhiteDice();
 
+                if (result == WhiteDiceFaces.Skull)
+                {
+                        finalResult += 1;
+                }
+            }
+            for (int i = 0; i < monster.defenseDices; i++)
+            {
+                WhiteDiceFaces result = RollWhiteDice();
+
+                if (result == WhiteDiceFaces.BlackShield)
+                {
+                    finalResult -= 1;
+                }
+            }
+            return finalResult > 0 ? finalResult : 0;
         }
-        return 0;
+        else
+        {
+            for (int i = 0; i < monster.attackDices; i++)
+            {
+                WhiteDiceFaces result = RollWhiteDice();
+
+                if (result == WhiteDiceFaces.Skull)
+                {
+                    finalResult += 1;
+                }
+            }
+            for (int i = 0; i < hero.defenseDices; i++)
+            {
+                WhiteDiceFaces result = RollWhiteDice();
+
+                if (result == WhiteDiceFaces.WhiteShield)
+                {
+                    finalResult -= 1;
+                }
+            }
+            return finalResult > 0 ? finalResult : 0;
+        }
     }
 
     public WhiteDiceFaces RollWhiteDice()
