@@ -11,10 +11,8 @@ public class Hero : MonoBehaviour
 
     public int movementDices { get; set; }
 
-    //To add when classes are implemented
-
-    // public Equipment weapon;
-    // public Equipment armor;
+    public Equipement weapon;
+    public Equipement armor;
 
     public void Initialize(HeroData heroData, string name)
     {

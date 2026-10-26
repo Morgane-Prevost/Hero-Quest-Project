@@ -15,8 +15,6 @@ public class HeroData : ScriptableObject
 
     public int movementDices;
 
-    //To add when classes are implemented
-
-    // public Equipment weapon;
-    // public Equipment armor;
+    public Equipement weapon;
+    public Equipement armor;
 }
