@@ -42,6 +42,17 @@ public class Hero : MonoBehaviour
         gold = heroData.gold;
     }
 
+    public void equipWeapon(WeaponData newWeapon)
+    {
+        RemoveCardFromInventory(newWeapon);
+        attackDices = newWeapon.attackDice;
+    }
+    public void unequipWeapon()
+    {
+        AddCardToInventory(weapon);
+        attackDices = 0;
+        weapon = null;
+    }
     public void SwapWeapon(WeaponData newWeapon)
     {
         AddCardToInventory(weapon);
@@ -52,6 +63,31 @@ public class Hero : MonoBehaviour
 
     public void EquipArmor(ArmorData newArmor)
     {
+        if (canEquipedArmorPiece(newArmor))
+        {
+            RemoveCardFromInventory(newArmor);
+            defenseDices += newArmor.defenseDice;
+        }
+    }
+
+    public void unEquipArmor(ArmorData armor)
+    {
+
+    }
+
+
+    public bool canEquipedArmorPiece(ArmorData armorToCheck)
+    {
+        if (!armorToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
+        if (!armorToCheck.useWithStaff && weapon.weaponType == WeaponType.Staff) return false;
+        if (!armorToCheck.useWithAxe && weapon.weaponType == WeaponType.Axe) return false;
+
+        foreach (ArmorData armor in armors)
+        {
+            if (!armorToCheck.useWithOtherArmor && !armor.useWithOtherArmor) return false;
+            if (armorToCheck.armorType == armor.armorType) return false;
+        }
+        return true;
     }
 
     public void AddCardToInventory(CardSO card)
@@ -67,4 +103,6 @@ public class Hero : MonoBehaviour
     {
         if (card != null && inventory.Contains(card)) inventory.Remove(card);
     }
+
+    // Give to another hero
 }
