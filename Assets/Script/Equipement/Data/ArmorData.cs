@@ -4,6 +4,7 @@ using UnityEngine;
 public class ArmorData : CardSO
 {
     public Equipement equipement;
+    public ArmorType armorType;
     public int defenseDice;
     public int movementPenalty;
 

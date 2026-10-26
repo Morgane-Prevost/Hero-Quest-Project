@@ -19,6 +19,7 @@ MonoBehaviour:
   equipement:
     type: 1
     cost: 350
+  weaponType: 2
   attackDice: 3
   canDiagoAttack: 0
   canCloseRangeAttack: 0
