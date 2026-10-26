@@ -1,12 +1,10 @@
 using UnityEngine;
 
 
-public abstract class TreasureCardSO : ScriptableObject
+public abstract class TreasureCardSO : CardSO
 {
-    public string displayName;
-    [TextArea] public string description;
-    public Sprite artwork;
-
+    // Rule: only trap and wandering monster cards go back into the pile.
+    // Gold and potion cards are removed until the next quest.
     public virtual bool ReturnsToPile => false;
 
     public abstract void Resolve(ITreasureContext context);
