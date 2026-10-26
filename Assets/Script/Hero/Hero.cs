@@ -37,8 +37,10 @@ public class Hero : MonoBehaviour
         defenseDices = heroData.defenseDices;
         movementDices = heroData.movementDices;
 
+        // Needs to be modified to create and add the weapon and armor cards before assigning them to the hero. For now, we will just assign the references from the HeroData.
         weapon = heroData.weapon;
         armors = heroData.armor;
+
         gold = heroData.gold;
     }
 
