@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class Hero : MonoBehaviour
 {
-    public string heroName;
+    public string heroName { get; set; }
 
-    public int bodyPoints;
-    public int mindPoints;
-    public int attackDices;
-    public int defenseDices;
+    public int bodyPoints { get; set; }
+    public int mindPoints { get; set; }
+    public int attackDices { get; set; }
+    public int defenseDices { get; set; }
 
-    public int movementDices;
+    public int movementDices { get; set; }
 
     //To add when classes are implemented
 
