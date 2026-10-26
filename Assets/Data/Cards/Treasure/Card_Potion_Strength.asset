@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b060768991000e43ae5ba5f4f7494f9, type: 3}
   m_Name: Card_Potion_Strength
   m_EditorClassIdentifier: Assembly-CSharp::PotionCardSO
-  displayName: Strength potion
+  displayName: Strength Potion
   description: 
+  icon: {fileID: 0}
   artwork: {fileID: 0}
   potion: {fileID: 11400000, guid: 5f758cd4edb74ed45b889fa977439365, type: 2}

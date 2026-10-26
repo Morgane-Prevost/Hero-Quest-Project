@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00411954beed3094e8ac4ad35f6e0de2, type: 3}
   m_Name: Crossbow
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
-  displayName: 
+  displayName: Crossbow
   description: 
   icon: {fileID: 0}
   artwork: {fileID: 0}
