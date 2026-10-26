@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da1bb8a61b76f714c82643b0f5893876, type: 3}
   m_Name: SpeedPotion
   m_EditorClassIdentifier: Assembly-CSharp::ConsumableData
+  displayName: Speed Potion
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Speed Potion
     type: 0
     cost: 200
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
   isSpeedPotion: 1
   isBlessedWater: 0
