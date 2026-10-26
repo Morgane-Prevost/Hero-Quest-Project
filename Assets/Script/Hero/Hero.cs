@@ -25,7 +25,7 @@ public class Hero : MonoBehaviour
     public List<ArmorData> armors;
     public int gold { get; set; }
 
-    private List<CardSO> inventory;
+    private List<CardSO> inventory = new List<CardSO>();
     private bool hasAToolBag = false;
 
     public void Initialize(HeroData heroData, string name)
@@ -133,6 +133,50 @@ public class Hero : MonoBehaviour
         }
     }
 
+    public bool UseConsumable(ConsumableCardSO consumable, IRandomPicker picker)
+    {
+        if(consumable == null || !inventory.Contains(consumable)) return false;
+
+        consumable.Use(this, picker);
+        RemoveCardFromInventory(consumable);
+        return true;
+    }
+
     // Inventory management methods
+    #endregion
+
+    #region Pending consumable effects
+    // State created by consumables. It lives on the hero, never on the card asset.
+    // Counters (not bools) because the rulebook allows drinking several potions (p.16).
+
+    public int PendingAttackDiceBonus { get; private set; }
+    public int PendingDefenseDiceBonus { get; private set; }
+    public int PendingExtraAttacks { get; private set; }
+
+    public void AddAttackDiceBonus(int dice) => PendingAttackDiceBonus += dice;
+    public void AddDefenseDiceBonus(int dice) => PendingDefenseDiceBonus += dice;
+    public void AddExtraAttacks(int count) => PendingExtraAttacks += count;
+
+    // Each Consume method returns the stored bonus and resets it to 0 (single use).
+    public int ConsumeAttackDiceBonus()
+    {
+        int bonus = PendingAttackDiceBonus;
+        PendingAttackDiceBonus = 0;
+        return bonus;
+    }
+
+    public int ConsumeDefenseDiceBonus()
+    {
+        int bonus = PendingDefenseDiceBonus;
+        PendingDefenseDiceBonus = 0;
+        return bonus;
+    }
+
+    public int ConsumeExtraAttacks()
+    {
+        int extra = PendingExtraAttacks;
+        PendingExtraAttacks = 0;
+        return extra;
+    }
     #endregion
 }
