@@ -140,7 +140,7 @@ public class Hero : MonoBehaviour, IPotionTarget
         }
     }
 
-    public bool UsePotion(PotionSO potion, IRandomPicker picker)
+    public bool UsePotion(PotionCardSO potion, IRandomPicker picker)
     {
         if (potion == null || !inventory.Contains(potion)) return false;
 

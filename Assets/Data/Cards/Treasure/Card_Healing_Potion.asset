@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef34526ce41e7d4499d4979b8b628f44, type: 3}
-  m_Name: StrengthPotion
-  m_EditorClassIdentifier: Assembly-CSharp::StrengthPotionSO
-  displayName: Strength Potion
+  m_Script: {fileID: 11500000, guid: 1aa9f81d8d74e7440a541cf700d2e93b, type: 3}
+  m_Name: Card_Healing_Potion
+  m_EditorClassIdentifier: Assembly-CSharp::HealingPotionSO
+  displayName: Healing Potion
   description: 
   icon: {fileID: 0}
   artwork: {fileID: 0}
-  bonusAttackDice: 2
+  redDice: 1
