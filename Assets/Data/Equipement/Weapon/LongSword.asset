@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00411954beed3094e8ac4ad35f6e0de2, type: 3}
   m_Name: LongSword
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Long Sword
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Long Sword
     type: 1
     cost: 350
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
   attackDice: 3
   canDiagoAttack: 1
   canCloseRangeAttack: 1

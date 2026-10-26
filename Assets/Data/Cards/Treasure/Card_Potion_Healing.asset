@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b060768991000e43ae5ba5f4f7494f9, type: 3}
   m_Name: Card_Potion_Healing
   m_EditorClassIdentifier: Assembly-CSharp::PotionCardSO
-  displayName: Healing potion
+  displayName: Healing Potion
   description: 
+  icon: {fileID: 0}
   artwork: {fileID: 0}
   potion: {fileID: 11400000, guid: 62b3542603ddc7444b59eaaca7579994, type: 2}

@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec40e8ebbd199d43b0fe35f28f3548c, type: 3}
   m_Name: Chainmail
   m_EditorClassIdentifier: Assembly-CSharp::ArmorData
+  displayName: Chainmail
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Chainmail
     type: 2
     cost: 500
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
   defenseDice: 1
   movementPenalty: 0
   useWithWizard: 0
