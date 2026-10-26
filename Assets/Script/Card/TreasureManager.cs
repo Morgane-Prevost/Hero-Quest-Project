@@ -1,23 +1,29 @@
 using UnityEngine;
 
-public enum TreasureSearchOutcome
+// Owns the treasure deck for the current game. Other systems ask it for a card.
+public class TreasureManager : MonoBehaviour
 {
-    NotInRoom,                  // corridor: nothing to search
-    MonstersInRoom,             // forbidden while a monster is in the room
-    AlreadySearched,            // this hero already searched this main
-    FurnitureTrapTriggered,     // hero did not search for traps first (turn ends)
-    SpecialTreasure,            // quest treasure found, no card drawn
-    CardDawn,                   // normal draw from the treasure deck
-}
+    [SerializeField] private TreasureDeckSO deckData;
 
-public class TreasureManager
-{
-    private readonly TreasureDeck deck;
-    private readonly ITreasureContext context;
+    private TreasureDeck deck;
 
-    public void StartQuest()
+    public int RemainingCount => deck.RemainingCount;
+
+    private void Awake()
     {
-        deck.StartQuest();
+        // Default picker; the game can replace it with Initialize(replays, tests)
+        if (deck==null) Initialize(new SystemRandomPicker());
     }
+
+    // The game passes the ONE shared picker here (same one as the dice)
+    public void Initialize(IRandomPicker picker)
+    {
+        deck = new TreasureDeck(deckData.cards, picker);
+    }
+    // Start of a quest: every card goes back into the pile
+    public void StartQuest() => deck.StartQuest();
+
+    // Only picks the card: the caller shows it, then calls card.Resolve(context)
+    public TreasureCardSO Draw() => deck.Draw();
 
 }
