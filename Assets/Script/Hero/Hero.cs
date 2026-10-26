@@ -23,7 +23,7 @@ public class Hero : MonoBehaviour
 
     public WeaponData weapon;
     public List<ArmorData> armors;
-    public int gold;
+    public int gold { get; set; }
 
     private List<CardSO> inventory;
     private bool hasAToolBag = false;
@@ -42,42 +42,62 @@ public class Hero : MonoBehaviour
         gold = heroData.gold;
     }
 
+    #region Inventory Management
+    // Inventory management methods
+
     public void equipWeapon(WeaponData newWeapon)
     {
-        RemoveCardFromInventory(newWeapon);
-        attackDices = newWeapon.attackDice;
+        if (canEquipWeapon(newWeapon))
+        {
+            RemoveCardFromInventory(newWeapon);
+            weapon = newWeapon;
+            attackDices = newWeapon.attackDice;
+        }
+        else
+        {
+            Debug.LogWarning("Cannot equip weapon: " + newWeapon.displayName);
+        }
     }
     public void unequipWeapon()
     {
         AddCardToInventory(weapon);
-        attackDices = 0;
         weapon = null;
-    }
-    public void SwapWeapon(WeaponData newWeapon)
-    {
-        AddCardToInventory(weapon);
-        weapon = newWeapon;
-        RemoveCardFromInventory(newWeapon);
-        attackDices = newWeapon.attackDice;
+        attackDices = 0;
     }
 
     public void EquipArmor(ArmorData newArmor)
     {
-        if (canEquipedArmorPiece(newArmor))
+        if (canEquipArmorPiece(newArmor))
         {
             RemoveCardFromInventory(newArmor);
+            armors.Add(newArmor);
             defenseDices += newArmor.defenseDice;
         }
+        else
+        {
+            Debug.LogWarning("Cannot equip armor: " + newArmor.displayName);
+        }
     }
-
     public void unEquipArmor(ArmorData armor)
     {
-
+        if (armors.Contains(armor))
+        {
+            AddCardToInventory(armor);
+            armors.Remove(armor);
+            defenseDices -= armor.defenseDice;
+        }
     }
-
-
-    public bool canEquipedArmorPiece(ArmorData armorToCheck)
+    
+    public bool canEquipWeapon(WeaponData weaponToCheck)
     {
+        if (weaponToCheck == null || weapon != null) return false;
+        if (!weaponToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
+        if (!weaponToCheck.useWithShield && armors.Exists(armor => armor.armorType == ArmorType.Shield)) return false;
+        return true;
+    }
+    public bool canEquipArmorPiece(ArmorData armorToCheck)
+    {
+        if (armorToCheck != null && armors.Contains(armorToCheck)) return false;
         if (!armorToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
         if (!armorToCheck.useWithStaff && weapon.weaponType == WeaponType.Staff) return false;
         if (!armorToCheck.useWithAxe && weapon.weaponType == WeaponType.Axe) return false;
@@ -85,7 +105,6 @@ public class Hero : MonoBehaviour
         foreach (ArmorData armor in armors)
         {
             if (!armorToCheck.useWithOtherArmor && !armor.useWithOtherArmor) return false;
-            if (armorToCheck.armorType == armor.armorType) return false;
         }
         return true;
     }
@@ -98,11 +117,20 @@ public class Hero : MonoBehaviour
             if (passiveData.passiveObjectName == PassiveObjectName.Toolbag) hasAToolBag = true;
         }
     }
-
     public void RemoveCardFromInventory(CardSO card)
     {
         if (card != null && inventory.Contains(card)) inventory.Remove(card);
     }
 
-    // Give to another hero
+    public void GiveCardToHero(CardSO card, Hero otherHero)
+    {
+        if (card != null && inventory.Contains(card))
+        {
+            RemoveCardFromInventory(card);
+            otherHero.AddCardToInventory(card);
+        }
+    }
+
+    // Inventory management methods
+    #endregion
 }
