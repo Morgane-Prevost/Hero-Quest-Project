@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ConsumableData", menuName = "GameDatas/Equipement/ConsumableData")]
-public class ConsumableData : ScriptableObject
+public class ConsumableData : CardSO
 {
     public Equipement equipement;
 

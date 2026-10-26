@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ArmorData", menuName = "GameDatas/Equipement/ArmorData")]
-public class ArmorData : ScriptableObject
+public class ArmorData : CardSO
 {
     public Equipement equipement;
     public int defenseDice;
