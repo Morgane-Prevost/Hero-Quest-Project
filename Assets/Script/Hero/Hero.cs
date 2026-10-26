@@ -10,8 +10,6 @@ public class Hero : MonoBehaviour
     public int defenseDices;
 
     public int movementDices;
-    //Initialise les points de vie, points d'esprit, dés d'attaque, dés de défense et dés de mouvement du héros à
-    /// partir des données fournies.Données du héros utilisées pour l'initialisation.Nom du héros.
 
     //To add when classes are implemented
 
@@ -61,7 +59,7 @@ public class Hero : MonoBehaviour
 
     public void LookForTreasureAction()
     {
-        if (canLookForTreasure)
+        if (canLookForTreasure())
         {
             // Look for treasure in the room
             // If treasure is found draw a treasure card
@@ -102,6 +100,7 @@ public class Hero : MonoBehaviour
     {
         //Check the list if the room is in the list && if there is monster in the room
         //return false else return true
+        return true;
     }
 
 
