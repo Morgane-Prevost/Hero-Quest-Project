@@ -16,12 +16,6 @@ public enum PassiveObjectName
 [System.Serializable]
 public struct Equipement
 {
-    public string name;
     public EquipementType type;
     public int cost;
-
-
-    public GameObject cardPrefab;
-    public Texture2D icon;
-    public Texture2D cardImage;
 }

@@ -7,5 +7,6 @@ public abstract class CardSO : ScriptableObject
 {
     public string displayName;
     [TextArea] public string description; // our own wording, not the official card text
+    public Texture2D icon;
     public Texture2D artwork;
 }
