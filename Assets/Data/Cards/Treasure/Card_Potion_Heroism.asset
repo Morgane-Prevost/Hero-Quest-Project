@@ -16,4 +16,4 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   artwork: {fileID: 0}
-  potion: {fileID: 11400000, guid: 69301ec98b455f2498bc8cd12ba6855e, type: 2}
+  potion: {fileID: 11400000, guid: 0a21a33c81dd51b47aba4a3b6a2a389d, type: 2}

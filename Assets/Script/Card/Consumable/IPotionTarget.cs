@@ -2,7 +2,7 @@
 // Implemented by the Hero Manager side.
 public interface IPotionTarget
 {
-    // The hero rolls N red dice, capped at the hero's starting life points
+    // Restores body points, never above the hero's starting total
     void Heal(int amount);
     void AddAttackDiceNextAttack(int extraDice);
     void AddDefenseDiceNextDefense(int extraDice);
