@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Cards/Treasure/Potion/Strength")]
-public class StrengthPotionSO : PotionCardSO
+public class StrengthPotionCardSO : PotionCardSO
 {
     public int extraAttackDice = 2; // +2 combat dice on the next attack (physical card)
 

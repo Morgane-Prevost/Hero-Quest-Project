@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Cards/Treasure/Potion/Healing")]
-public class HealingPotionSO : PotionCardSO
+public class HealingPotionCardSO : PotionCardSO
 {
     public int redDice = 1;
 

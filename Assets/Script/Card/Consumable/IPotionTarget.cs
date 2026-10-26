@@ -1,5 +1,5 @@
-// What a potion is allowed to ask of the hero who drinks it.
-// Implemented by the Hero Manager side.
+// What a potion is allowed to ask of the hero who uses it.
+// Implemented by Hero. Cards never depend on Hero directly.
 public interface IPotionTarget
 {
     // Restores body points, never above the hero's starting total

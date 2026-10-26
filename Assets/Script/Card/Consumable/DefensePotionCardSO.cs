@@ -1,7 +1,7 @@
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Cards/Treasure/Potion/Defense")]
-public class DefensePotionSO : PotionCardSO
+public class DefensePotionCardSO : PotionCardSO
 {
     public int extraDefenseDice = 2;
 
