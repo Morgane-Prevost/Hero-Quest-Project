@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acd14eb1658478f4aaf99f724403d5e1, type: 3}
+  m_Name: TreasureDeck
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureDeckSO
+  cards:
+  - {fileID: 11400000, guid: 425c96d30b1cc5642831702f76db47b4, type: 2}
+  - {fileID: 11400000, guid: 425c96d30b1cc5642831702f76db47b4, type: 2}
+  - {fileID: 11400000, guid: 425c96d30b1cc5642831702f76db47b4, type: 2}
+  - {fileID: 11400000, guid: 425c96d30b1cc5642831702f76db47b4, type: 2}
+  - {fileID: 11400000, guid: 425c96d30b1cc5642831702f76db47b4, type: 2}
+  - {fileID: 11400000, guid: 425c96d30b1cc5642831702f76db47b4, type: 2}
+  - {fileID: 11400000, guid: d7edd0c37f3f85a4c8d19f4189bc7215, type: 2}
+  - {fileID: 11400000, guid: d7edd0c37f3f85a4c8d19f4189bc7215, type: 2}
+  - {fileID: 11400000, guid: d7edd0c37f3f85a4c8d19f4189bc7215, type: 2}
+  - {fileID: 11400000, guid: d7edd0c37f3f85a4c8d19f4189bc7215, type: 2}
+  - {fileID: 11400000, guid: 2048921f376195145a552753a44be07c, type: 2}
+  - {fileID: 11400000, guid: 2048921f376195145a552753a44be07c, type: 2}
+  - {fileID: 11400000, guid: 2048921f376195145a552753a44be07c, type: 2}
+  - {fileID: 11400000, guid: 2048921f376195145a552753a44be07c, type: 2}
+  - {fileID: 11400000, guid: 2805c092bdc8d614cb98650c49bb7b49, type: 2}
+  - {fileID: 11400000, guid: 2805c092bdc8d614cb98650c49bb7b49, type: 2}
+  - {fileID: 11400000, guid: bdaaadb9dfb6fa8458b90675efc3ace3, type: 2}
+  - {fileID: 11400000, guid: bdaaadb9dfb6fa8458b90675efc3ace3, type: 2}
+  - {fileID: 11400000, guid: 5af2b59697cb2374f85eb45e9203428a, type: 2}
+  - {fileID: 11400000, guid: 5af2b59697cb2374f85eb45e9203428a, type: 2}
+  - {fileID: 11400000, guid: 5af2b59697cb2374f85eb45e9203428a, type: 2}
+  - {fileID: 11400000, guid: 76ccb7a157932714db9ba67959d5891d, type: 2}
+  - {fileID: 11400000, guid: 980472b3de972d9458116f1e76c5446f, type: 2}
+  - {fileID: 11400000, guid: e0509cb9c0ee2334083d882024bf50b3, type: 2}

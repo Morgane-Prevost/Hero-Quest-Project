@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ec40e8ebbd199d43b0fe35f28f3548c, type: 3}
+  m_Name: Helmet
+  m_EditorClassIdentifier: Assembly-CSharp::ArmorData
+  equipement:
+    name: Helmet
+    type: 2
+    cost: 125
+    cardPrefab: {fileID: 0}
+    icon: {fileID: 0}
+    cardImage: {fileID: 0}
+  defenseDice: 1
+  movementPenalty: 0
+  useWithWizard: 0
+  useWithOtherArmor: 1
+  useWithAxe: 1
+  useWithStaff: 1
