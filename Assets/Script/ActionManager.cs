@@ -12,6 +12,21 @@ public class ActionManager : MonoBehaviour
 {
     //Takes a hero and a monster to do the fight and a bool is here to see who is attacking and who is defending
     //return damage inflicted
+
+    public static ActionManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
     public int Fight(Hero hero, Monster monster, bool heroIsAttacking)
     {
         int finalResult = 0;

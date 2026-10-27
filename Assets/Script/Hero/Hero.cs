@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
+using HeroQuest.Board;
 
 public enum HeroType
 {
@@ -10,8 +11,17 @@ public enum HeroType
     Wizard = 3
 }
 
+public struct CloseTarget
+{
+    public GameObject target;
+    public Vector2Int cell;
+    public bool isDiagonal;
+}
+
 public class Hero : MonoBehaviour
 {
+    #region Hero Properties
+    // Hero properties
     public string heroName { get; set; }
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
@@ -27,6 +37,15 @@ public class Hero : MonoBehaviour
 
     private List<CardSO> inventory;
     private bool hasAToolBag = false;
+
+    #endregion
+
+    [SerializeField] private LayerMask obstacleMask;
+
+    private float maxDistance = 50f;
+    private float eyeHeight = .2f;
+    private int closeRangeCells = 1;
+
 
     public void Initialize(HeroData heroData, string name)
     {
@@ -44,6 +63,11 @@ public class Hero : MonoBehaviour
         gold = heroData.gold;
     }
 
+    private void Start()
+    {
+        obstacleMask = LayerMask.GetMask("Obstacle");
+    }
+
     public void Move()
     {
         // Roll the movement dices and display where the hero can move on the board
@@ -53,15 +77,67 @@ public class Hero : MonoBehaviour
 
     public void AttackAction()
     {
-        // Check the weapon to see what enemy can be attacked
+        List<GameObject> visibleTargets = GetVisibleTargets();
 
-        // Look at every enemy that can be attacked
+        if (weapon.canVisionAttack)
+        {
+            if (!weapon.canCloseRangeAttack)
+            {
+                foreach(GameObject target in visibleTargets)
+                {
+                    if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(target))
+                    {
+                        visibleTargets.Remove(target);
+                    }
+                }
+                // Wait for the player to select a target from the visible targets
+                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
+                Attack(selectedTarget);
+                return;
+            }
+            else if (weapon.canBeThrown)
+            {
+                // Wait for the player to select a target from the visible targets
+                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
 
-        // Wait for the player to select an enemy to attack
-
-        // Roll the attack dices and calculate the damage
-
-        // Apply the damage to the enemy
+                // Check if the target is in close range or long range
+                if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(selectedTarget))
+                {
+                    Attack(selectedTarget);
+                    return;
+                }
+                else
+                {
+                    Attack(selectedTarget);
+                    weapon = null;
+                    return;
+                }
+            }
+        }
+        else
+        {
+            if (!weapon.canDiagoAttack)
+            {
+                foreach (GameObject target in visibleTargets)
+                {
+                    if (IsMonsterCloseRanged(visibleTargets) && IsTargetDiagonal(target))
+                    {
+                        visibleTargets.Remove(target);
+                    }
+                }
+                // Wait for the player to select a target from the visible targets
+                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
+                Attack(selectedTarget);
+                return;
+            }
+            else
+            {
+                // Wait for the player to select a target from the visible targets
+                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
+                Attack(selectedTarget);
+                return;
+            }
+        }
     }
 
     public void SpellAction()
@@ -121,6 +197,88 @@ public class Hero : MonoBehaviour
         return true;
     }
 
+    private List<GameObject> GetVisibleTargets()
+    {
+        var visible = new List<GameObject>();
+        Vector3 origin = transform.position + Vector3.up * eyeHeight;
+
+        foreach (var target in MonsterManager.Instance.GetAliveMonsters())
+        {
+            if (target == null || target == gameObject) continue;
+
+            Vector3 targetPoint = target.transform.position + Vector3.up * eyeHeight;
+            Vector3 dir = targetPoint - origin;
+            float dist = dir.magnitude;
+
+            if (dist > maxDistance) continue;
+
+            bool blocked = Physics.Raycast(origin, dir.normalized, dist, obstacleMask,
+                                           QueryTriggerInteraction.Ignore);
+
+            Color c = blocked ? Color.red : Color.green;
+            Debug.DrawLine(origin, targetPoint, c, 1f);
+
+            if (!blocked)
+                visible.Add(target);
+        }
+
+        return visible;
+    }
+
+    private void Attack(GameObject target)
+    {
+        int damage = ActionManager.Instance.Fight(this, target.GetComponent<Monster>(), true);
+        if (damage > 0)
+        {
+            target.GetComponent<Monster>().TakeDamage(damage);
+        }
+        else
+        {
+            Debug.Log("No damage inflicted to the monster.");
+        }
+    }
+    private bool IsMonsterCloseRanged(List<GameObject> visibleTargets)
+    {
+        var self = GetComponent<GridPawn>();
+        if (self == null || visibleTargets == null) return false;
+
+        Vector2Int myCell = self.Cell;
+
+        foreach (var target in visibleTargets)
+        {
+            if (target == null) continue;
+
+            var pawn = target.GetComponent<GridPawn>();
+            if (pawn == null) continue;
+
+            if (IsInCloseRange(myCell, pawn.Cell))
+                return true;
+        }
+
+        return false;
+    }
+    private bool IsInCloseRange(Vector2Int from, Vector2Int to)
+    {
+        Vector2Int delta = to - from;
+        int dx = Mathf.Abs(delta.x);
+        int dy = Mathf.Abs(delta.y);
+
+        int distance = weapon.canDiagoAttack
+            ? Mathf.Max(dx, dy)   // Chebyshev
+            : dx + dy;            // Manhattan
+
+        return distance <= closeRangeCells;
+    }
+    private bool IsTargetDiagonal(GameObject target)
+    {
+        var self = GetComponent<GridPawn>();
+        var pawn = target != null ? target.GetComponent<GridPawn>() : null;
+        if (self == null || pawn == null) return false;
+
+        Vector2Int delta = pawn.Cell - self.Cell;
+
+        return delta.x != 0 && delta.y != 0;
+    }
 
     #region Inventory Management
     // Inventory management methods

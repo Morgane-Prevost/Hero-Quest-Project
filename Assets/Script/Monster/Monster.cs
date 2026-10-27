@@ -22,4 +22,13 @@ public class Monster : MonoBehaviour
         defenseDices = monsterData.defenseDices;
         movementDices = monsterData.movementDices;
     }
+
+    public void TakeDamage(int damage)
+    {
+        healthPoints -= damage;
+        if (healthPoints <= 0)
+        {
+            // Handle monster death logic here
+        }
+    }
 }
