@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dd9736fc070858418a774b135e11b09, type: 3}
+  m_Script: {fileID: 11500000, guid: 21e56c59c0103de45afcc64137b1122e, type: 3}
   m_Name: spectral_dagger
-  m_EditorClassIdentifier: Assembly-CSharp::SpectralDaggerData
+  m_EditorClassIdentifier: Assembly-CSharp::ArtifactWeaponData
   displayName: Spectral Dagger
   description: 
   icon: {fileID: 0}
@@ -35,3 +35,5 @@ MonoBehaviour:
   bonusAgainstTag: 
   bonusAttackDice: 0
   bonusAttacks: 0
+  canRerollOneDie: 0
+  canIgnoreTargetDefense: 1

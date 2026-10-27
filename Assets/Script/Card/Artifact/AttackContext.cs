@@ -1,11 +1,5 @@
 using UnityEngine;
 
-public enum AttackMoment
-{
-    BeforeRoll = 0,
-    AfterRoll = 1
-}
-
 // Facts about the attack being declared. Filled by the combat code, edited by artifacts.
 public class AttackContext
 {

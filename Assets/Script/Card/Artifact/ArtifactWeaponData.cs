@@ -7,10 +7,14 @@ public class ArtifactWeaponData : WeaponData, IArtifact, IAttackModifier
     [SerializeField] private ArtifactInfo info;
     public ArtifactInfo Info => info;
 
-    [Header("Bonus against one monster family (printed on the card")]
+    [Header("Bonus against one monster family (printed on the card)")]
     public string bonusAgainstTag;      //"orc", "undead"... empty = no bonus
     public int bonusAttackDice;         // Mystic sword: +1 against undead
     public int bonusAttacks;            // Orc slayer: +1 attack against orcs
+
+    [Header("Powers offered to the player (combat reads them, never automatic)")]
+    public bool canRerollOneDie;         // Fortune longsword (once per quest)
+    public bool canIgnoreTargetDefense;  // Spectral dagger (once per quest)
 
     public void ModifyAttack(AttackContext context)
     {
@@ -21,7 +25,6 @@ public class ArtifactWeaponData : WeaponData, IArtifact, IAttackModifier
         context.attacksAllowed += bonusAttacks;
     }
 
-    public virtual bool HasAbility => false;
-    public virtual AttackMoment AbilityMoment => AttackMoment.BeforeRoll;
-    public virtual void ActivateAbility(AttackContext context) { }
+    //public virtual bool HasAbility => false;
+    //public virtual void ActivateAbility(AttackContext context) { }
 }
