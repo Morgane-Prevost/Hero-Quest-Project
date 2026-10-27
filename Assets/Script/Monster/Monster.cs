@@ -1,4 +1,5 @@
 using HeroQuest.Board;
+using System;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
@@ -47,14 +48,5 @@ public class Monster : MonoBehaviour
         if (amount <= 0 || IsDead) return;
         healthPoints = Mathf.Max(0, healthPoints - amount);
         if (IsDead) Died?.Invoke(this);
-    }
-
-    public void TakeDamage(int damage)
-    {
-        healthPoints -= damage;
-        if (healthPoints <= 0)
-        {
-            // Handle monster death logic here
-        }
     }
 }

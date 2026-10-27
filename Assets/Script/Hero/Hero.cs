@@ -113,7 +113,14 @@ public class Hero : MonoBehaviour, IPotionTarget
 
     private IEnumerator AttackRoutine()
     {
-        List<GameObject> visibleTargets = GetVisibleTargets(MonsterManager.Instance.GetAliveMonsters());
+        List<GameObject> targets = new List<GameObject>();
+
+        foreach (Monster monster in MonsterManager.Instance.ActiveMonsters)
+        {
+            targets.Add(monster.gameObject);
+        }
+
+        List<GameObject> visibleTargets = GetVisibleTargets(targets);
 
         foreach (GameObject target in visibleTargets)
         {
