@@ -15589,7 +15589,7 @@ GameObject:
   - component: {fileID: 321306690}
   - component: {fileID: 321306689}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -65278,10 +65278,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HeroManager
   board: {fileID: 321306690}
-  movementSystem: {fileID: 1426712702}
   heroes:
   - {fileID: 11400000, guid: 99105c0b92c5aba4eb756191304bd64f, type: 2}
-  tempBut: {fileID: 0}
 --- !u!4 &1256220730
 Transform:
   m_ObjectHideFlags: 0
