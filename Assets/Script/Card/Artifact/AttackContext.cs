@@ -11,7 +11,7 @@ public class AttackContext
 {
     public string[] targetTags = new string[0];     // copied from the target mosnter
     public int attackDice;                          // combat code starts it at weapon dice (+ potion bonus)
-    public int attackAllowed = 1;                   // the player may use fewer
+    public int attacksAllowed = 1;                   // the player may use fewer
     public bool targetCanDefend = true; 
     public int rerollsAllowed;                      // attack dice the player may reroll after the roll
 }

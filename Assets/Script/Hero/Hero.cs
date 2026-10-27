@@ -450,6 +450,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public bool canEquipArmorPiece(ArmorData armorToCheck)
     {
         if (armorToCheck != null && armors.Contains(armorToCheck)) return false;
+        if (armorToCheck is IArtifact artifactArmor && !artifactArmor.Info.CanBeUsedBy(heroType)) return false;
         if (!armorToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
         if (!armorToCheck.useWithStaff && weapon.weaponType == WeaponType.Staff) return false;
         if (!armorToCheck.useWithAxe && weapon.weaponType == WeaponType.Axe) return false;

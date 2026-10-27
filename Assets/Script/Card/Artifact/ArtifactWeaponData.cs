@@ -18,7 +18,7 @@ public class ArtifactWeaponData : WeaponData, IArtifact, IAttackModifier
         if (System.Array.IndexOf(context.targetTags, bonusAgainstTag) < 0) return;
 
         context.attackDice += bonusAttackDice;
-        context.attackDice += bonusAttacks;
+        context.attacksAllowed += bonusAttacks;
     }
 
     public virtual bool HasAbility => false;
