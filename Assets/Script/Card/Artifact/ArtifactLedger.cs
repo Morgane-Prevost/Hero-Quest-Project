@@ -13,6 +13,7 @@ public class ArtifactLedger
     {
         foreach (CardSO card in cards)
         {
+            if (card == null) throw new ArgumentException("Empty slot in the artifact list");
             if (!(card is IArtifact artifact)) throw new ArgumentException($"{card.name} is not an artifact");
             string id = artifact.Info.id;
             if (string.IsNullOrEmpty(id)) throw new ArgumentException($"{card.name} has no id");

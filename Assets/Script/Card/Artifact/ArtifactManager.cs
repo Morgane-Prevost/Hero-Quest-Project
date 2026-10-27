@@ -1,6 +1,4 @@
-using NUnit.Framework;
 using System.Collections.Generic;
-using Unity.VectorGraphics;
 using UnityEngine;
 
 public class ArtifactManager : MonoBehaviour
@@ -20,10 +18,15 @@ public class ArtifactManager : MonoBehaviour
     // A quest note reveals an artifact: it goes to the hero who found it
     public bool Grant(string id, Hero hero)
     {
+        if (hero == null)
+        {
+            Debug.LogError("Grant: no hero given");
+            return false;
+        }
         CardSO card = ledger.Get(id);
         if(card== null)
         {
-            Debug.Log($"Unknown artifact id: '{id}'");
+            Debug.LogError($"Unknown artifact id: '{id}'");
             return false;
         }
         hero.AddCardToInventory(card);
