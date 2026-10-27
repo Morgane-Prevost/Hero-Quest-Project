@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7945304480746165492}
   - component: {fileID: 5201408268163631660}
   - component: {fileID: 1024833664651301774}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 4209240269551332450}
   - component: {fileID: 6891756311821951903}
   - component: {fileID: 1691218491051902896}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gargouille
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 4138710192010413003}
   - component: {fileID: 5203035181391205974}
   - component: {fileID: 8697233114555243574}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: d
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4812186509500275020}
   - component: {fileID: 6059306014708024079}
   - component: {fileID: 60315286146485121}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 8179975846735609715}
   - component: {fileID: 865939861887242575}
   - component: {fileID: 3538184980460917193}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

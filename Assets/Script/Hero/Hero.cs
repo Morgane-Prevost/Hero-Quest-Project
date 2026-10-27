@@ -1,6 +1,10 @@
-using UnityEngine;
+using HeroQuest.Board;
+using System;
+using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public enum HeroType
 {
@@ -12,6 +16,8 @@ public enum HeroType
 
 public class Hero : MonoBehaviour, IPotionTarget
 {
+    #region Hero Properties
+    // Hero properties
     public string heroName { get; set; }
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
@@ -27,14 +33,24 @@ public class Hero : MonoBehaviour, IPotionTarget
     public List<ArmorData> armors;
     public int gold { get; set; }
 
+    GridPawn gridPawn;
+
     private List<CardSO> inventory = new List<CardSO>();
     private bool hasAToolBag = false;
+
+    #endregion
+
+    [SerializeField] private LayerMask obstacleMask;
+
+    private float maxDistance = 50f;
+    private float eyeHeight = .2f;
+    private int closeRangeCells = 1;
 
     private int pendingAttackDiceBonus;
     private int pendingDefenseDiceBonus;
     private int pendingExtraAttacks;
 
-    public void Initialize(HeroData heroData, string name)
+    public void Initialize(HeroData heroData, string name, Vector2Int cell)
     {
         heroName = name;
         bodyPoints = heroData.bodyPoints;
@@ -49,6 +65,338 @@ public class Hero : MonoBehaviour, IPotionTarget
         armors = heroData.armor;
 
         gold = heroData.gold;
+
+
+        gridPawn = GetComponent<GridPawn>();
+        gridPawn.PlaceAt(cell);
+    }
+
+    private void Start()
+    {
+        obstacleMask = LayerMask.GetMask("Obstacle");
+    }
+
+    public void Move()
+    {
+        int finalMovement = 0;
+
+        if (armors.Exists(armor => armor.movementPenalty != 0))
+        {
+            foreach (ArmorData armor in armors)
+            {
+                finalMovement -= armor.movementPenalty;
+            }
+        }
+
+        // Roll the movement dice and display where the hero can move on the board
+        for (int i = 0; i < movementDices; i++)
+        {
+            finalMovement += ActionManager.Instance.RollRedDice();
+        }
+
+        StartCoroutine(MoveRoutine(gridPawn, finalMovement));
+    }
+    private IEnumerator MoveRoutine(GridPawn hero, int movePoints)
+    {
+        Vector2Int? chosen = null;
+        MovementSystem.Instance.BeginMove(hero, movePoints, c => chosen = c);
+
+        yield return new WaitUntil(() => chosen.HasValue);
+
+        gridPawn.PlaceAt(chosen.Value);
+    }
+
+    public void AttackAction()
+    {
+        StartCoroutine(AttackRoutine());
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        List<GameObject> targets = new List<GameObject>();
+
+        foreach (Monster monster in MonsterManager.Instance.ActiveMonsters)
+        {
+            targets.Add(monster.gameObject);
+        }
+
+        List<GameObject> visibleTargets = GetVisibleTargets(targets);
+
+        foreach (GameObject target in visibleTargets)
+        {
+            target.layer = LayerMask.NameToLayer("HighLight");
+        }
+
+        if (weapon.canVisionAttack)
+        {
+            if (!weapon.canCloseRangeAttack)
+            {
+                foreach (GameObject target in visibleTargets)
+                {
+                    if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(target))
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                        visibleTargets.Remove(target);
+                    }
+                }
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                Debug.Log("Selected target: " + (selectedTarget != null ? selectedTarget.name : "None"));
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+
+                Attack(selectedTarget);
+                foreach (GameObject target in visibleTargets)
+                {
+                    target.layer = LayerMask.NameToLayer("Monster");
+                }
+                yield break;
+            }
+            else if (weapon.canBeThrown)
+            {
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+                if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(selectedTarget))
+                {
+                    Attack(selectedTarget);
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break;
+                }
+                else
+                {
+                    Attack(selectedTarget);
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    weapon = null;
+                    yield break;
+                }
+            }
+        }
+        else
+        {
+            if (!weapon.canDiagoAttack)
+            {
+                foreach (GameObject target in visibleTargets)
+                {
+                    if (IsMonsterCloseRanged(visibleTargets) && IsTargetDiagonal(target))
+                    {
+                        visibleTargets.Remove(target);
+                    }
+                }
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+
+                Attack(selectedTarget);
+                foreach (GameObject target in visibleTargets)
+                {
+                    target.layer = LayerMask.NameToLayer("Monster");
+                }
+                yield break;
+            }
+            else
+            {
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+
+                Attack(selectedTarget);
+                foreach (GameObject target in visibleTargets)
+                {
+                    target.layer = LayerMask.NameToLayer("Monster");
+                }
+                yield break;
+            }
+        }
+    }
+    
+    public void SpellAction()
+    {
+        // Look at every enemy in the field of view that can be attacked
+
+        // Wait for the player to select an enemy to attack
+
+        // Roll the attack dices and calculate the damage
+
+        // Apply the damage to the enemy
+    }
+
+    public void LookForTreasureAction()
+    {
+        if (canLookForTreasure())
+        {
+            // Look for treasure in the room
+            // If treasure is found draw a treasure card
+            // If it draws a trap card apply it 
+            // Else give the treasure to the hero
+        }
+        else
+        {
+            // Display a message that the hero cannot look for treasure
+        }
+    }
+
+    public void LookForSecretDoorAction()
+    {
+        // Check if there is monster in the FOV
+        // Check if there is a secret door in the room, reveal it else display a message that there is no secret door
+    }
+
+    public void LookForTrapAction()
+    {
+        // Check if there is a monster in the FOV
+        // Check if there is a trap in the room, mark it else display a message that there is no trap
+    }
+
+    public void DisarmTrapAction()
+    {
+        if (heroType == HeroType.Dwarf)
+        {
+            if (ActionManager.Instance.RollWhiteDice() == WhiteDiceFaces.BlackShield)
+            {
+                //Activates the trap and takes damage
+            }
+            else
+            {
+                //Disarms the trap
+            }
+        }
+        else if (hasAToolBag)
+        {
+            if (ActionManager.Instance.RollWhiteDice() == WhiteDiceFaces.Skull)
+            {
+                //Activates the trap and takes damage
+            }
+            else
+            {
+                //Disarms the trap
+            }
+        }
+        else
+        {
+            // Display a message that the hero cannot disarm the trap
+        }
+    }
+
+    private bool canLookForTreasure()
+    {
+        //Check the list if the room is in the list && if there is monster in the room
+        //return false else return true
+        return true;
+    }
+
+    private List<GameObject> GetVisibleTargets(List<GameObject> targets)
+    {
+        var visible = new List<GameObject>();
+        Vector3 origin = transform.position + Vector3.up * eyeHeight;
+
+        foreach (var target in targets)
+        {
+            if (target == null || target == gameObject) continue;
+
+            Vector3 targetPoint = target.transform.position + Vector3.up * eyeHeight;
+            Vector3 dir = targetPoint - origin;
+            float dist = dir.magnitude;
+
+            if (dist > maxDistance) continue;
+
+            bool blocked = Physics.Raycast(origin, dir.normalized, dist, obstacleMask,
+                                           QueryTriggerInteraction.Ignore);
+
+            Color c = blocked ? Color.red : Color.green;
+            Debug.DrawLine(origin, targetPoint, c, 1f);
+
+            if (!blocked)
+                visible.Add(target);
+        }
+
+        return visible;
+    }
+
+    private void Attack(GameObject target)
+    {
+        int damage = ActionManager.Instance.Fight(this, target.GetComponent<Monster>(), true);
+        if (damage > 0)
+        {
+            target.GetComponent<Monster>().TakeDamage(damage);
+        }
+        else
+        {
+            Debug.Log("No damage inflicted to the monster.");
+        }
+    }
+    private bool IsMonsterCloseRanged(List<GameObject> visibleTargets)
+    {
+        if (gridPawn == null || visibleTargets == null) return false;
+
+        Vector2Int myCell = gridPawn.Cell;
+
+        foreach (var target in visibleTargets)
+        {
+            if (target == null) continue;
+
+            var pawn = target.GetComponent<GridPawn>();
+            if (pawn == null) continue;
+
+            if (IsInCloseRange(myCell, pawn.Cell))
+                return true;
+        }
+
+        return false;
+    }
+    private bool IsInCloseRange(Vector2Int from, Vector2Int to)
+    {
+        Vector2Int delta = to - from;
+        int dx = Mathf.Abs(delta.x);
+        int dy = Mathf.Abs(delta.y);
+
+        int distance = weapon.canDiagoAttack
+            ? Mathf.Max(dx, dy)   // Chebyshev
+            : dx + dy;            // Manhattan
+
+        return distance <= closeRangeCells;
+    }
+    private bool IsTargetDiagonal(GameObject target)
+    {
+        var pawn = target != null ? target.GetComponent<GridPawn>() : null;
+        if (gridPawn == null || pawn == null) return false;
+
+        Vector2Int delta = pawn.Cell - gridPawn.Cell;
+
+        return delta.x != 0 && delta.y != 0;
     }
 
     #region Inventory Management

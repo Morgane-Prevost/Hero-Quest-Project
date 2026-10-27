@@ -1,4 +1,6 @@
+using UnityEditor.Sprites;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum WhiteDiceFaces
 {
@@ -12,6 +14,36 @@ public class ActionManager : MonoBehaviour
 {
     //Takes a hero and a monster to do the fight and a bool is here to see who is attacking and who is defending
     //return damage inflicted
+
+    public static ActionManager Instance { get; private set; }
+    public InputActionReference leftClick;
+    private IRandomPicker picker;
+    public void Initialize(IRandomPicker picker) => this.picker = picker;
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+
+        if (picker == null) picker = new SystemRandomPicker();
+    }
+
+    private void OnEnable()
+    {
+        leftClick.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        leftClick.action.Disable();
+    }
+
     public int Fight(Hero hero, Monster monster, bool heroIsAttacking)
     {
         int finalResult = 0;
@@ -64,7 +96,7 @@ public class ActionManager : MonoBehaviour
 
     public WhiteDiceFaces RollWhiteDice()
     {
-        int result = Random.Range(1, 7);
+        int result = picker.Pick(6) + 1;
 
         if (result <= 3)
         {
@@ -80,8 +112,5 @@ public class ActionManager : MonoBehaviour
         }
     }
 
-    public int RollRedDice()
-    {
-        return Random.Range(1, 7);
-    }
+    public int RollRedDice() => picker.Pick(6) + 1;
 }
