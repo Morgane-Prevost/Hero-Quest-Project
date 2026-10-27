@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00411954beed3094e8ac4ad35f6e0de2, type: 3}
   m_Name: Hatchet
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Hatchet
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Hatchet
     type: 1
     cost: 200
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
+  weaponType: 3
   attackDice: 2
   canDiagoAttack: 0
   canCloseRangeAttack: 1

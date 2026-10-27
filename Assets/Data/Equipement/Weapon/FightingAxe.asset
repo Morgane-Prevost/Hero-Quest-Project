@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00411954beed3094e8ac4ad35f6e0de2, type: 3}
   m_Name: FightingAxe
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
+  displayName: Fighting Axe
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Fighting Axe
     type: 1
     cost: 450
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
+  weaponType: 1
   attackDice: 4
   canDiagoAttack: 0
   canCloseRangeAttack: 1

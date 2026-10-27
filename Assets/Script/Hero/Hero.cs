@@ -1,107 +1,178 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.Rendering;
 
-public class Hero : MonoBehaviour
+public enum HeroType
+{
+    Barbarian = 0,
+    Elf = 1,
+    Dwarf = 2,
+    Wizard = 3
+}
+
+public class Hero : MonoBehaviour, IPotionTarget
 {
     public string heroName { get; set; }
-
+    HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
     public int mindPoints { get; set; }
+
+    public int currentBodyPoints { get; private set; }
     public int attackDices { get; set; }
     public int defenseDices { get; set; }
 
     public int movementDices { get; set; }
 
-    //To add when classes are implemented
+    public WeaponData weapon;
+    public List<ArmorData> armors;
+    public int gold { get; set; }
 
-    // public Equipment weapon;
-    // public Equipment armor;
+    private List<CardSO> inventory = new List<CardSO>();
+    private bool hasAToolBag = false;
+
+    private int pendingAttackDiceBonus;
+    private int pendingDefenseDiceBonus;
+    private int pendingExtraAttacks;
 
     public void Initialize(HeroData heroData, string name)
     {
         heroName = name;
         bodyPoints = heroData.bodyPoints;
+        currentBodyPoints = bodyPoints;
         mindPoints = heroData.mindPoints;
         attackDices = heroData.attackDices;
         defenseDices = heroData.defenseDices;
         movementDices = heroData.movementDices;
+
+        // Needs to be modified to create and add the weapon and armor cards before assigning them to the hero. For now, we will just assign the references from the HeroData.
+        weapon = heroData.weapon;
+        armors = heroData.armor;
+
+        gold = heroData.gold;
     }
 
-    public void Move()
+    #region Inventory Management
+    // Inventory management methods
+
+    public void equipWeapon(WeaponData newWeapon)
     {
-        // Roll the movement dices and display where the hero can move on the board
-        // Wait for the player to select a tile to move to
-        // Move the hero to the selected tile
-    }
-
-    public void AttackAction()
-    {
-        // Check the weapon to see what enemy can be attacked
-
-        // Look at every enemy that can be attacked
-
-        // Wait for the player to select an enemy to attack
-
-        // Roll the attack dices and calculate the damage
-
-        // Apply the damage to the enemy
-    }
-
-    public void SpellAction()
-    {
-        // Look at every enemy in the field of view that can be attacked
-
-        // Wait for the player to select an enemy to attack
-
-        // Roll the attack dices and calculate the damage
-
-        // Apply the damage to the enemy
-    }
-
-    public void LookForTreasureAction()
-    {
-        if (canLookForTreasure())
+        if (canEquipWeapon(newWeapon))
         {
-            // Look for treasure in the room
-            // If treasure is found draw a treasure card
-            // If it draws a trap card apply it 
-            // Else give the treasure to the hero
+            RemoveCardFromInventory(newWeapon);
+            weapon = newWeapon;
+            attackDices = newWeapon.attackDice;
         }
         else
         {
-            // Display a message that the hero cannot look for treasure
+            Debug.LogWarning("Cannot equip weapon: " + newWeapon.displayName);
         }
     }
-
-    public void LookForSecretDoorAction()
+    public void unequipWeapon()
     {
-        // Check if there is monster in the FOV
-        // Check if there is a secret door in the room, reveal it else display a message that there is no secret door
+        AddCardToInventory(weapon);
+        weapon = null;
+        attackDices = 0;
     }
 
-    public void LookForTrapAction()
+    public void EquipArmor(ArmorData newArmor)
     {
-        // Check if there is a monster in the FOV
-        // Check if there is a trap in the room, mark it else display a message that there is no trap
+        if (canEquipArmorPiece(newArmor))
+        {
+            RemoveCardFromInventory(newArmor);
+            armors.Add(newArmor);
+            defenseDices += newArmor.defenseDice;
+        }
+        else
+        {
+            Debug.LogWarning("Cannot equip armor: " + newArmor.displayName);
+        }
     }
-
-    public void DisarmTrapAction()
+    public void unEquipArmor(ArmorData armor)
     {
-        //If dwarf
-        //Move on the trap and roll a fighting dice (1/6)
-        // If the hero rolls a 1, he activates the trap and takes damage, else he disarms the trap
-
-        // Check if he has a tool bag in his inventory
-        // Move on the trap and roll a fighting dice (1/2)
-        // If the hero rolls a 1, he activates the trap and takes damage, else he disarms the trap
-        // Delete the trap
+        if (armors.Contains(armor))
+        {
+            AddCardToInventory(armor);
+            armors.Remove(armor);
+            defenseDices -= armor.defenseDice;
+        }
     }
-
-    private bool canLookForTreasure()
+    
+    public bool canEquipWeapon(WeaponData weaponToCheck)
     {
-        //Check the list if the room is in the list && if there is monster in the room
-        //return false else return true
+        if (weaponToCheck == null || weapon != null) return false;
+        if (!weaponToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
+        if (!weaponToCheck.useWithShield && armors.Exists(armor => armor.armorType == ArmorType.Shield)) return false;
+        return true;
+    }
+    public bool canEquipArmorPiece(ArmorData armorToCheck)
+    {
+        if (armorToCheck != null && armors.Contains(armorToCheck)) return false;
+        if (!armorToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
+        if (!armorToCheck.useWithStaff && weapon.weaponType == WeaponType.Staff) return false;
+        if (!armorToCheck.useWithAxe && weapon.weaponType == WeaponType.Axe) return false;
+
+        foreach (ArmorData armor in armors)
+        {
+            if (!armorToCheck.useWithOtherArmor && !armor.useWithOtherArmor) return false;
+        }
         return true;
     }
 
+    public void AddCardToInventory(CardSO card)
+    {
+        if (card != null) inventory.Add(card);
+        if (card is PassiveData passiveData)
+        {
+            if (passiveData.passiveObjectName == PassiveObjectName.Toolbag) hasAToolBag = true;
+        }
+    }
+    public void RemoveCardFromInventory(CardSO card)
+    {
+        if (card != null && inventory.Contains(card)) inventory.Remove(card);
+    }
 
+    public void GiveCardToHero(CardSO card, Hero otherHero)
+    {
+        if (card != null && inventory.Contains(card))
+        {
+            RemoveCardFromInventory(card);
+            otherHero.AddCardToInventory(card);
+        }
+    }
+
+    public bool UsePotion(PotionCardSO potion, IRandomPicker picker)
+    {
+        if (potion == null || !inventory.Contains(potion)) return false;
+
+        potion.Use(this, picker);
+        RemoveCardFromInventory(potion);
+        return true;
+    }
+
+    // Inventory management methods
+    #endregion
+
+    #region IPotionTarget
+    public void Heal(int amount)
+    {
+        // bodyPoints holds the starting total
+        currentBodyPoints = Mathf.Min(currentBodyPoints + amount, bodyPoints);
+    }
+    public void AddAttackDiceNextAttack(int extraDice) => pendingAttackDiceBonus += extraDice;
+    public void AddDefenseDiceNextDefense(int extraDice) => pendingDefenseDiceBonus += extraDice;
+    public void AttackTwiceNextAttack() => pendingExtraAttacks++;
+
+    // Called by the combat code when the roll really happens: returns the bonus and resets it (single use).
+    public int ConsumeAttackDiceBonus() => TakeAndReset(ref pendingAttackDiceBonus);
+    public int ConsumeDefenseDiceBonus() => TakeAndReset(ref pendingDefenseDiceBonus);
+    public int ConsumeExtraAttacks() => TakeAndReset(ref pendingExtraAttacks);
+
+    private static int TakeAndReset(ref int value)
+    {
+        int taken = value;
+        value = 0;
+        return taken;
+    }
+
+    #endregion
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "HeroData", menuName = "GameDatas/HeroData")]
 public class HeroData : ScriptableObject
@@ -8,6 +9,8 @@ public class HeroData : ScriptableObject
 
     public string name;
 
+    public HeroType type;
+
     public int bodyPoints;
     public int mindPoints;
     public int attackDices;
@@ -15,8 +18,7 @@ public class HeroData : ScriptableObject
 
     public int movementDices;
 
-    //To add when classes are implemented
-
-    // public Equipment weapon;
-    // public Equipment armor;
+    public WeaponData weapon;
+    public List<ArmorData> armor;
+    public int gold;
 }

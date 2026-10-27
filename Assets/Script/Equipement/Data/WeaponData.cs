@@ -4,6 +4,7 @@ using UnityEngine;
 public class WeaponData : CardSO
 {
     public Equipement equipement;
+    public WeaponType weaponType;
     public int attackDice;
 
     public bool canDiagoAttack;
