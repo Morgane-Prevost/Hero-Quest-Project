@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2224991087868864220}
   - component: {fileID: 6172112819032568057}
   - component: {fileID: 4928854412978467631}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 123447760711585575}
   - component: {fileID: 7291473246005475043}
   - component: {fileID: 4066929000697848702}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Momie
   m_TagString: Untagged
   m_Icon: {fileID: 0}

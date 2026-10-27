@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6790906355525396734}
   - component: {fileID: 8161404178866412603}
   - component: {fileID: 4180298370415945694}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dread Sorcerer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 7152042987677628255}
   - component: {fileID: 2183640818060910127}
   - component: {fileID: 5184445955454959182}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

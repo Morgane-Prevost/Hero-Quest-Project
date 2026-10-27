@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4304341586995720729}
   - component: {fileID: 7440257743031810699}
   - component: {fileID: 1845165138034617402}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dread Warrior
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -126,7 +126,7 @@ GameObject:
   - component: {fileID: 1653043300926621046}
   - component: {fileID: 469288675304809114}
   - component: {fileID: 4906876450991193698}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 7161374100501066745}
   - component: {fileID: 1865823739366557855}
   - component: {fileID: 6882193717385905418}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

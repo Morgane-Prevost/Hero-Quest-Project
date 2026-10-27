@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using HeroQuest.Board;
+using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
@@ -21,5 +22,14 @@ public class Monster : MonoBehaviour
         attackDices = monsterData.attackDices;
         defenseDices = monsterData.defenseDices;
         movementDices = monsterData.movementDices;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        healthPoints -= damage;
+        if (healthPoints <= 0)
+        {
+            // Handle monster death logic here
+        }
     }
 }

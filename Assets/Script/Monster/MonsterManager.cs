@@ -4,16 +4,20 @@ using System.Collections.Generic;
 public class MonsterManager : MonoBehaviour
 {
     [SerializeField] private List<MonsterData> monsters;
+    [SerializeField] private List<GameObject> aliveMonsters;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-    }
+    public static MonsterManager Instance { get; private set; }
 
-    // Update is called once per frame
-    void Update()
+    private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public MonsterData GetData(string monsterName)
@@ -30,5 +34,10 @@ public class MonsterManager : MonoBehaviour
 
         monster.Initialize(data, data.monsterName);
         return monster;
+    }
+
+    public List<GameObject> GetAliveMonsters()
+    {
+        return aliveMonsters;
     }
 }

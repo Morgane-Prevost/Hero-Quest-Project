@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2885033047867607358}
   - component: {fileID: 8730368897242519028}
   - component: {fileID: 5457309295952118035}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 7845348766015091274}
   - component: {fileID: 8963075959436413141}
   - component: {fileID: 3403206748695088014}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Zombie
   m_TagString: Untagged
   m_Icon: {fileID: 0}
