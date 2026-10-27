@@ -23,7 +23,7 @@ public class HeroManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void CreateCharacter()
+    public void CreateCharacter(List<Vector2Int> startCells)
     {
         foreach (HeroData heroData in heroes)
         {
@@ -31,9 +31,8 @@ public class HeroManager : MonoBehaviour
             GridPawn gridPawnComponent = heroObject.AddComponent<GridPawn>();
             gridPawnComponent.board = board;
             Hero heroComponent = heroObject.AddComponent<Hero>();
-            Vector2Int startCell = new Vector2Int(22, 16); // Default starting cell, can be modified later
+            Vector2Int startCell = startCells.Count > 0 ? startCells[0] : new Vector2Int(0, 0); // Default starting cell, can be modified later
             heroComponent.Initialize(heroData, heroData.name, startCell); // To be modified to take the name from the character creation UI
-            gridPawnComponent.board = board;
         }
     }
 }
