@@ -29,6 +29,8 @@ public class ActionManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        if (picker == null) picker = new SystemRandomPicker();
     }
 
     public int Fight(Hero hero, Monster monster, bool heroIsAttacking)
