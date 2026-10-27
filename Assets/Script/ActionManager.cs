@@ -1,3 +1,4 @@
+using UnityEditor.Sprites;
 using UnityEngine;
 
 public enum WhiteDiceFaces
@@ -14,6 +15,9 @@ public class ActionManager : MonoBehaviour
     //return damage inflicted
 
     public static ActionManager Instance { get; private set; }
+
+    private IRandomPicker picker;
+    public void Initialize(IRandomPicker picker) => this.picker = picker;
 
     private void Awake()
     {
@@ -79,7 +83,7 @@ public class ActionManager : MonoBehaviour
 
     public WhiteDiceFaces RollWhiteDice()
     {
-        int result = Random.Range(1, 7);
+        int result = picker.Pick(6) + 1;
 
         if (result <= 3)
         {
@@ -95,8 +99,5 @@ public class ActionManager : MonoBehaviour
         }
     }
 
-    public int RollRedDice()
-    {
-        return Random.Range(1, 7);
-    }
+    public int RollRedDice() => picker.Pick(6) + 1;
 }

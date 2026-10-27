@@ -10,14 +10,6 @@ public enum HeroType
     Dwarf = 2,
     Wizard = 3
 }
-
-public struct CloseTarget
-{
-    public GameObject target;
-    public Vector2Int cell;
-    public bool isDiagonal;
-}
-
 public class Hero : MonoBehaviour
 {
     #region Hero Properties
@@ -30,6 +22,7 @@ public class Hero : MonoBehaviour
     public int defenseDices { get; set; }
 
     public int movementDices { get; set; }
+    public Vector2Int startingCell { get; set; }
 
     public WeaponData weapon;
     public List<ArmorData> armors;
@@ -61,6 +54,9 @@ public class Hero : MonoBehaviour
         armors = heroData.armor;
 
         gold = heroData.gold;
+
+
+        GetComponent<GridPawn>().PlaceAt(startingCell);
     }
 
     private void Start()
@@ -70,7 +66,15 @@ public class Hero : MonoBehaviour
 
     public void Move()
     {
-        // Roll the movement dices and display where the hero can move on the board
+        int finalMovement = 0;
+
+        // Roll the movement dice and display where the hero can move on the board
+        for (int i = 0; i < movementDices; i++)
+        {
+            finalMovement += ActionManager.Instance.RollRedDice();
+        }
+
+        
         // Wait for the player to select a tile to move to
         // Move the hero to the selected tile
     }
@@ -100,7 +104,6 @@ public class Hero : MonoBehaviour
                 // Wait for the player to select a target from the visible targets
                 GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
 
-                // Check if the target is in close range or long range
                 if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(selectedTarget))
                 {
                     Attack(selectedTarget);
