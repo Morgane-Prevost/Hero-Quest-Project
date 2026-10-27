@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b060768991000e43ae5ba5f4f7494f9, type: 3}
   m_Name: Card_Potion_Heroism
   m_EditorClassIdentifier: Assembly-CSharp::PotionCardSO
-  displayName: Heroism potion
+  displayName: Heroism Potion
   description: 
+  icon: {fileID: 0}
   artwork: {fileID: 0}
   potion: {fileID: 11400000, guid: 69301ec98b455f2498bc8cd12ba6855e, type: 2}

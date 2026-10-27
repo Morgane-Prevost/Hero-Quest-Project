@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f7ed3d261651b34fb8f146abb91af76, type: 3}
   m_Name: Card_Monster
   m_EditorClassIdentifier: Assembly-CSharp::WanderingMonsterCardSO
-  displayName: Wandering monster
+  displayName: Wandering Monster
   description: 
+  icon: {fileID: 0}
   artwork: {fileID: 0}
