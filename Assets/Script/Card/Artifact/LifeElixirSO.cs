@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "LifeElexirSO", menuName = "Scriptable Objects/LifeElexirSO")]
-public class LifeElexirSO : ArtifactCardSO
+[CreateAssetMenu(menuName = "Cards/Artifact/Life Elixir")]
+public class LifeElixirSO : ArtifactCardSO
 {
     public void Activate(Hero deadHero, IArtifactGame game) => game.Revive(deadHero);
 
