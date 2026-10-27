@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc00f4b9bd175314ab101b1f99943b7f, type: 3}
   m_Name: Card_Gem_35
   m_EditorClassIdentifier: Assembly-CSharp::GoldCardSO
-  displayName: Gems
+  displayName: Gem
   description: 
   icon: {fileID: 0}
   artwork: {fileID: 0}

@@ -10,7 +10,8 @@ public enum HeroType
     Dwarf = 2,
     Wizard = 3
 }
-public class Hero : MonoBehaviour
+
+public class Hero : MonoBehaviour, IPotionTarget
 {
     #region Hero Properties
     // Hero properties
@@ -18,6 +19,8 @@ public class Hero : MonoBehaviour
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
     public int mindPoints { get; set; }
+
+    public int currentBodyPoints { get; private set; }
     public int attackDices { get; set; }
     public int defenseDices { get; set; }
 
@@ -28,7 +31,7 @@ public class Hero : MonoBehaviour
     public List<ArmorData> armors;
     public int gold { get; set; }
 
-    private List<CardSO> inventory;
+    private List<CardSO> inventory = new List<CardSO>();
     private bool hasAToolBag = false;
 
     #endregion
@@ -39,11 +42,15 @@ public class Hero : MonoBehaviour
     private float eyeHeight = .2f;
     private int closeRangeCells = 1;
 
+    private int pendingAttackDiceBonus;
+    private int pendingDefenseDiceBonus;
+    private int pendingExtraAttacks;
 
     public void Initialize(HeroData heroData, string name)
     {
         heroName = name;
         bodyPoints = heroData.bodyPoints;
+        currentBodyPoints = bodyPoints;
         mindPoints = heroData.mindPoints;
         attackDices = heroData.attackDices;
         defenseDices = heroData.defenseDices;
@@ -372,6 +379,39 @@ public class Hero : MonoBehaviour
         }
     }
 
+    public bool UsePotion(PotionCardSO potion, IRandomPicker picker)
+    {
+        if (potion == null || !inventory.Contains(potion)) return false;
+
+        potion.Use(this, picker);
+        RemoveCardFromInventory(potion);
+        return true;
+    }
+
     // Inventory management methods
+    #endregion
+
+    #region IPotionTarget
+    public void Heal(int amount)
+    {
+        // bodyPoints holds the starting total
+        currentBodyPoints = Mathf.Min(currentBodyPoints + amount, bodyPoints);
+    }
+    public void AddAttackDiceNextAttack(int extraDice) => pendingAttackDiceBonus += extraDice;
+    public void AddDefenseDiceNextDefense(int extraDice) => pendingDefenseDiceBonus += extraDice;
+    public void AttackTwiceNextAttack() => pendingExtraAttacks++;
+
+    // Called by the combat code when the roll really happens: returns the bonus and resets it (single use).
+    public int ConsumeAttackDiceBonus() => TakeAndReset(ref pendingAttackDiceBonus);
+    public int ConsumeDefenseDiceBonus() => TakeAndReset(ref pendingDefenseDiceBonus);
+    public int ConsumeExtraAttacks() => TakeAndReset(ref pendingExtraAttacks);
+
+    private static int TakeAndReset(ref int value)
+    {
+        int taken = value;
+        value = 0;
+        return taken;
+    }
+
     #endregion
 }
