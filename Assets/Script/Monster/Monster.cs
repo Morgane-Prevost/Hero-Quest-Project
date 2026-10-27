@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using HeroQuest.Board;
+using UnityEngine;
 
 public class Monster : MonoBehaviour
 {

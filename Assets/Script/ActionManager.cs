@@ -1,5 +1,6 @@
 using UnityEditor.Sprites;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public enum WhiteDiceFaces
 {
@@ -15,7 +16,7 @@ public class ActionManager : MonoBehaviour
     //return damage inflicted
 
     public static ActionManager Instance { get; private set; }
-
+    public InputActionReference leftClick;
     private IRandomPicker picker;
     public void Initialize(IRandomPicker picker) => this.picker = picker;
 
@@ -31,6 +32,16 @@ public class ActionManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         if (picker == null) picker = new SystemRandomPicker();
+    }
+
+    private void OnEnable()
+    {
+        leftClick.action.Enable();
+    }
+
+    private void OnDisable()
+    {
+        leftClick.action.Disable();
     }
 
     public int Fight(Hero hero, Monster monster, bool heroIsAttacking)

@@ -1,7 +1,10 @@
-using UnityEngine;
-using System.Collections.Generic;
-using UnityEngine.Rendering;
 using HeroQuest.Board;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.UI;
 
 public enum HeroType
 {
@@ -25,11 +28,12 @@ public class Hero : MonoBehaviour, IPotionTarget
     public int defenseDices { get; set; }
 
     public int movementDices { get; set; }
-    public Vector2Int startingCell { get; set; }
 
     public WeaponData weapon;
     public List<ArmorData> armors;
     public int gold { get; set; }
+
+    GridPawn gridPawn;
 
     private List<CardSO> inventory = new List<CardSO>();
     private bool hasAToolBag = false;
@@ -46,7 +50,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     private int pendingDefenseDiceBonus;
     private int pendingExtraAttacks;
 
-    public void Initialize(HeroData heroData, string name)
+    public void Initialize(HeroData heroData, string name, Vector2Int cell)
     {
         heroName = name;
         bodyPoints = heroData.bodyPoints;
@@ -63,7 +67,8 @@ public class Hero : MonoBehaviour, IPotionTarget
         gold = heroData.gold;
 
 
-        GetComponent<GridPawn>().PlaceAt(startingCell);
+        gridPawn = GetComponent<GridPawn>();
+        gridPawn.PlaceAt(cell);
     }
 
     private void Start()
@@ -75,52 +80,107 @@ public class Hero : MonoBehaviour, IPotionTarget
     {
         int finalMovement = 0;
 
+        if (armors.Exists(armor => armor.movementPenalty != 0))
+        {
+            foreach (ArmorData armor in armors)
+            {
+                finalMovement -= armor.movementPenalty;
+            }
+        }
+
         // Roll the movement dice and display where the hero can move on the board
         for (int i = 0; i < movementDices; i++)
         {
             finalMovement += ActionManager.Instance.RollRedDice();
         }
 
-        
-        // Wait for the player to select a tile to move to
-        // Move the hero to the selected tile
+        StartCoroutine(MoveRoutine(gridPawn, finalMovement));
+    }
+    private IEnumerator MoveRoutine(GridPawn hero, int movePoints)
+    {
+        Vector2Int? chosen = null;
+        MovementSystem.Instance.BeginMove(hero, movePoints, c => chosen = c);
+
+        yield return new WaitUntil(() => chosen.HasValue);
+
+        gridPawn.PlaceAt(chosen.Value);
     }
 
     public void AttackAction()
     {
-        List<GameObject> visibleTargets = GetVisibleTargets();
+        StartCoroutine(AttackRoutine());
+    }
+
+    private IEnumerator AttackRoutine()
+    {
+        List<GameObject> visibleTargets = GetVisibleTargets(MonsterManager.Instance.GetAliveMonsters());
+
+        foreach (GameObject target in visibleTargets)
+        {
+            target.layer = LayerMask.NameToLayer("HighLight");
+        }
 
         if (weapon.canVisionAttack)
         {
             if (!weapon.canCloseRangeAttack)
             {
-                foreach(GameObject target in visibleTargets)
+                foreach (GameObject target in visibleTargets)
                 {
                     if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(target))
                     {
+                        target.layer = LayerMask.NameToLayer("Monster");
                         visibleTargets.Remove(target);
                     }
                 }
-                // Wait for the player to select a target from the visible targets
-                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                Debug.Log("Selected target: " + (selectedTarget != null ? selectedTarget.name : "None"));
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+
                 Attack(selectedTarget);
-                return;
+                foreach (GameObject target in visibleTargets)
+                {
+                    target.layer = LayerMask.NameToLayer("Monster");
+                }
+                yield break;
             }
             else if (weapon.canBeThrown)
             {
-                // Wait for the player to select a target from the visible targets
-                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
-
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
                 if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(selectedTarget))
                 {
                     Attack(selectedTarget);
-                    return;
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break;
                 }
                 else
                 {
                     Attack(selectedTarget);
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
                     weapon = null;
-                    return;
+                    yield break;
                 }
             }
         }
@@ -135,21 +195,47 @@ public class Hero : MonoBehaviour, IPotionTarget
                         visibleTargets.Remove(target);
                     }
                 }
-                // Wait for the player to select a target from the visible targets
-                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+
                 Attack(selectedTarget);
-                return;
+                foreach (GameObject target in visibleTargets)
+                {
+                    target.layer = LayerMask.NameToLayer("Monster");
+                }
+                yield break;
             }
             else
             {
-                // Wait for the player to select a target from the visible targets
-                GameObject selectedTarget = visibleTargets[0]; // For now, we will just select the first target in the list. This needs to be modified to wait for the player to select a target.
+                GameObject selectedTarget = null;
+                yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
+                if (selectedTarget == null)
+                {
+                    foreach (GameObject target in visibleTargets)
+                    {
+                        target.layer = LayerMask.NameToLayer("Monster");
+                    }
+                    yield break; // cancelled or no target
+                }
+
                 Attack(selectedTarget);
-                return;
+                foreach (GameObject target in visibleTargets)
+                {
+                    target.layer = LayerMask.NameToLayer("Monster");
+                }
+                yield break;
             }
         }
     }
-
+    
     public void SpellAction()
     {
         // Look at every enemy in the field of view that can be attacked
@@ -190,14 +276,32 @@ public class Hero : MonoBehaviour, IPotionTarget
 
     public void DisarmTrapAction()
     {
-        //If dwarf
-        //Move on the trap and roll a fighting dice (1/6)
-        // If the hero rolls a 1, he activates the trap and takes damage, else he disarms the trap
-
-        // Check if he has a tool bag in his inventory
-        // Move on the trap and roll a fighting dice (1/2)
-        // If the hero rolls a 1, he activates the trap and takes damage, else he disarms the trap
-        // Delete the trap
+        if (heroType == HeroType.Dwarf)
+        {
+            if (ActionManager.Instance.RollWhiteDice() == WhiteDiceFaces.BlackShield)
+            {
+                //Activates the trap and takes damage
+            }
+            else
+            {
+                //Disarms the trap
+            }
+        }
+        else if (hasAToolBag)
+        {
+            if (ActionManager.Instance.RollWhiteDice() == WhiteDiceFaces.Skull)
+            {
+                //Activates the trap and takes damage
+            }
+            else
+            {
+                //Disarms the trap
+            }
+        }
+        else
+        {
+            // Display a message that the hero cannot disarm the trap
+        }
     }
 
     private bool canLookForTreasure()
@@ -207,12 +311,12 @@ public class Hero : MonoBehaviour, IPotionTarget
         return true;
     }
 
-    private List<GameObject> GetVisibleTargets()
+    private List<GameObject> GetVisibleTargets(List<GameObject> targets)
     {
         var visible = new List<GameObject>();
         Vector3 origin = transform.position + Vector3.up * eyeHeight;
 
-        foreach (var target in MonsterManager.Instance.GetAliveMonsters())
+        foreach (var target in targets)
         {
             if (target == null || target == gameObject) continue;
 
@@ -249,10 +353,9 @@ public class Hero : MonoBehaviour, IPotionTarget
     }
     private bool IsMonsterCloseRanged(List<GameObject> visibleTargets)
     {
-        var self = GetComponent<GridPawn>();
-        if (self == null || visibleTargets == null) return false;
+        if (gridPawn == null || visibleTargets == null) return false;
 
-        Vector2Int myCell = self.Cell;
+        Vector2Int myCell = gridPawn.Cell;
 
         foreach (var target in visibleTargets)
         {
@@ -281,11 +384,10 @@ public class Hero : MonoBehaviour, IPotionTarget
     }
     private bool IsTargetDiagonal(GameObject target)
     {
-        var self = GetComponent<GridPawn>();
         var pawn = target != null ? target.GetComponent<GridPawn>() : null;
-        if (self == null || pawn == null) return false;
+        if (gridPawn == null || pawn == null) return false;
 
-        Vector2Int delta = pawn.Cell - self.Cell;
+        Vector2Int delta = pawn.Cell - gridPawn.Cell;
 
         return delta.x != 0 && delta.y != 0;
     }
