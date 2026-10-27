@@ -53,6 +53,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public void Initialize(HeroData heroData, string name, Vector2Int cell)
     {
         heroName = name;
+        heroType = heroData.type;
         bodyPoints = heroData.bodyPoints;
         currentBodyPoints = bodyPoints;
         mindPoints = heroData.mindPoints;
@@ -441,6 +442,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public bool canEquipWeapon(WeaponData weaponToCheck)
     {
         if (weaponToCheck == null || weapon != null) return false;
+        if (weaponToCheck is IArtifact artifactWeapon && !artifactWeapon.Info.CanBeUsedBy(heroType)) return false;
         if (!weaponToCheck.useWithWizard && heroType == HeroType.Wizard) return false;
         if (!weaponToCheck.useWithShield && armors.Exists(armor => armor.armorType == ArmorType.Shield)) return false;
         return true;
@@ -497,7 +499,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public void Heal(int amount)
     {
         // bodyPoints holds the starting total
-        currentBodyPoints = Mathf.Min(currentBodyPoints + amount, bodyPoints);
+        currentBodyPoints = Mathf.Min(currentBodyPoints + amount, MaxBodyPoints);
     }
     public void AddAttackDiceNextAttack(int extraDice) => pendingAttackDiceBonus += extraDice;
     public void AddDefenseDiceNextDefense(int extraDice) => pendingDefenseDiceBonus += extraDice;
@@ -515,5 +517,22 @@ public class Hero : MonoBehaviour, IPotionTarget
         return taken;
     }
 
+    #endregion
+
+    #region Artifact bonuses
+    // Computed on demand from the inventory: nothing to resync if an artifact changes hands.
+    public int MaxBodyPoints => bodyPoints + SumStatBonus(a => a.bodyPointsBonus);
+    public int MaxMindPoints => mindPoints + SumStatBonus(a => a.mindPointsBonus);
+    // Combat must use this instead of defenseDices (then add the potion bonus)
+    public int EffectiveDefenseDice => defenseDices + SumStatBonus(a => a.defenseDiceBonus);
+
+    private int SumStatBonus(System.Func<StatBonusArtifactSO, int> pick)
+    {
+        int total = 0;
+        foreach (CardSO card in inventory)
+            if (card is StatBonusArtifactSO bonus && bonus.Info.CanBeUsedBy(heroType))
+                total += pick(bonus);
+        return total;
+    }
     #endregion
 }

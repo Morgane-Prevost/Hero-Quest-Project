@@ -18,7 +18,7 @@ public class ArtifactInfo
     public HeroType[] onlyHeroes;           // empty = no restriction
     public HeroType[] forbiddenHeroes;      // empty = no restriction
 
-    public bool CanBeUseBy(HeroType type)
+    public bool CanBeUsedBy(HeroType type)
     {
         if (onlyHeroes != null && onlyHeroes.Length > 0 && Array.IndexOf(onlyHeroes, type) < 0) return false; 
         if(forbiddenHeroes != null && Array.IndexOf(forbiddenHeroes, type) >= 0) return false;
