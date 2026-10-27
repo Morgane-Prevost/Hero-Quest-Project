@@ -28,5 +28,5 @@ public class ArtifactInfo
 
 public interface IArtifact
 {
-    ArtifactInfo info { get; }
+    ArtifactInfo Info { get; }
 }
