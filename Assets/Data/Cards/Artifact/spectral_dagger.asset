@@ -25,7 +25,7 @@ MonoBehaviour:
   canCloseRangeAttack: 0
   canBeThrown: 0
   canVisionAttack: 0
-  useWithWizard: 0
+  useWithWizard: 1
   useWithShield: 0
   info:
     id: spectral_dagger
