@@ -9,6 +9,7 @@ public class QuestPanel : MonoBehaviour
     [SerializeField] private TMP_Text toggleButtonText;
     [SerializeField] private GameObject questBox;
     [SerializeField] private ListPanel listPanel;
+    [SerializeField] private InventoryPanel inventoryPanel;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class QuestPanel : MonoBehaviour
         {
             toggleButtonText.text = "-";
             listPanel.ClearSelection();
+            inventoryPanel.Close();
         }
         else
         {

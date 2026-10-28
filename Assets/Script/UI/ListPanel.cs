@@ -10,6 +10,7 @@ public class ListPanel : MonoBehaviour
     [SerializeField] private TMP_Text arrowText;
     [SerializeField] private FichePanel fichePanel;
     [SerializeField] private QuestPanel questPanel;
+    [SerializeField] private InventoryPanel inventoryPanel;
 
     [Header("Lists")]
     [SerializeField] private Transform monsterGrid;
@@ -112,6 +113,7 @@ public class ListPanel : MonoBehaviour
         SetUnderline(selectedButton, true);
 
         questPanel.Close();
+        inventoryPanel.Close();
         return true;
     }
 

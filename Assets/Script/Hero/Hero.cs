@@ -36,6 +36,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     GridPawn gridPawn;
 
     private List<CardSO> inventory = new List<CardSO>();
+    public IReadOnlyList<CardSO> Inventory => inventory;
     private bool hasAToolBag = false;
 
     #endregion
