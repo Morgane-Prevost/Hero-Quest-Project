@@ -22,6 +22,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
     public int mindPoints { get; set; }
+    public HeroData Data { get; private set; }
 
     public int currentBodyPoints { get; private set; }
     public int attackDices { get; set; }
@@ -54,6 +55,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public void Initialize(HeroData heroData, string name, Vector2Int cell)
     {
         heroName = name;
+        Data = heroData;
         heroType = heroData.type;
         bodyPoints = heroData.bodyPoints;
         currentBodyPoints = bodyPoints;

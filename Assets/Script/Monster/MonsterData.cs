@@ -10,6 +10,8 @@ public class MonsterData : ScriptableObject
     [Tooltip("Unique, lowercase, never renamed once published (e.g. \"goblin\").")]
     public string id;
 
+    [TextArea] public string description;
+
     [Tooltip("Families, e.g. \"undead\" (empty = none).")]
     public string[] tags;
 

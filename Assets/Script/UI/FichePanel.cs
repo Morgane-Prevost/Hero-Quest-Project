@@ -22,7 +22,8 @@ public class FichePanel : MonoBehaviour
             "Attack Dice : " + monster.attackDices + "\n" +
             "Defend Dice : " + monster.defenseDices + "\n" +
             "Body Points : " + monster.healthPoints + "\n" +
-            "Mind Points : " + monster.mindPoints;
+            "Mind Points : " + monster.mindPoints + "\n" +
+            monster.description;
 
         box.SetActive(true);
     }

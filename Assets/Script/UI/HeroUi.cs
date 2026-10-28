@@ -6,23 +6,34 @@ public class HeroUi : MonoBehaviour
     [SerializeField] private StatsPanel statsPanel;
     [SerializeField] private PortraitPanel portraitPanel;
     [SerializeField] private CardViewer cardViewer;
+    [SerializeField] private InventoryPanel inventoryPanel;
 
-    [Header("Hero")]
-    [SerializeField] private HeroData startHero;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     private void Start()
     {
-        if (startHero != null)
+        if (TurnManager.Instance != null)
         {
-            SetHero(startHero);
+            TurnManager.Instance.HeroTurnStarted += OnHeroTurnStarted;
         }
     }
 
-    public void SetHero(HeroData hero)
+    private void OnDestroy()
+    {
+        if (TurnManager.Instance != null)
+        {
+            TurnManager.Instance.HeroTurnStarted -= OnHeroTurnStarted;
+        }
+    }
+
+    private void OnHeroTurnStarted(Hero hero)
+    {
+        SetHero(hero);
+    }
+
+    public void SetHero(Hero hero)
     {
         statsPanel.SetHero(hero);
-        portraitPanel.SetHero(hero);
-        cardViewer.SetHero(hero);
+        portraitPanel.SetHero(hero.Data);
+        cardViewer.SetHero(hero.Data);
+        inventoryPanel.SetHero(hero);
     }
 }

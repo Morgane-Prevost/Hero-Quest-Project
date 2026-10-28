@@ -8,10 +8,10 @@ public class StatsPanel : MonoBehaviour
     [SerializeField] private TMP_Text lifeText;
     [SerializeField] private TMP_Text spiritText;
 
-    public void SetHero(HeroData hero)
+    public void SetHero(Hero hero)
     {
         nameText.text = "Stats : " + hero.name;
-        lifeText.text = "Body points : " + hero.bodyPoints;
+        lifeText.text = "Body points : " + hero.currentBodyPoints;
         spiritText.text = "Mind Points : " + hero.mindPoints;
     }
 }
