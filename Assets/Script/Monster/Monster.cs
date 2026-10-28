@@ -12,11 +12,17 @@ public class Monster : MonoBehaviour
     public int defenseDices;
     public int movementCells;
 
-    // Turn state: enforces "move + action" or "action + move".
+    // Turn state: enforces "move + action" or "action + move", never move-action-move.
     public bool hasMoved;
     public bool hasActed;
 
     private GridPawn pawn;
+
+    // Identity and families (from MonsterData). Tags are used by combat/spell rules, e.g. "undead".
+    private string[] tags = Array.Empty<string>();
+    public string Id { get; private set; }
+    public string[] Tags => tags;   // string[] so it can be copied into AttackContext.targetTags
+    public bool HasTag(string tag) => Array.IndexOf(tags, tag) >= 0;
 
     // The GridPawn is what puts the monster on the board (and what Hero / MovementSystem look at).
     public GridPawn Pawn
@@ -28,7 +34,7 @@ public class Monster : MonoBehaviour
         }
     }
 
-    // Logical cell of the monster = cell of its GridPawn .
+    // Logical cell of the monster = cell of its GridPawn (single source of truth, no copy to keep in sync).
     public Vector2Int cell
     {
         get { return (Pawn != null && Pawn.HasCell) ? Pawn.Cell : new Vector2Int(-1, -1); }
@@ -40,10 +46,13 @@ public class Monster : MonoBehaviour
 
     public event Action<Monster> Died;
 
+    //To add when classes are implemented
 
     public void Initialize(MonsterData monsterData, string name)
     {
         monsterName = name;
+        Id = monsterData.id;
+        tags = monsterData.tags != null ? (string[])monsterData.tags.Clone() : Array.Empty<string>();
         healthPoints = monsterData.healthPoints;
         mindPoints = monsterData.mindPoints;
         attackDices = monsterData.attackDices;
