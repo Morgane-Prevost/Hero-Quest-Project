@@ -14,6 +14,10 @@ public interface ISpellHeroTarget
 public interface ISpellMonsterTarget
 {
     void TakeDamage(int amount); 
+    bool HasTag(string tag);
+    void SkipNextTurn();
+    void FallAsleep();
+    bool TryBreakSleep(IRandomPicker picker); // true if the monster is free (or was not asleep)
 }
 
 // Base of the 12 hero spells. One subclass per KIND of effect, values live in the assets.
@@ -27,4 +31,7 @@ public class SpellCardSO : CardSO
     public virtual void CastOnHero(ISpellHeroTarget target, IRandomPicker picker) => throw new System.InvalidOperationException($"{displayName} cannot target a hero");
 
     public virtual void CastOnMonster(ISpellMonsterTarget target, IRandomPicker picker) => throw new System.InvalidOperationException($"{displayName} cannot target a monster");
+
+    // Spells with limits on their target (sleep) override it. The caller must not offer invalid targets.
+    public virtual bool CanTarget(ISpellMonsterTarget target) => true;
 }
