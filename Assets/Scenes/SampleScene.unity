@@ -59573,10 +59573,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a71cf8262964623994ab38e87aebbbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterManager
-  monsters: []
-  aliveMonsters:
-  - {fileID: 0}
-  - {fileID: 0}
+  board: {fileID: 321306690}
+  level: {fileID: 321306689}
+  monsters:
+  - {fileID: 11400000, guid: 2ffb383320ab5454fad43b1b3be007b0, type: 2}
 --- !u!4 &1143686998
 Transform:
   m_ObjectHideFlags: 0
