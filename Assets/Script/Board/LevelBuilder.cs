@@ -5,21 +5,34 @@ using UnityEngine;
 
 namespace HeroQuest.Board
 {
-    /// <summary>Replaces the visual of an element type (e.g., "Chest", "Door", "Goblin", "Pit") with an imported prefab.</summary>
+    /// <summary>Which side of a room/corridor wall receives the textured face of a one-sided wall prefab.</summary>
+    public enum WallFaceRule { TowardRoom, TowardCorridor, BothSides }
+
+    /// <summary>How the wall prefab is textured.</summary>
+    public enum WallPrefabFaces
+    {
+        OneSidePlusZ,   // textured on its +Z face, flat on -Z (the builder orients it, or doubles it back to back)
+        BothSides       // textured on both faces: used as is, one instance per wall
+    }
+
+    /// <summary>Replaces the visual of an element type (e.g. "Chest", "Door", "Goblin", "Pit") with imported prefabs.</summary>
     [Serializable]
     public class PlaceableBinding
     {
         public string type;
-        [Tooltip("Any pivot. Model front face = +Z.")]
+        [Tooltip("Closed / default model. Any pivot. The model's front face must point to +Z.")]
         public GameObject prefab;
+        [Tooltip("Optional model shown once the element is opened (open chest, open door). Same conventions as Prefab.")]
+        public GameObject openPrefab;
         public PrefabFitMode fit = PrefabFitMode.Stretch;
-        [Tooltip("Desired height (0 = model's original height).")]
+        [Tooltip("Wanted height (0 = keep the model's native height).")]
         public float height = 0f;
     }
 
     /// <summary>
-    /// Builds the contents of a level on top of the grid map: walls, doors, stairs, obstacles,
-    /// furniture/chests, monsters, traps. Also handles revelation (Heroes screen vs Zargon screen).
+    /// Builds the content of one level on top of the grid map: walls, doors, stairs, blocked squares,
+    /// furniture/chests, monsters, traps. Also handles visibility (heroes screen vs Zargon screen),
+    /// door/chest opening, trap states and unused rooms.
     /// </summary>
     public class LevelBuilder : MonoBehaviour
     {
@@ -27,24 +40,34 @@ namespace HeroQuest.Board
         public BoardBuilder board;
 
         [Header("Level (JSON)")]
+        [Tooltip("Level file of the project (Assets/Script/Board/Levels). Has priority.")]
         public TextAsset levelJson;
+        [Tooltip("Path relative to StreamingAssets, used only when Level Json is empty (extensions).")]
         public string levelPath = "";
+        [Tooltip("Build automatically as soon as the grid map is ready.")]
         public bool autoBuild = true;
 
         [Header("Walls")]
         public float wallHeight = 1f;
         public float wallThickness = 0.12f;
         public bool wallColliders = false;
+        [Tooltip("Used by the default wall (cube) only.")]
         public Material wallMaterial;
+        [Tooltip("Imported wall prefab (any size/pivot: fitted through its Bounds). Textured face = +Z.")]
         public GameObject wallPrefab;
         public PrefabFitMode wallFitMode = PrefabFitMode.Stretch;
+        [Tooltip("OneSidePlusZ: textured on +Z only. BothSides: textured on both faces.")]
+        public WallPrefabFaces wallFaces = WallPrefabFaces.OneSidePlusZ;
+        [Tooltip("Room/corridor walls: side that gets the textured face (one-sided prefab only).")]
+        public WallFaceRule wallTexturedFace = WallFaceRule.TowardRoom;
+        [Tooltip("Walls overshoot by half a thickness at both ends so corners have no gap.")]
         public bool wallOvershoot = true;
 
-        [Header("Visibility Layers")]
-        [Tooltip("Layer visible ONLY by Zargon's screen (elements not yet revealed to heroes).")]
+        [Header("Visibility layers")]
+        [Tooltip("Layer seen ONLY by Zargon's screen (elements not yet revealed to the heroes).")]
         public string zargonLayerName = "ZargonView";
 
-        [Header("Elements: Imported Visuals (replaces placeholders)")]
+        [Header("Elements: imported visuals (replace the placeholders)")]
         public List<PlaceableBinding> placeables = new List<PlaceableBinding>();
 
         // ---- Public API ----
@@ -53,17 +76,31 @@ namespace HeroQuest.Board
         public IEnumerable<PlacedElement> Elements { get { return placed.Values; } }
 
         public event Action<LevelBuilder> LevelBuilt;
-        /// <summary>A wall segment has been visually hidden/restored (revealed door...).</summary>
+        /// <summary>A wall segment was hidden/restored visually (a door was revealed, ...).</summary>
         public event Action<EdgeKey, bool> EdgeOpenChanged;
-        public event Action<ElementDef> ElementRevealed;             // became visible to heroes
-        public event Action<ElementDef, bool> ElementOpened;         // door / chest opened
+        /// <summary>An element became visible to the heroes.</summary>
+        public event Action<ElementDef> ElementRevealed;
+        /// <summary>A door or chest was opened/closed.</summary>
+        public event Action<ElementDef, bool> ElementOpened;
         public event Action<ElementDef, TrapState> TrapStateChanged;
 
         const string RootName = "LevelGenerated";
 
+        // Which wall faces must be textured for a given edge.
+        enum WallFace { TowardA, TowardB, Both }   // A = South/West cell, B = North/East cell
+
+        // Size used to build an element's visual (needed to build its "open" model later).
+        sealed class VisualInfo
+        {
+            public Vector3 size;
+            public float heightFallback;
+            public GameObject openVisual;
+        }
+
         readonly Dictionary<EdgeKey, GameObject> walls = new Dictionary<EdgeKey, GameObject>();
         readonly HashSet<EdgeKey> openEdges = new HashSet<EdgeKey>();
         readonly Dictionary<string, PlacedElement> placed = new Dictionary<string, PlacedElement>();
+        readonly Dictionary<string, VisualInfo> visuals = new Dictionary<string, VisualInfo>();
         readonly HashSet<int> revealedZones = new HashSet<int>();
         readonly Dictionary<string, Material> mats = new Dictionary<string, Material>();
         readonly List<UnityEngine.Object> owned = new List<UnityEngine.Object>();
@@ -76,7 +113,7 @@ namespace HeroQuest.Board
 
         void OnEnable()
         {
-            if (board == null) { Debug.LogError("[Level] No BoardBuilder assigned."); return; }
+            if (board == null) { Debug.LogError("[Level] Aucun BoardBuilder assigné."); return; }
             board.BoardBuilt += OnBoardBuilt;
             board.BoardCleared += OnBoardCleared;
         }
@@ -88,7 +125,12 @@ namespace HeroQuest.Board
             board.BoardCleared -= OnBoardCleared;
         }
 
-        void Start() { if (autoBuild && Model == null && board != null && board.Model != null) Build(); }
+        void Start()
+        {
+            // Covers the case where the grid map was already built before this component started.
+            if (autoBuild && Model == null && board != null && board.Model != null) Build();
+        }
+
         void OnDestroy() { DestroyOwned(); }
         void OnBoardBuilt(BoardBuilder b) { if (autoBuild) Build(); }
         void OnBoardCleared() { Clear(); }
@@ -99,31 +141,32 @@ namespace HeroQuest.Board
         public GameObject GetWall(EdgeKey e) { GameObject g; return walls.TryGetValue(e, out g) ? g : null; }
         public bool IsEdgeOpen(EdgeKey e) { return openEdges.Contains(e); }
 
-        /// <summary>Hides (open=true) or visually restores a wall. Doors already use this automatically.</summary>
+        /// <summary>Hides (open=true) or restores a wall segment visually. Doors already do this on their own.</summary>
         public void SetEdgeOpen(EdgeKey e, bool open)
         {
-            if (!walls.ContainsKey(e)) { Debug.LogWarning("[Level] No wall on edge " + e); return; }
+            if (!walls.ContainsKey(e)) { Debug.LogWarning("[Level] Aucun mur sur l'arête " + e); return; }
             HideWall(e, open);
-            if (EdgeOpenChanged != null) EdgeOpenChanged(e, open);
         }
 
+        // Hides/restores a wall and raises EdgeOpenChanged only when the state really changes.
         void HideWall(EdgeKey e, bool hide)
         {
             GameObject w;
             if (!walls.TryGetValue(e, out w)) return;
             bool was = openEdges.Contains(e);
+            if (was == hide) return;
             if (hide) openEdges.Add(e); else openEdges.Remove(e);
             w.SetActive(!hide);
-            if (was != hide && EdgeOpenChanged != null) EdgeOpenChanged(e, hide);
+            if (EdgeOpenChanged != null) EdgeOpenChanged(e, hide);
         }
 
         // =====================================================================
-        //  Revelation (Heroes screen): called by Lead Dev
+        //  Reveal (heroes screen): called by the game logic
         // =====================================================================
         public PlacedElement GetElement(string id) { PlacedElement p; return placed.TryGetValue(id, out p) ? p : null; }
         public bool IsZoneRevealed(int zone) { return revealedZones.Contains(zone); }
 
-        /// <summary>Reveals a specific element to the heroes (secret door found, hidden treasure found, monster in line of sight...).</summary>
+        /// <summary>Reveals one specific element to the heroes (secret door found, hidden treasure found, monster in sight...).</summary>
         public bool RevealElement(string id)
         {
             PlacedElement pe;
@@ -132,7 +175,7 @@ namespace HeroQuest.Board
             return Reveal(pe);
         }
 
-        /// <summary>Reveals all NON-hidden contents of a zone (room N). Zone 0 = all corridors (to be avoided).</summary>
+        /// <summary>Reveals every NON hidden element of a zone (room N). Zone 0 = all corridors (avoid).</summary>
         public void RevealZone(int zone)
         {
             revealedZones.Add(zone);
@@ -140,7 +183,7 @@ namespace HeroQuest.Board
                 if (!pe.Def.hidden && pe.Def.kind != ElementKind.Trap && pe.Def.zones.Contains(zone)) Reveal(pe);
         }
 
-        /// <summary>Reveals the non-hidden contents of a cell (line of sight in a corridor).</summary>
+        /// <summary>Reveals the non hidden content of one cell (line of sight in a corridor).</summary>
         public void RevealCell(int x, int y)
         {
             foreach (var pe in placed.Values)
@@ -152,6 +195,8 @@ namespace HeroQuest.Board
             if (pe.VisibleToHeroes) return false;
             pe.VisibleToHeroes = true;
             ApplyVisibility(pe);
+            // Optional reveal animation: Animator trigger parameter named "Reveal".
+            if (HasParam(pe.animator, "Reveal", AnimatorControllerParameterType.Trigger)) pe.animator.SetTrigger("Reveal");
             if (ElementRevealed != null) ElementRevealed(pe.Def);
             return true;
         }
@@ -161,25 +206,46 @@ namespace HeroQuest.Board
         {
             PlacedElement pe;
             if (!TryGet(id, out pe)) return false;
-            if (pe.Def.kind != ElementKind.Door) { Debug.LogWarning("[Level] '" + id + "' is not a door."); return false; }
+            if (pe.Def.kind != ElementKind.Door) { Debug.LogWarning("[Level] '" + id + "' n'est pas une porte."); return false; }
             Reveal(pe);
             bool changed = SetOpen(id, true);
             foreach (int z in pe.Def.zones) if (z > 0) RevealZone(z);
             return changed;
         }
 
-        /// <summary>Opens / closes a door or chest (visual: Animator "Open" parameter if present, otherwise placeholder squashed).</summary>
+        /// <summary>
+        /// Opens/closes a door or a chest. Visual, by priority: the binding's Open Prefab, the "Open" bool of the
+        /// prefab's Animator, otherwise the placeholder is squashed. A door never closes again.
+        /// </summary>
         public bool SetOpen(string id, bool open)
         {
             PlacedElement pe;
             if (!TryGet(id, out pe)) return false;
             ElementKind k = pe.Def.kind;
-            if (k != ElementKind.Door && k != ElementKind.Furniture) { Debug.LogWarning("[Level] '" + id + "' cannot be opened."); return false; }
+            if (k != ElementKind.Door && k != ElementKind.Furniture) { Debug.LogWarning("[Level] '" + id + "' ne peut pas s'ouvrir."); return false; }
             if (pe.IsOpen == open) return false;
-            if (!open && k == ElementKind.Door) { Debug.LogWarning("[Level] An open door cannot be closed."); return false; }
+            if (!open && k == ElementKind.Door) { Debug.LogWarning("[Level] Une porte ouverte ne se referme pas."); return false; }
 
             pe.IsOpen = open;
-            if (pe.animator != null) pe.animator.SetBool("Open", open);
+
+            VisualInfo vi;
+            PlaceableBinding b = FindBinding(pe.Def.type);
+            if (b != null && b.openPrefab != null && pe.visual != null && visuals.TryGetValue(pe.Def.id, out vi))
+            {
+                // Swap the closed model for the open one (built on first use).
+                if (vi.openVisual == null)
+                {
+                    float h = b.height > 0f ? b.height : vi.heightFallback;
+                    vi.openVisual = PrefabFit.Instantiate(b.openPrefab, pe.transform, new Vector3(vi.size.x, h, vi.size.z), b.fit);
+                }
+                pe.visual.SetActive(!open);
+                vi.openVisual.SetActive(open);
+                ApplyVisibility(pe);   // gives the right layer to the model that was just created
+            }
+            else if (HasParam(pe.animator, "Open", AnimatorControllerParameterType.Bool))
+            {
+                pe.animator.SetBool("Open", open);
+            }
             else if (pe.visual != null)
             {
                 Vector3 s = pe.visual.transform.localScale;
@@ -189,18 +255,18 @@ namespace HeroQuest.Board
             return true;
         }
 
-        /// <summary>A hero searched for traps: the cell becomes suspicious (outline, WITHOUT tile).</summary>
+        /// <summary>A hero searched for traps: the cell becomes suspect (outline only, NO tile).</summary>
         public bool HighlightTrap(string id) { return SetTrap(id, TrapState.Highlighted); }
 
-        /// <summary>The trap triggers: the tile is placed.</summary>
+        /// <summary>The trap is triggered: its tile is laid down.</summary>
         public bool TriggerTrap(string id) { return SetTrap(id, TrapState.Triggered); }
 
         bool SetTrap(string id, TrapState s)
         {
             PlacedElement pe;
             if (!TryGet(id, out pe)) return false;
-            if (pe.Def.kind != ElementKind.Trap) { Debug.LogWarning("[Level] '" + id + "' is not a trap."); return false; }
-            if (s <= pe.Trap) return false;
+            if (pe.Def.kind != ElementKind.Trap) { Debug.LogWarning("[Level] '" + id + "' n'est pas un piège."); return false; }
+            if (s <= pe.Trap) return false;                 // states only progress: Hidden < Highlighted < Triggered
             pe.Trap = s;
             ApplyVisibility(pe);
             if (TrapStateChanged != null) TrapStateChanged(pe.Def, s);
@@ -210,12 +276,20 @@ namespace HeroQuest.Board
         bool TryGet(string id, out PlacedElement pe)
         {
             if (placed.TryGetValue(id, out pe)) return true;
-            Debug.LogWarning("[Level] Unknown element: '" + id + "'.");
+            Debug.LogWarning("[Level] Élément inconnu : '" + id + "'.");
+            return false;
+        }
+
+        // True when the animator has a parameter with this name and type (avoids Unity warnings).
+        static bool HasParam(Animator a, string name, AnimatorControllerParameterType type)
+        {
+            if (a == null || a.runtimeAnimatorController == null) return false;
+            foreach (var p in a.parameters) if (p.type == type && p.name == name) return true;
             return false;
         }
 
         // =====================================================================
-        //  Construction
+        //  Build
         // =====================================================================
         [ContextMenu("Build Level")]
         public bool Build()
@@ -228,6 +302,7 @@ namespace HeroQuest.Board
             return BuildFromData(data);
         }
 
+        /// <summary>For the extension loader / level selector: build from a JSON string.</summary>
         public bool BuildFromJson(string json, string sourceName = "extension")
         {
             LevelData data; string err;
@@ -238,7 +313,7 @@ namespace HeroQuest.Board
         public bool BuildFromData(LevelData data)
         {
             if (board == null || board.Model == null)
-            { Debug.LogError("[Level] Build the grid map first (BoardBuilder)."); return false; }
+            { Debug.LogError("[Level] Construis d'abord la grid map (BoardBuilder)."); return false; }
 
             Clear();
 
@@ -250,16 +325,18 @@ namespace HeroQuest.Board
 
             Data = data; Model = model;
             ResolveLayers();
+            ApplyUnusedRooms();
 
             var root = new GameObject(RootName).transform;
-            root.SetParent(board.transform, false);
+            root.SetParent(board.transform, false);   // same local coordinates as the grid map
             root.gameObject.layer = boardLayer;
 
             BuildWalls(root);
             BuildElements(root);
             ApplyInitialReveal();
 
-            Debug.Log("[Level] '" + Model.id + "' OK: " + Model.WallEdges.Count + " walls, " + Model.Elements.Count + " elements.");
+            Debug.Log("[Level] '" + Model.id + "' OK : " + Model.WallEdges.Count + " murs, " +
+                      Model.Elements.Count + " éléments, " + Model.UnusedZones.Count + " salles inutilisées.");
             if (LevelBuilt != null) LevelBuilt(this);
             return true;
         }
@@ -267,13 +344,15 @@ namespace HeroQuest.Board
         [ContextMenu("Clear Level")]
         public void Clear()
         {
+            RestoreAllCells();   // give back the floors hidden by the previous level
+
             if (board != null)
             {
                 var t = board.transform.Find(RootName);
                 if (t != null) { t.name = RootName + "_old"; SafeDestroy(t.gameObject); }
             }
             DestroyOwned();
-            walls.Clear(); openEdges.Clear(); placed.Clear(); revealedZones.Clear(); mats.Clear();
+            walls.Clear(); openEdges.Clear(); placed.Clear(); visuals.Clear(); revealedZones.Clear(); mats.Clear();
             runtimeWallMat = null;
             Model = null; Data = null;
         }
@@ -296,54 +375,131 @@ namespace HeroQuest.Board
             if (zargonLayer < 0)
             {
                 zargonLayer = boardLayer;
-                Debug.LogWarning("[Level] Layer '" + zargonLayerName + "' not found: hidden elements will be visible to ALL. " +
-                                 "Create it in Project Settings > Tags and Layers.");
+                Debug.LogWarning("[Level] Layer '" + zargonLayerName + "' introuvable : les éléments cachés seront visibles par TOUS. " +
+                                 "Crée-le dans Project Settings > Tags and Layers.");
             }
+        }
+
+        // ---------- Unused rooms ----------
+        // Hides the floor of every room the level declares as unused (cells then refuse pawns and picking).
+        void ApplyUnusedRooms()
+        {
+            foreach (int zone in Model.UnusedZones)
+                foreach (var c in board.Model.RoomCells(zone))
+                {
+                    CellView cv = board.GetCell(c.x, c.y);
+                    if (cv != null) cv.SetPlayable(false);
+                }
+        }
+
+        // Restores every cell hidden by a previous level (called on clear / rebuild).
+        void RestoreAllCells()
+        {
+            if (board == null || board.Model == null) return;
+            for (int x = 0; x < board.Model.width; x++)
+                for (int y = 0; y < board.Model.height; y++)
+                {
+                    CellView cv = board.GetCell(x, y);
+                    if (cv != null && !cv.Playable) cv.SetPlayable(true);
+                }
         }
 
         // ---------- Walls ----------
+        // One root object per wall edge. In the root's local space +Z points toward cell B (North / East)
+        // and -Z toward cell A (South / West). Slabs sit on the floor (pivot = bottom center).
         void BuildWalls(Transform parent)
         {
             float len = board.tileSize + (wallOvershoot ? wallThickness : 0f);
+            bool oneSided = wallPrefab != null && wallFaces == WallPrefabFaces.OneSidePlusZ;
+
             foreach (var e in Model.WallEdges)
             {
-                GameObject w;
-                Vector3 pos = board.EdgeToLocal(e);
-                if (wallPrefab != null)
-                    w = PrefabFit.Instantiate(wallPrefab, parent, new Vector3(len, wallHeight, wallThickness), wallFitMode);
+                var root = new GameObject("Wall_" + e);
+                root.transform.SetParent(parent, false);
+                root.transform.localPosition = board.EdgeToLocal(e);
+                root.transform.localRotation = e.horizontal ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
+
+                if (!oneSided)
+                {
+                    AddWallSlab(root.transform, len, wallThickness, 0f, false);       // symmetric wall
+                }
                 else
                 {
-                    w = CreateDefaultWall(parent);
-                    w.transform.localScale = new Vector3(len, wallHeight, wallThickness);
-                    pos.y = wallHeight * 0.5f;
+                    WallFace face = ChooseWallFace(e);
+                    if (face == WallFace.TowardB) AddWallSlab(root.transform, len, wallThickness, 0f, false);
+                    else if (face == WallFace.TowardA) AddWallSlab(root.transform, len, wallThickness, 0f, true);
+                    else
+                    {
+                        // Both faces needed: two half-thickness slabs back to back (flat faces hidden inside).
+                        float half = wallThickness * 0.5f;
+                        AddWallSlab(root.transform, len, half, half * 0.5f, false);   // textured face toward B
+                        AddWallSlab(root.transform, len, half, -half * 0.5f, true);   // textured face toward A
+                    }
                 }
-                w.name = "Wall_" + e;
-                w.transform.localPosition = pos;
-                w.transform.localRotation = e.horizontal ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
-                SetLayerRecursive(w, boardLayer);
-                foreach (var c in w.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
-                walls[e] = w;
+
+                SetLayerRecursive(root, boardLayer);
+                foreach (var c in root.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
+                walls[e] = root;
             }
         }
 
-        GameObject CreateDefaultWall(Transform parent)
+        // Decides which side(s) of a wall must show the textured face.
+        WallFace ChooseWallFace(EdgeKey e)
         {
-            if (runtimeWallMat == null)
+            BoardModel bm = board.Model;
+            Vector2Int a = e.CellA, b = e.CellB;
+            int za = bm.ZoneAt(a.x, a.y), zb = bm.ZoneAt(b.x, b.y);
+            bool pa = za >= 0 && !Model.IsUnusedZone(za);     // playable side?
+            bool pb = zb >= 0 && !Model.IsUnusedZone(zb);
+
+            if (pa && !pb) return WallFace.TowardA;           // next to void / unused room: face the playable side
+            if (pb && !pa) return WallFace.TowardB;
+            if (!pa && !pb) return WallFace.TowardB;          // nothing playable on either side (explicit walls only)
+
+            if (wallTexturedFace == WallFaceRule.BothSides) return WallFace.Both;
+            bool ra = za > 0, rb = zb > 0;                    // is it a room?
+            if (ra == rb) return WallFace.Both;               // room|room or corridor|corridor
+            bool towardRoom = wallTexturedFace == WallFaceRule.TowardRoom;
+            return (ra == towardRoom) ? WallFace.TowardA : WallFace.TowardB;
+        }
+
+        // Creates one wall slab (imported prefab or default cube). flip = textured face toward -Z (cell A).
+        GameObject AddWallSlab(Transform parent, float len, float thickness, float offsetZ, bool flip)
+        {
+            Vector3 size = new Vector3(len, wallHeight, thickness);
+            GameObject slab;
+            if (wallPrefab != null)
             {
-                if (wallMaterial != null) runtimeWallMat = wallMaterial;
-                else
-                {
-                    runtimeWallMat = new Material(FloorStyleFactory.FindLitShader());
-                    runtimeWallMat.color = new Color(0.93f, 0.91f, 0.85f); // HeroQuest white walls
-                    owned.Add(runtimeWallMat);
-                }
+                slab = PrefabFit.Instantiate(wallPrefab, parent, size, wallFitMode);
             }
-            var go = new GameObject("Wall");
-            go.transform.SetParent(parent, false);
-            go.AddComponent<MeshFilter>().sharedMesh = GetPrimMesh(PrimitiveType.Cube);
-            go.AddComponent<MeshRenderer>().sharedMaterial = runtimeWallMat;
-            if (wallColliders) go.AddComponent<BoxCollider>();
-            return go;
+            else
+            {
+                slab = new GameObject("Slab");
+                slab.transform.SetParent(parent, false);
+                var body = new GameObject("Body");
+                body.transform.SetParent(slab.transform, false);
+                body.transform.localPosition = new Vector3(0f, size.y * 0.5f, 0f);
+                body.transform.localScale = size;
+                body.AddComponent<MeshFilter>().sharedMesh = GetPrimMesh(PrimitiveType.Cube);
+                body.AddComponent<MeshRenderer>().sharedMaterial = GetWallMaterial();
+                if (wallColliders) body.AddComponent<BoxCollider>();
+            }
+            slab.transform.localPosition = new Vector3(0f, 0f, offsetZ);
+            slab.transform.localRotation = flip ? Quaternion.Euler(0f, 180f, 0f) : Quaternion.identity;
+            return slab;
+        }
+
+        Material GetWallMaterial()
+        {
+            if (runtimeWallMat != null) return runtimeWallMat;
+            if (wallMaterial != null) runtimeWallMat = wallMaterial;
+            else
+            {
+                runtimeWallMat = new Material(FloorStyleFactory.FindLitShader());
+                runtimeWallMat.color = new Color(0.93f, 0.91f, 0.85f);   // white HeroQuest walls
+                owned.Add(runtimeWallMat);
+            }
+            return runtimeWallMat;
         }
 
         // ---------- Elements ----------
@@ -367,6 +523,7 @@ namespace HeroQuest.Board
                     case ElementKind.Monster: BuildMonster(pe); break;
                     default: BuildSolid(pe); break;     // Stairs, Blocked, Furniture
                 }
+                if (pe.visual != null) pe.animator = pe.visual.GetComponentInChildren<Animator>();
                 placed[def.id] = pe;
             }
         }
@@ -381,13 +538,14 @@ namespace HeroQuest.Board
             return type != null && type.IndexOf("chest", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
+        // Multi-cell elements (stairs, blocked squares, furniture): centered on their footprint.
         void BuildSolid(PlacedElement pe)
         {
             ElementDef d = pe.Def; float t = board.tileSize;
             pe.transform.localPosition = new Vector3((d.x + d.w * 0.5f) * t, 0f, (d.y + d.h * 0.5f) * t);
             pe.transform.localRotation = Quaternion.Euler(0f, Yaw(d.facing), 0f);
 
-            // The model is built "facing +Z" then rotated: for E/W, width and depth are swapped.
+            // The model is built facing +Z and then rotated: for E/W the model's width and depth are swapped.
             bool swap = d.facing == Dir.E || d.facing == Dir.W;
             float sx = (swap ? d.h : d.w) * t * 0.94f, sz = (swap ? d.w : d.h) * t * 0.94f;
 
@@ -399,9 +557,11 @@ namespace HeroQuest.Board
                 bool chest = IsChest(d.type);
                 height = chest ? 0.3f : 0.5f;
                 color = chest ? new Color(0.9f, 0.7f, 0.2f) : new Color(0.6f, 0.55f, 0.5f);
-                nub = true;                                     // small "front face" marker
+                nub = true;                                   // small "front face" mark
             }
-            pe.visual = CreateVisual(d.type, pe.transform, new Vector3(sx, height, sz), color, PrimitiveType.Cube, nub, 0f);
+            Vector3 size = new Vector3(sx, height, sz);
+            pe.visual = CreateVisual(d.type, pe.transform, size, color, PrimitiveType.Cube, nub, 0f);
+            visuals[d.id] = new VisualInfo { size = size, heightFallback = 0f };
         }
 
         void BuildDoor(PlacedElement pe)
@@ -409,10 +569,10 @@ namespace HeroQuest.Board
             ElementDef d = pe.Def;
             pe.transform.localPosition = board.EdgeToLocal(d.edge);
             pe.transform.localRotation = d.edge.horizontal ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
-            // Slightly thicker than the wall: visible over the wall until hidden (Zargon view).
+            // Slightly thicker than the wall so it shows on top of it while the wall is still displayed (Zargon view).
             Vector3 size = new Vector3(board.tileSize * 0.98f, wallHeight * 0.95f, wallThickness * 1.5f);
             pe.visual = CreateVisual(d.type, pe.transform, size, new Color(0.45f, 0.28f, 0.12f), PrimitiveType.Cube, false, size.y);
-            pe.animator = pe.visual.GetComponentInChildren<Animator>();
+            visuals[d.id] = new VisualInfo { size = size, heightFallback = size.y };
         }
 
         void BuildMonster(PlacedElement pe)
@@ -420,11 +580,11 @@ namespace HeroQuest.Board
             ElementDef d = pe.Def; float t = board.tileSize;
             var pawn = pe.gameObject.AddComponent<GridPawn>();
             pawn.board = board;
-            pawn.PlaceAt(d.x, d.y);                             // at the center of the cell
+            pawn.PlaceAt(d.x, d.y);                                       // snapped to the cell center
             pe.transform.rotation = board.transform.rotation * Quaternion.Euler(0f, Yaw(d.facing), 0f);
             pe.Pawn = pawn;
             pe.visual = CreateVisual(d.type, pe.transform, new Vector3(0.7f * t, 0.6f * t, 0.7f * t),
-                                   new Color(0.75f, 0.15f, 0.15f), PrimitiveType.Cylinder, true, 0f);
+                                     new Color(0.75f, 0.15f, 0.15f), PrimitiveType.Cylinder, true, 0f);
         }
 
         void BuildTrap(PlacedElement pe)
@@ -441,24 +601,22 @@ namespace HeroQuest.Board
         {
             foreach (var pe in placed.Values)
             {
-                pe.VisibleToHeroes = pe.Def.kind == ElementKind.Stairs;   // stairs are always visible
+                pe.VisibleToHeroes = pe.Def.kind == ElementKind.Stairs;   // the stairs are always visible
                 pe.Trap = TrapState.Hidden;
                 ApplyVisibility(pe);
             }
             foreach (int z in Model.InitialZones) RevealZone(z);
         }
 
-        /// <summary>
-        /// Shared layer (Board) = visible by both screens. ZargonView = visible by Zargon only.
-        /// A revealed door visually replaces its wall.
-        /// </summary>
+        // Shared layer (Board) = seen by both screens. ZargonView = seen by Zargon only.
+        // A revealed door visually replaces its wall.
         void ApplyVisibility(PlacedElement pe)
         {
             if (pe.Def.kind == ElementKind.Trap)
             {
                 bool triggered = pe.Trap == TrapState.Triggered;
-                SetActiveAndLayer(pe.marker, !triggered, zargonLayer);                    // gold marker: Zargon only
-                SetActiveAndLayer(pe.highlight, pe.Trap == TrapState.Highlighted, boardLayer);
+                SetActiveAndLayer(pe.marker, !triggered, zargonLayer);                          // gold marker: Zargon only
+                SetActiveAndLayer(pe.highlight, pe.Trap == TrapState.Highlighted, boardLayer);  // suspect cell, no tile
                 SetActiveAndLayer(pe.tile, triggered, boardLayer);
                 return;
             }
@@ -501,7 +659,7 @@ namespace HeroQuest.Board
 
             var body = new GameObject("Body");
             body.transform.SetParent(root.transform, false);
-            float meshH = prim == PrimitiveType.Cylinder ? 2f : 1f;
+            float meshH = prim == PrimitiveType.Cylinder ? 2f : 1f;   // the Unity cylinder is 2 units tall
             body.transform.localPosition = new Vector3(0f, size.y * 0.5f, 0f);
             body.transform.localScale = new Vector3(size.x, size.y / meshH, size.z);
             body.AddComponent<MeshFilter>().sharedMesh = GetPrimMesh(prim);
@@ -532,12 +690,35 @@ namespace HeroQuest.Board
             return m;
         }
 
-        // ---------- Team Tool ----------
-        /// <summary>Copies the "walls" block in explicit mode containing ALL current walls to the clipboard.</summary>
+        // ---------- Team tools ----------
+        /// <summary>
+        /// Logs every element type of the current level that has no prefab bound yet (these still use placeholders).
+        /// </summary>
+        [ContextMenu("Log Types Without Prefab")]
+        void LogTypesWithoutPrefab()
+        {
+            if (Model == null) { Debug.LogWarning("[Level] Construis d'abord le niveau."); return; }
+            var missing = new SortedSet<string>(StringComparer.OrdinalIgnoreCase);
+            bool hasTrap = false;
+            foreach (var e in Model.Elements)
+            {
+                if (e.kind == ElementKind.Trap) hasTrap = true;
+                if (FindBinding(e.type) == null) missing.Add(e.type);
+            }
+            if (hasTrap)
+            {
+                if (FindBinding("TrapMarker") == null) missing.Add("TrapMarker");
+                if (FindBinding("TrapHighlight") == null) missing.Add("TrapHighlight");
+            }
+            string walls = wallPrefab == null ? "  (+ wall: Wall Prefab empty)" : "";
+            Debug.Log("[Level] Types sans prefab (" + missing.Count + ") : " + string.Join(", ", new List<string>(missing).ToArray()) + walls);
+        }
+
+        /// <summary>Copies to the clipboard a "walls" block in explicit mode holding ALL current walls.</summary>
         [ContextMenu("Copy Walls As Explicit JSON")]
         void CopyWallsAsExplicitJson()
         {
-            if (Model == null || board == null || board.Model == null) { Debug.LogWarning("[Level] Nothing to export."); return; }
+            if (Model == null || board == null || board.Model == null) { Debug.LogWarning("[Level] Rien à exporter."); return; }
             var sb = new StringBuilder();
             sb.AppendLine("\"walls\": {");
             sb.AppendLine("  \"mode\": \"explicit\",");
@@ -554,9 +735,10 @@ namespace HeroQuest.Board
             sb.AppendLine("  \"removeEdges\": []");
             sb.Append("}");
             GUIUtility.systemCopyBuffer = sb.ToString();
-            Debug.Log("[Level] " + n + " walls copied to clipboard (explicit mode).");
+            Debug.Log("[Level] " + n + " murs copiés dans le presse-papier (mode explicit).");
         }
 
+        // Describes an edge from a board cell (S/W side when possible, N/E for the outer border).
         static void ToCellSide(EdgeKey e, BoardModel b, out int cx, out int cy, out char side)
         {
             var cb = e.CellB;
