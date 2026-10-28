@@ -5,6 +5,7 @@ public class HeroUi : MonoBehaviour
     [Header("References")]
     [SerializeField] private StatsPanel statsPanel;
     [SerializeField] private PortraitPanel portraitPanel;
+    [SerializeField] private CardViewer cardViewer;
 
     [Header("Hero")]
     [SerializeField] private HeroData startHero;
@@ -22,5 +23,6 @@ public class HeroUi : MonoBehaviour
     {
         statsPanel.SetHero(hero);
         portraitPanel.SetHero(hero);
+        cardViewer.SetHero(hero);
     }
 }
