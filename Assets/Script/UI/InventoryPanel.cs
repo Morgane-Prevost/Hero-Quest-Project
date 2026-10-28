@@ -30,9 +30,6 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private Color normalColor = new Color(0.1f, 0.11f, 0.13f);
     [SerializeField] private Color selectedColor = new Color(0.94f, 0.62f, 0.15f);
 
-    [Header("Test")]
-    [SerializeField] private Hero testHero;
-
     private Hero hero;
     private List<Button> slots = new List<Button>();
     private List<CardSO> items = new List<CardSO>();
@@ -53,14 +50,6 @@ public class InventoryPanel : MonoBehaviour
             Button slot = Instantiate(slotPrefab, grid);
             slot.onClick.AddListener(() => OnSlotClicked(index));
             slots.Add(slot);
-        }
-    }
-
-    private void Start()
-    {
-        if (testHero  != null)
-        {
-            SetHero(testHero);
         }
     }
 

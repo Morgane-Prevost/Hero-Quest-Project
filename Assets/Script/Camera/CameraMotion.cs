@@ -28,11 +28,11 @@ public class CameraMotion : MonoBehaviour
     private InputAction rotateAction;
     private InputAction mouseDeltaAction;
     private InputAction scrollAction;
-    private InputAction switchCamAction;
 
     private Camera cam;
     private float targetFOV;
     private float startFOV;
+    private int turnCount;
 
     private int camIndex = 0;
     private bool isTransitioning;
@@ -48,9 +48,7 @@ public class CameraMotion : MonoBehaviour
         rotateAction = cameraMap.FindAction("MiddleClick");
         mouseDeltaAction = cameraMap.FindAction("MouseDelta");
         scrollAction = cameraMap.FindAction("Scroll");
-        switchCamAction = cameraMap.FindAction("Switch");
 
-        switchCamAction.performed += OnSwitchCam;
         cameraMap.Enable();
 
         if (camPositions.Length > 0)
@@ -60,14 +58,35 @@ public class CameraMotion : MonoBehaviour
         }
     }
 
-    private void OnSwitchCam(InputAction.CallbackContext context)
+    private void Start()
+    {
+        if (TurnManager.Instance != null)
+        {
+            TurnManager.Instance.HeroTurnStarted += OnHeroTurnStarted;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        if (TurnManager.Instance != null)
+        {
+            TurnManager.Instance.HeroTurnStarted -= OnHeroTurnStarted;
+        }
+    }
+
+    private void OnHeroTurnStarted(Hero hero)
+    {
+        GoToPosition(turnCount % camPositions.Length);
+        turnCount++;
+    }
+
+    public void GoToPosition(int index)
     {
         if (camPositions.Length == 0)
             return;
 
-        camIndex = (camIndex + 1) % camPositions.Length;
+        camIndex = index;
         isTransitioning = true;
-
         targetFOV = startFOV;
     }
 
