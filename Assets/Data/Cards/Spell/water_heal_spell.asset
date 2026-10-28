@@ -16,5 +16,5 @@ MonoBehaviour:
   description: 
   icon: {fileID: 0}
   artwork: {fileID: 0}
-  spellElement: 2
+  element: 2
   amount: 4

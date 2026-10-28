@@ -89,8 +89,16 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget
             }
         }
 
+        // Swift wind: next movement rolls twice as many red dice, then the effect ends
+        int dice = movementDices;
+        if (HasEffect(HeroEffect.SwiftWind))
+        {
+            dice *= GetEffectValue(HeroEffect.SwiftWind);
+            EndEffect(HeroEffect.SwiftWind);
+        }
+
         // Roll the movement dice and display where the hero can move on the board
-        for (int i = 0; i < movementDices; i++)
+        for (int i = 0; i < dice; i++)
         {
             finalMovement += ActionManager.Instance.RollRedDice();
         }
@@ -542,5 +550,15 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget
                 total += pick(bonus);
         return total;
     }
+    #endregion
+
+    #region Spell effects
+    // Temporary effects given by spells. Read and ended by movement / combat code.
+    private readonly Dictionary<HeroEffect, int> spellEffects = new Dictionary<HeroEffect, int>();
+
+    public void AddEffect(HeroEffect effect, int value) => spellEffects[effect] = value;
+    public bool HasEffect(HeroEffect effect) => spellEffects.ContainsKey(effect);
+    public int GetEffectValue(HeroEffect effect) => spellEffects.TryGetValue(effect, out int v) ? v : 0;
+    public void EndEffect(HeroEffect effect) => spellEffects.Remove(effect);
     #endregion
 }

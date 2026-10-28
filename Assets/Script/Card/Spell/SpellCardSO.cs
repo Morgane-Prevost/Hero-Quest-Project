@@ -6,6 +6,7 @@ public enum SpellElement { Air, Fire, Water, Earth }
 public interface ISpellHeroTarget
 {
     void Heal(int amount);
+    void AddEffect(HeroEffect effect, int value);
 }
 
 
