@@ -11,6 +11,10 @@ public class MonsterManager : MonoBehaviour
 
     public static MonsterManager Instance { get; private set; }
 
+    // Quest hooks: HeroQuestWorldBridge listens to these.
+    public event System.Action<Monster> MonsterSpawned;   // after creation (level reveal or SpawnByType)
+    public event System.Action<Monster> MonsterKilled;    // just before the monster is destroyed (cell still valid)
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -197,10 +201,27 @@ public class MonsterManager : MonoBehaviour
         return true;
     }
 
+    // Spawns a monster by type name (wandering monster, quest spawn). No level element behind it.
+    public Monster SpawnByType(string typeName, Vector2Int cell)
+    {
+        MonsterData data = FindData(typeName);
+        if (data == null)
+        {
+            Debug.LogWarning("[Monster] No MonsterData for type '" + typeName + "'.");
+            return null;
+        }
+        Monster monster = CreateMonster(data, cell);
+        if (monster == null) return null;
+        monster.elementId = "";
+        MonsterSpawned?.Invoke(monster);
+        return monster;
+    }
+
     private void OnMonsterDied(Monster monster)
     {
         monster.Died -= OnMonsterDied;
+        MonsterKilled?.Invoke(monster);
         activeMonsters.Remove(monster);
-        Destroy(monster.gameObject); // GridPawn.OnDestroy frees the cell
+        Destroy(monster.gameObject);
     }
 }

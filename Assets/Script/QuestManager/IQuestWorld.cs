@@ -3,32 +3,45 @@ using UnityEngine;
 
 namespace HeroQuest.Quests
 {
-    /// <summary>Tout ce dont le système de quêtes a besoin du jeu existant (implémenté par HeroQuestWorldBridge).</summary>
+    /// <summary>Everything the quest system needs from the game. Implemented by HeroQuestWorldBridge.</summary>
     public interface IQuestWorld
     {
-        // Mise en place
-        void LoadMap(TextAsset mapJson);
-        void PlaceStairs(Vector2Int pos);
-        void PlaceHeroes(QuestData quest);                    // sur l'escalier OU dans quest.startRoomId
-        void ApplyNamedMonster(NamedMonsterDef def);          // Ulag, Grak : stats / sorts spécifiques
-        void SetWanderingMonster(string monsterId);
+        // ── Setup ──
+        void BeginQuest();                                   // treasure deck + artifact ledger reset, allies removed
+        void LoadLevel(TextAsset levelJson);                 // LevelBuilder.Build() on the quest's LevelData JSON
+        void PlaceHeroes(QuestData quest);                   // on the stairs, or in quest.startZone
+        void SetWanderingMonster(string monsterType, string note);
 
-        // Monde
-        void SpawnMonster(string monsterId, Vector2Int pos);
-        void SpawnObject(string objectId, Vector2Int pos);
-        void SetDoorOpen(string doorId, bool open);
-        void RevealRoom(string roomId);
+        // ── Level ──
+        void RevealZone(int zone);
+        void RevealElement(string elementId);
+        void OpenDoor(string doorId);
+        void RevealEverything();                             // all doors open, everything shown (quest 2)
+        void SpawnMonster(string monsterType, Vector2Int cell);
+        void ActivateMonster(string elementId);              // statue wakes up
+        void SpawnAlly(AllyDef def, string controllerHeroId);
+        void BlockCells(IList<Vector2Int> cells);            // rockfall / sealed passage
+        bool IsElementInZone(string elementId, int zone);
+        int RemainingLevelMonsters { get; }                  // level monsters not killed yet (hidden ones included)
 
-        // Héros
-        void LockHeroEquipment(int attackDice, int defenseDice);   // équipement confisqué + sorts bloqués
+        // ── Heroes ──
+        IReadOnlyList<string> HeroIds { get; }               // living heroes (allies excluded, escaped included)
+        string HeroIdOfType(HeroType type);
+        bool IsAlly(string id);
+        int HeroesOnBoardCount { get; }                      // alive AND not escaped
+        bool IsHeroOnStairs(string heroId);
+        bool AllHeroesOnBoardOnStairs();
+        void LockHeroEquipment(int attackDice, int defenseDice);
         void RestoreHeroEquipment(string heroId);
-        void GiveCard(string heroId, ScriptableObject card);
+        void GiveCard(string heroId, CardSO card);
+        void GrantArtifact(string heroId, string artifactId);
         void GiveGold(string heroId, int amount);
-        void RemoveHeroFromBoard(string heroId);                   // s'échappe par l'escalier
-
-        IReadOnlyList<string> HeroIds { get; }                     // tous les héros de la partie
-        string HeroIdOfClass(string classId);                      // "wizard", "barbarian"... ou null
-        int HeroesOnBoardCount { get; }                            // vivants ET pas encore échappés
-        bool AllHeroesOnBoardOn(Vector2Int pos);
+        void DamageHero(string heroId, int amount);
+        void LimitMovementDice(string heroId, int maxDice);  // -1 = no limit
+        void RemoveHeroFromBoard(string heroId);             // escaped through the stairs
+        bool TeleportHero(string heroId, Vector2Int cell);   // false if the cell is occupied
+        void TeleportHeroToStairs(string heroId);
+        bool HeroWearsHelmet(string heroId);
+        int RollRedDie();
     }
 }

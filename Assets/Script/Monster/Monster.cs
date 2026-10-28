@@ -1,10 +1,25 @@
 using HeroQuest.Board;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
     public string monsterName;
+
+    // ── Quest hooks (QuestManager / HeroQuestWorldBridge) ──
+    public string monsterType;                      // MonsterData.monsterName ("Orc"); monsterName can be renamed ("Ulag")
+    public string elementId;                        // id of the LevelData JSON element ("" = wandering monster)
+    public bool isDormant;                          // statue: Zargon's AI skips it until Activate()
+    public bool invulnerable;
+    public bool invulnerableUntilActed;             // cannot be hurt before it has moved or attacked
+    public string vulnerableOnlyToArtifactId;       // "" = none (Sorcerer Lord: "mystic_sword")
+    public bool immuneToAllSpells;
+    public List<string> spellImmunities = new List<string>();   // "fire"...
+    public List<string> spellIds = new List<string>();          // read by the future spell system
+    public bool castsSpellInsteadOfAttacking;
+    public bool spellsOncePerQuest;
+    public Hero LastAttacker { get; private set; }
 
     public int healthPoints;
     public int mindPoints;
@@ -66,9 +81,23 @@ public class Monster : MonoBehaviour
         hasActed = false;
     }
 
-    public void TakeDamage(int amount)
+    // Quest hooks
+    public void Activate() { isDormant = false; }
+
+    // Called by MonsterActionExecutor once the monster has moved or attacked (statue "wakes up" for good).
+    public void OnActed() { invulnerableUntilActed = false; }
+
+    public bool CanBeHitBy(WeaponData weapon)
+    {
+        if (string.IsNullOrEmpty(vulnerableOnlyToArtifactId)) return true;
+        return weapon is IArtifact artifact && artifact.Info.id == vulnerableOnlyToArtifactId;
+    }
+
+    public void TakeDamage(int amount, Hero source = null)
     {
         if (amount <= 0 || IsDead) return;
+        if (invulnerable || invulnerableUntilActed) return;
+        if (source != null) LastAttacker = source;
         healthPoints = Mathf.Max(0, healthPoints - amount);
         if (IsDead) Died?.Invoke(this);
     }

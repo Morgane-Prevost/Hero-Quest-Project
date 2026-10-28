@@ -1,12 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HeroQuest.Quests
 {
     public enum HeroStartMode { OnStairs, InRoom }
     public enum ExitMode { AllSurvivorsReturnToStairs, EachHeroEscapesViaStairs }
-    public enum RecipientType { Actor, AllHeroes, HeroClass }
+    public enum RecipientType { Actor, AllHeroes, SpecificHeroType }
 
     [CreateAssetMenu(menuName = "HeroQuest/Quest", fileName = "Quest_")]
     public class QuestData : ScriptableObject
@@ -15,52 +16,90 @@ namespace HeroQuest.Quests
         public string questId;
         public int questNumber;
         public string title;
-        [TextArea(5, 15)] public string description;   // texte d'histoire du parchemin, affiché dans le menu
+        [TextArea(5, 15)] public string description;   // shown in the start menu when the quest is selected
         public Sprite thumbnail;
 
-        [Header("Carte")]
-        public TextAsset mapJson;
-        public Vector2Int stairsPosition;              // escalier : posé au début, sortie à la fin
+        [Header("Niveau (JSON LevelData : murs, portes, escalier, meubles, monstres, pièges)")]
+        [FormerlySerializedAs("mapJson")] public TextAsset levelJson;
 
-        [Header("Départ & sortie")]
-        public HeroStartMode startMode = HeroStartMode.OnStairs;   // quête 6 : InRoom ("Cellule")
-        public string startRoomId;
-        public ExitMode exitMode = ExitMode.AllSurvivorsReturnToStairs; // quête 6 : EachHeroEscapesViaStairs
+        [Header("Départ & sortie (l'escalier vient du JSON du niveau)")]
+        public HeroStartMode startMode = HeroStartMode.OnStairs;   // quests 6, 9: InRoom
+        public int startZone;                                      // room number when InRoom
+        public ExitMode exitMode = ExitMode.AllSurvivorsReturnToStairs;   // quest 6: EachHeroEscapesViaStairs
 
         [Header("Règles spéciales")]
-        public List<string> noTreasureRooms = new();   // pièces où on ne peut pas fouiller (cellule)
-        public bool startEquipmentLocked;              // équipement confisqué au départ
+        public List<int> noTreasureZones = new List<int>();        // rooms where nobody can search (cell)
+        public bool startEquipmentLocked;                          // quest 6
         public int unarmedAttackDice = 1;
         public int unarmedDefenseDice = 2;
-        public string wanderingMonsterId;              // monstre errant de la quête
+        public string wanderingMonsterType;                        // "Orc", "Abomination"... (MonsterData.monsterName)
+        [TextArea(2, 5)] public string wanderingMonsterNote;       // used when there is no real wandering monster (quest 10)
+        public List<MonsterModifier> monsterModifiers = new List<MonsterModifier>();
+        public List<KillBounty> killBounties = new List<KillBounty>();
 
         [Header("Narration")]
         public string introTitle = "Quête";
-        [TextArea(3, 10)] public string introNote;     // section "NOTES" générale, lue au lancement
+        [TextArea(3, 10)] public string introNote;
         [TextArea(3, 10)] public string victoryNote;
         [TextArea(3, 10)] public string defeatNote;
 
-        [Header("Monstres nommés")]
-        public List<NamedMonsterDef> namedMonsters = new();
+        [Header("Personnages de la quête")]
+        public List<NamedMonsterDef> namedMonsters = new List<NamedMonsterDef>();
+        public List<AllyDef> allies = new List<AllyDef>();
 
         [Header("Contenu")]
-        public List<QuestObjective> objectives = new();
-        public List<QuestRule> rules = new();
+        public List<QuestObjective> objectives = new List<QuestObjective>();
+        public List<QuestRule> rules = new List<QuestRule>();
 
-        [Header("Récompense")]
-        public int sharedGoldReward;                   // partagé entre les héros (ex : 180 po)
+        [Header("Récompenses")]
+        public int sharedGoldReward;                  // split between the heroes
+        public int goldRewardPerHero;                 // each hero
+        public string rewardRequiresObjectiveId;      // empty = always paid on victory (quest 2: "rescue_ragnar")
     }
 
+    /// <summary>Quest-wide change on every monster of a type (quest 7: warriors defend with +1 die).</summary>
+    [Serializable]
+    public class MonsterModifier
+    {
+        public string monsterType;
+        public int attackDiceBonus, defenseDiceBonus, bodyBonus;
+    }
+
+    /// <summary>Gold paid to the hero who kills a monster of this type (quest 11).</summary>
+    [Serializable]
+    public class KillBounty { public string monsterType; public int gold; }
+
+    /// <summary>
+    /// Special monster of a quest (Ulag, Grak, Balur...). elementId = id of the monster in the LEVEL JSON.
+    /// Values left at -1 are not changed (the MonsterData of its type is used).
+    /// </summary>
     [Serializable]
     public class NamedMonsterDef
     {
-        public string instanceId;        // id utilisé dans les événements MonsterKilled ("ulag", "grak")
-        public Vector2Int tile;          // case de départ dans la map (pour retrouver la figurine)
+        public string elementId;
         public string displayName;
-        public string baseMonsterId;     // figurine/type de base ("orc")
-        public int movement, attackDice, defenseDice, bodyPoints, mindPoints;
-        public List<ScriptableObject> spells = new();   // cartes Sort de la Terreur (SO)
-        public bool castsSpellInsteadOfAttacking;       // 1 sort par tour au lieu d'attaquer
+        public int movement = -1, attackDice = -1, defenseDice = -1, bodyPoints = -1, mindPoints = -1;
+
+        public bool dormant;                          // statue: Zargon's AI skips it until ActivateMonster
+        public bool invulnerableUntilActed;           // cannot be hurt before it has moved or attacked
+        public bool invulnerable;
+        public string vulnerableOnlyToArtifactId;     // Sorcerer Lord: "mystic_sword"
+
+        public bool immuneToAllSpells;
+        public List<string> spellImmunities = new List<string>();   // "fire"
+        public List<string> spellIds = new List<string>();          // read by the spell system (coming)
+        public bool castsSpellInsteadOfAttacking;
+        public bool spellsOncePerQuest;
+    }
+
+    /// <summary>NPC escorted by the heroes (Sir Ragnar). Built from a HeroData so monsters can target it like a hero.</summary>
+    [Serializable]
+    public class AllyDef
+    {
+        public string id;
+        public string displayName;
+        public HeroData template;                     // bodyPoints 2, defenseDices 2, attackDices 0, movementDices 1
+        public Vector2Int spawnCell;
     }
 
     [Serializable]
@@ -75,10 +114,10 @@ namespace HeroQuest.Quests
     public class QuestRule
     {
         public string ruleId;
-        public bool once = true;            // se déclenche une seule fois ("le premier héros qui...")
-        public bool oncePerActor;           // une fois PAR héros ("chaque héros doit...")
-        public List<QuestCondition> conditions = new();
-        public List<QuestAction> actions = new();
+        public bool once = true;            // "the first hero who..."
+        public bool oncePerActor;           // "each hero must..."
+        public List<QuestCondition> conditions = new List<QuestCondition>();
+        public List<QuestAction> actions = new List<QuestAction>();
     }
 
     public abstract class QuestCondition : ScriptableObject
