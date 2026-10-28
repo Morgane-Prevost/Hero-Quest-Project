@@ -8,21 +8,10 @@ public class StatsPanel : MonoBehaviour
     [SerializeField] private TMP_Text lifeText;
     [SerializeField] private TMP_Text spiritText;
 
-    [Header("Test values")]
-    [SerializeField] private string testName = "Nain";
-    [SerializeField] private int testLife = 7;
-    [SerializeField] private int testSpirit = 3;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    private void Start()
+    public void SetHero(HeroData hero)
     {
-        SetStats(testName, testLife, testSpirit);
-    }
-
-    public void SetStats(string heroName, int life, int spirit)
-    {
-        nameText.text = "Stats : " + heroName;
-        lifeText.text = "Points de vie : " + life;
-        spiritText.text = "Points d'esprit : " + spirit;
+        nameText.text = "Stats : " + hero.name;
+        lifeText.text = "Points de vie : " + hero.bodyPoints;
+        spiritText.text = "Points d'esprit : " + hero.mindPoints;
     }
 }

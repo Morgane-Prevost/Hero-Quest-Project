@@ -8,6 +8,7 @@ public class QuestPanel : MonoBehaviour
     [SerializeField] private Button toggleButton;
     [SerializeField] private TMP_Text toggleButtonText;
     [SerializeField] private GameObject questBox;
+    [SerializeField] private ListPanel listPanel;
 
     private void Awake()
     {
@@ -25,10 +26,17 @@ public class QuestPanel : MonoBehaviour
         if (isOpen)
         {
             toggleButtonText.text = "-";
+            listPanel.ClearSelection();
         }
         else
         {
             toggleButtonText.text = "+";
         }
+    }
+
+    public void Close()
+    {
+        questBox.SetActive(false);
+        toggleButtonText.text = "+";
     }
 }
