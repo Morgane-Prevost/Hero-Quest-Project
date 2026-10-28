@@ -21,7 +21,7 @@ MonoBehaviour:
     cost: 0
   weaponType: 0
   attackDice: 3
-  canDiagoAttack: 1
+  canDiagoAttack: 0
   canCloseRangeAttack: 0
   canBeThrown: 0
   canVisionAttack: 0
@@ -35,3 +35,5 @@ MonoBehaviour:
   bonusAgainstTag: undead
   bonusAttackDice: 1
   bonusAttacks: 0
+  canRerollOneDie: 0
+  canIgnoreTargetDefense: 0

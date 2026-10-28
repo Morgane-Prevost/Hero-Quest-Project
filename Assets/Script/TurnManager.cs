@@ -65,7 +65,7 @@ public class TurnManager : MonoBehaviour
     public bool IsBusy => busy;
 
     // What the UI should enable.
-    public bool CanMove => Phase == TurnPhase.HeroTurn && !busy && !HasMoved;
+    public bool CanMove => Phase == TurnPhase.HeroTurn && !busy && !HasMoved && (CurrentHero == null || CurrentHero.CanMoveOrAttack);
     public bool CanAct => Phase == TurnPhase.HeroTurn && !busy && !HasActed;
     public bool CanEndTurn => Phase == TurnPhase.HeroTurn && !busy;
 
@@ -153,7 +153,17 @@ public class TurnManager : MonoBehaviour
         busy = false;
         waitingForActionResult = false;
         Log("Hero turn: " + hero.heroName);
+
+        // Release rolls (sleep, control, horror) come first, so the UI sees the real state
+        if (DreadSpellManager.Instance != null) DreadSpellManager.Instance.RollReleases(hero);
         HeroTurnStarted?.Invoke(hero);
+
+        if (hero.HasEffect(HeroEffect.SkipTurn))   // tornado: the hero passes this turn
+        {
+            hero.EndEffect(HeroEffect.SkipTurn);
+            Log(hero.heroName + " passes the turn (tornado).");
+            EndHeroTurn();
+        }
     }
 
     // Roll the movement dice and let the hero choose a cell. One move per turn.
@@ -202,6 +212,7 @@ public class TurnManager : MonoBehaviour
     {
         if (!CurrentHeroCanPlay() || !CanAct) return false;
         Hero hero = CurrentHero;
+        if (action == HeroActionType.Attack && !hero.CanMoveOrAttack) return false;   // asleep or controlled
 
         if (heroReportsActionResult)
         {

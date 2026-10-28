@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47c1efeed43b3f4494b1d3f5f9c717e, type: 3}
+  m_Name: dread_summon_undead
+  m_EditorClassIdentifier: Assembly-CSharp::SummonSpellSO
+  displayName: Summon Undead
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
+  outcomes:
+  - rollFrom: 1
+    rollTo: 2
+    groups:
+    - monster: {fileID: 11400000, guid: d5287569bd7a23741bf442afa7e9f152, type: 2}
+      count: 4
+  - rollFrom: 3
+    rollTo: 4
+    groups:
+    - monster: {fileID: 11400000, guid: d5287569bd7a23741bf442afa7e9f152, type: 2}
+      count: 3
+    - monster: {fileID: 11400000, guid: 00043f8a28c5c5d4d9c20ba7109c4b08, type: 2}
+      count: 2
+  - rollFrom: 5
+    rollTo: 6
+    groups:
+    - monster: {fileID: 11400000, guid: 00043f8a28c5c5d4d9c20ba7109c4b08, type: 2}
+      count: 2
+    - monster: {fileID: 11400000, guid: 85f073d53ad67954fbf135c75d129eca, type: 2}
+      count: 2
