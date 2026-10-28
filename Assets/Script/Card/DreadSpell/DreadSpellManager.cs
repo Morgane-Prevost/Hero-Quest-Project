@@ -60,6 +60,26 @@ public class DreadSpellManager : MonoBehaviour
         return true;
     }
 
+    // One entry point for every Terror spell. The caller checks: it is Zargon's turn, the caster has not acted,
+    // and the hero / area is in the caster's sight. Returns false if the spell or the target is not valid:
+    // nothing happens, nothing is spent.
+    public bool Cast(Monster caster, DreadSpellSO spell, DreadCast cast)
+    {
+        if (caster == null || spell == null || cast == null)
+        {
+            Debug.LogError("Cast: missing caster, spell or cast");
+            return false;
+        }
+        if (!CanCast(caster, spell)) return false;
+
+        cast.caster = caster;
+        if (!spell.IsValidCast(cast)) return false;
+
+        spell.Cast(cast, picker);   // may throw: then the spell is not spent
+        castsLeft[caster][spell]--;
+        return true;
+    }
+
     // Called by TurnManager at the start of the hero's turn: one release roll per active effect.
     public void RollReleases(Hero hero)
     {

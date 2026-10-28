@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b47c1efeed43b3f4494b1d3f5f9c717e, type: 3}
+  m_Name: dread_summon_orcs
+  m_EditorClassIdentifier: Assembly-CSharp::SummonSpellSO
+  displayName: Summon Orcs
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
+  outcomes:
+  - rollFrom: 1
+    rollTo: 3
+    groups:
+    - monster: {fileID: 11400000, guid: a17f992c662e7c145b53a0d4c77d6a4e, type: 2}
+      count: 4
+  - rollFrom: 4
+    rollTo: 5
+    groups:
+    - monster: {fileID: 11400000, guid: a17f992c662e7c145b53a0d4c77d6a4e, type: 2}
+      count: 5
+  - rollFrom: 6
+    rollTo: 6
+    groups:
+    - monster: {fileID: 11400000, guid: a17f992c662e7c145b53a0d4c77d6a4e, type: 2}
+      count: 6

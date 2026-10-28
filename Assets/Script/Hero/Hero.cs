@@ -14,7 +14,7 @@ public enum HeroType
     Wizard = 3
 }
 
-public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTarget
+public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTarget, IRustTarget
 {
     #region Hero Properties
     // Hero properties
@@ -63,7 +63,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
 
         // Needs to be modified to create and add the weapon and armor cards before assigning them to the hero. For now, we will just assign the references from the HeroData.
         weapon = heroData.weapon;
-        armors = heroData.armor;
+        armors = new List<ArmorData>(heroData.armor);
 
         gold = heroData.gold;
 
@@ -588,6 +588,27 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
             }
         }
         return false;
+    }
+
+    public bool IsEquipped(CardSO item)
+    => item != null && (object.ReferenceEquals(item, weapon) || (item is ArmorData armor && armors.Contains(armor)));
+
+    // Rust: the item is gone for good (not put back in the inventory). Artifacts are never destroyed.
+    public bool DestroyEquipment(CardSO item)
+    {
+        if (!IsEquipped(item) || item is IArtifact) return false;
+
+        if (object.ReferenceEquals(item, weapon))
+        {
+            weapon = null;
+            attackDices = 0;   // same as unequipWeapon (see question AH)
+            return true;
+        }
+
+        ArmorData piece = (ArmorData)item;
+        armors.Remove(piece);
+        defenseDices -= piece.defenseDice;
+        return true;
     }
 
     #endregion
