@@ -13,7 +13,7 @@ public interface ISpellHeroTarget
 // No turn check and no line of sight here: both belong to the caller(rulebook p.14)
 public class SpellCardSO : CardSO
 {
-    public SpellElement spellElement;
+    public SpellElement element;
 
     // The picker is passed in so random parts can be replayed in test games
     public virtual void CastOnHero(ISpellHeroTarget target, IRandomPicker picker) => throw new System.InvalidOperationException($"{displayName} cannot target a hero");

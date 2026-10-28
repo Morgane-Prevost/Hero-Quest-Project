@@ -14,7 +14,7 @@ public enum HeroType
     Wizard = 3
 }
 
-public class Hero : MonoBehaviour, IPotionTarget
+public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget
 {
     #region Hero Properties
     // Hero properties

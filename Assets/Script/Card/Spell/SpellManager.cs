@@ -1,0 +1,54 @@
+using System.Collections.Generic;
+using UnityEngine;
+
+// Singleton beacause Hero.SpellAction() will reach it.
+public class SpellManager : MonoBehaviour
+{
+
+    public static SpellManager Instance {  get; private set; }
+
+    private readonly Dictionary<Hero, SpellBook> books = new Dictionary<Hero, SpellBook>();
+    private IRandomPicker picker;
+
+    public void Initialize(IRandomPicker picker) => this.picker = picker;
+
+    private void Awake()
+    {
+        if (Instance !=null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        if(picker == null) picker = new SystemRandomPicker();
+    }
+
+    public void AssignSpells(Hero hero, IEnumerable<SpellCardSO> spells) => books[hero] = new SpellBook(spells);
+
+    // Call it at the same place as TreasureManager.StartQuest: all spells come back
+    public void StartQuest()
+    {
+        foreach(SpellBook book in books.Values) book.Restore();
+    }
+
+    public List<SpellCardSO> GetAvailableSpells(Hero hero) => books.TryGetValue(hero, out SpellBook book) ? book.GetAvailable() : new List<SpellCardSO>();
+
+    public bool CanCast(Hero caster, SpellCardSO spell) => caster != null && books.TryGetValue(caster, out SpellBook book) && book.IsAvailable(spell);
+
+    // The caller checks: it is the caster's turn, he has not acted yet, the target is visible.
+    // Returns false if the spell was not available (nothing happens, nothing is spent). 
+    public bool CastOnHero(Hero caster, SpellCardSO spell, ISpellHeroTarget target)
+    {
+        if (caster == null || spell == null || target == null)
+        {
+            Debug.LogError("CastOnHero: missing caster, spell or target");
+            return false;
+        }
+        if (!books.TryGetValue(caster, out SpellBook book) || !book.IsAvailable(spell)) return false;
+
+        spell.CastOnHero(target, picker);
+        book.TryUse(spell);
+        return true;
+    }
+
+}
