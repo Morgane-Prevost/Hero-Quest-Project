@@ -32,9 +32,19 @@ public class MonsterManager : MonoBehaviour
         return monsters.Find(m => m.monsterName == monsterName);
     }
 
-
+    public MonsterData GetDataById(string id)
+    {
+        if (string.IsNullOrEmpty(id)) return null;
+        return monsters.Find(m => !string.IsNullOrEmpty(m.id) &&
+                                  string.Equals(m.id, id.Trim(), System.StringComparison.OrdinalIgnoreCase));
+    }
+    
     public MonsterData FindData(string typeName)
     {
+        // 1. exact id ("goblin"), 2. loose match on the name
+        MonsterData byId = GetDataById(typeName);
+        if (byId != null) return byId;
+
         string wanted = Normalize(typeName);
         return monsters.Find(m => Normalize(m.monsterName) == wanted);
     }
@@ -104,7 +114,7 @@ public class MonsterManager : MonoBehaviour
     {
         if (level == null) return;
         level.LevelBuilt += OnLevelBuilt;
-        if (level.Model != null) OnLevelBuilt(level); 
+        if (level.Model != null) OnLevelBuilt(level); // level already built before this Start
     }
 
     private void OnDestroy()
@@ -191,6 +201,6 @@ public class MonsterManager : MonoBehaviour
     {
         monster.Died -= OnMonsterDied;
         activeMonsters.Remove(monster);
-        Destroy(monster.gameObject); 
+        Destroy(monster.gameObject); // GridPawn.OnDestroy frees the cell
     }
 }
