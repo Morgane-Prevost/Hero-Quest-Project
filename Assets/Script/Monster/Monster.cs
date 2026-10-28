@@ -19,6 +19,8 @@ public class Monster : MonoBehaviour, ISpellMonsterTarget
     private bool skipNextTurn;
     public bool IsAsleep {  get; private set; }
 
+    public int DefenseDice => IsAsleep ? 0 : defenseDices;   // a sleeping monster cannot defend
+
     private GridPawn pawn;
 
     // Identity and families (from MonsterData). Tags are used by combat/spell rules, e.g. "undead".

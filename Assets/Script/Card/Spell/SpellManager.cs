@@ -59,8 +59,24 @@ public class SpellManager : MonoBehaviour
             return false;
         }
         if (!books.TryGetValue(caster, out SpellBook book) || !book.IsAvailable(spell)) return false;
+        if (!spell.CanTarget(target)) return false;   // e.g. sleep on the undead: nothing happens, nothing is spent
 
         spell.CastOnMonster(target, picker);   // may throw: then the spell is not spent
+        book.TryUse(spell);
+        return true;
+    }
+
+    // Same rules as the others: the caller checks turn, action and which doors are allowed.
+    public bool CastOnDoor(Hero caster, SpellCardSO spell, ISpellDoorTarget level, string doorId)
+    {
+        if (caster == null || spell == null || level == null || string.IsNullOrEmpty(doorId))
+        {
+            Debug.LogError("CastOnDoor: missing caster, spell, level or door id");
+            return false;
+        }
+        if (!books.TryGetValue(caster, out SpellBook book) || !book.IsAvailable(spell)) return false;
+        if (!spell.CastOnDoor(level, doorId)) return false;   // unknown or already open door: nothing spent
+
         book.TryUse(spell);
         return true;
     }
