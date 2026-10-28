@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+using HeroQuest.Board;
+using System;
+using UnityEngine;
 
 public class Monster : MonoBehaviour
 {
@@ -8,9 +10,35 @@ public class Monster : MonoBehaviour
     public int mindPoints;
     public int attackDices;
     public int defenseDices;
-    public int movementDices;
+    public int movementCells;
 
-    //To add when classes are implemented
+    // Turn state: enforces "move + action" or "action + move".
+    public bool hasMoved;
+    public bool hasActed;
+
+    private GridPawn pawn;
+
+    // The GridPawn is what puts the monster on the board (and what Hero / MovementSystem look at).
+    public GridPawn Pawn
+    {
+        get
+        {
+            if (pawn == null) pawn = GetComponent<GridPawn>();
+            return pawn;
+        }
+    }
+
+    // Logical cell of the monster = cell of its GridPawn .
+    public Vector2Int cell
+    {
+        get { return (Pawn != null && Pawn.HasCell) ? Pawn.Cell : new Vector2Int(-1, -1); }
+    }
+
+    public bool IsDead => healthPoints <= 0;
+    public bool CanMove => !hasMoved;
+    public bool CanAct => !hasActed;
+
+    public event Action<Monster> Died;
 
 
     public void Initialize(MonsterData monsterData, string name)
@@ -20,6 +48,19 @@ public class Monster : MonoBehaviour
         mindPoints = monsterData.mindPoints;
         attackDices = monsterData.attackDices;
         defenseDices = monsterData.defenseDices;
-        movementDices = monsterData.movementDices;
+        movementCells = monsterData.movementCells;
+    }
+
+    public void StartTurn()
+    {
+        hasMoved = false;
+        hasActed = false;
+    }
+
+    public void TakeDamage(int amount)
+    {
+        if (amount <= 0 || IsDead) return;
+        healthPoints = Mathf.Max(0, healthPoints - amount);
+        if (IsDead) Died?.Invoke(this);
     }
 }

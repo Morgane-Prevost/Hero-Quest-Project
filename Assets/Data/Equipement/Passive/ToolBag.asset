@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7953faaee6a8cac40bbc2d43a1e90e33, type: 3}
   m_Name: ToolBag
   m_EditorClassIdentifier: Assembly-CSharp::PassiveData
+  displayName: Tool Bag
+  description: 
+  icon: {fileID: 0}
+  artwork: {fileID: 0}
   equipement:
-    name: Tool Bag
     type: 0
     cost: 250
-    cardPrefab: {fileID: 0}
-    icon: {fileID: 0}
-    cardImage: {fileID: 0}
   passiveObjectName: 0

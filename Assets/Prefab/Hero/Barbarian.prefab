@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8179975846735609715}
   - component: {fileID: 865939861887242575}
   - component: {fileID: 3538184980460917193}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Barbarian
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 9091724641792533718}
   - component: {fileID: 5958312258306375250}
   - component: {fileID: 3305611869613749762}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

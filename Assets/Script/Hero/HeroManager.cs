@@ -1,29 +1,38 @@
 using UnityEngine;
 using System.Collections.Generic;
+using HeroQuest.Board;
+using UnityEngine.UI;
 
 public class HeroManager : MonoBehaviour
 {
+    [SerializeField] private BoardBuilder board;
     [SerializeField] private List<HeroData> heroes;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    public static HeroManager Instance { get; private set; }
+
+    private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void CreateCharacter()
+    public void CreateCharacter(List<Vector2Int> startCells)
     {
         foreach (HeroData heroData in heroes)
         {
             GameObject heroObject = Instantiate(heroData.prefab, Vector3.zero, Quaternion.identity);
+            GridPawn gridPawnComponent = heroObject.AddComponent<GridPawn>();
+            gridPawnComponent.board = board;
             Hero heroComponent = heroObject.AddComponent<Hero>();
-            heroComponent.Initialize(heroData, heroData.name); // To be modified to take the name from the character creation UI
+            Vector2Int startCell = startCells.Count > 0 ? startCells[0] : new Vector2Int(0, 0); // Default starting cell, can be modified later
+            heroComponent.Initialize(heroData, heroData.name, startCell); // To be modified to take the name from the character creation UI
         }
     }
 }

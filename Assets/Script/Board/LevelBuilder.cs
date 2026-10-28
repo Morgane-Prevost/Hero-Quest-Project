@@ -34,7 +34,7 @@ namespace HeroQuest.Board
         [Header("Walls")]
         public float wallHeight = 1f;
         public float wallThickness = 0.12f;
-        public bool wallColliders = false;
+        public bool wallColliders = true;
         public Material wallMaterial;
         public GameObject wallPrefab;
         public PrefabFitMode wallFitMode = PrefabFitMode.Stretch;
@@ -321,6 +321,7 @@ namespace HeroQuest.Board
                 w.transform.localPosition = pos;
                 w.transform.localRotation = e.horizontal ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
                 SetLayerRecursive(w, boardLayer);
+                w.layer = LayerMask.NameToLayer("Obstacle");
                 foreach (var c in w.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
                 walls[e] = w;
             }

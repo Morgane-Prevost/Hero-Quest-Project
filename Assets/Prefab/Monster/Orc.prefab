@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7543612366783114169}
   - component: {fileID: 8932669558179380130}
   - component: {fileID: 3295319519272460681}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Orc
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1540005106022367867}
   - component: {fileID: 7511590049668162399}
   - component: {fileID: 5509162295994169732}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

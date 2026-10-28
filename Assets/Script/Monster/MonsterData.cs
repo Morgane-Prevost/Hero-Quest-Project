@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 [CreateAssetMenu(fileName = "MonsterData", menuName = "GameDatas/MonsterData")]
 public class MonsterData : ScriptableObject
@@ -12,10 +13,9 @@ public class MonsterData : ScriptableObject
     public int mindPoints;
     public int attackDices;
     public int defenseDices;
-
-    public int movementDices;
-
-    //To add when classes are implemented
+    
+    // FormerlySerializedAs keeps the values already typed in your existing assets.
+    [FormerlySerializedAs("movementDices")]
+    public int movementCells;
 
 }
-
