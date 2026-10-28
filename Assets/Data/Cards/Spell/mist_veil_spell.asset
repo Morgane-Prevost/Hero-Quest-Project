@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ed356044bae1e642a7103c418c88f49, type: 3}
   m_Name: mist_veil_spell
   m_EditorClassIdentifier: Assembly-CSharp::HeroEffectSpellSO
-  displayName: 
+  displayName: Mist Veil Spell
   description: 
   icon: {fileID: 0}
   artwork: {fileID: 0}
