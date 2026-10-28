@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 5199436}
   - component: {fileID: 5199435}
   m_Layer: 5
-  m_Name: PanelListe
+  m_Name: ListPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 48778160}
   - component: {fileID: 48778159}
   m_Layer: 5
-  m_Name: BoutonQuete
+  m_Name: QuestButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,7 +586,7 @@ GameObject:
   - component: {fileID: 158348419}
   - component: {fileID: 158348418}
   m_Layer: 5
-  m_Name: TexteQuete
+  m_Name: QuestText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -631,12 +631,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Mes amis, vous avez beaucoup appris. Le temps est maintenant venu de subir
-    votre premi\xE8re \xE9preuve. Vous devez p\xE9n\xE9trer dans les catacombes contenant
-    la tombe de Fellmarg. Vous devez trouver et d\xE9truire Verag, l'ignoble gargouille
-    qui s'y cache. Ce ne sera pas facile et vous devrez travailler en \xE9quipe pour
-    survivre. Ceci est la premi\xE8re \xE9tape dans votre cheminement vers le statut
-    de vrais h\xE9ros. Soyez prudent, mes amis."
+  m_text: "My friends, you have learned a great deal. The time has now come to face
+    your first trial. You must enter the catacombs where Fellmarg\u2019s tomb lies.
+    You must find and destroy Verag, the vile gargoyle hiding there. It will not
+    be easy, and you will have to work as a team to survive. This is the first step
+    on your journey toward becoming true heroes. Be careful, my friends."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -821,7 +820,7 @@ GameObject:
   - component: {fileID: 203234778}
   - component: {fileID: 203234777}
   m_Layer: 5
-  m_Name: FicheLignes
+  m_Name: InfoLines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -958,7 +957,7 @@ GameObject:
   - component: {fileID: 278321201}
   - component: {fileID: 278321202}
   m_Layer: 5
-  m_Name: FicheTitre
+  m_Name: InfoTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1232,7 +1231,7 @@ GameObject:
   - component: {fileID: 482321386}
   - component: {fileID: 482321385}
   m_Layer: 5
-  m_Name: CarteOverlay
+  m_Name: CardOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1445,7 +1444,7 @@ GameObject:
   - component: {fileID: 553812821}
   - component: {fileID: 553812822}
   m_Layer: 5
-  m_Name: GrilleMonstres
+  m_Name: MonstersGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1577,7 +1576,7 @@ GameObject:
   - component: {fileID: 637630635}
   - component: {fileID: 637630634}
   m_Layer: 5
-  m_Name: CarteImage
+  m_Name: CardImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1664,7 +1663,7 @@ GameObject:
   - component: {fileID: 684161799}
   - component: {fileID: 684161796}
   m_Layer: 5
-  m_Name: PortraitHeros
+  m_Name: HeroesPortrait
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1751,7 +1750,7 @@ GameObject:
   - component: {fileID: 691191667}
   - component: {fileID: 691191668}
   m_Layer: 5
-  m_Name: InvSousTitre
+  m_Name: InvSubtitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2151,7 +2150,7 @@ GameObject:
   - component: {fileID: 760668134}
   - component: {fileID: 760668133}
   m_Layer: 5
-  m_Name: NomHeros
+  m_Name: HeroesName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2196,7 +2195,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Stats : Nain'
+  m_text: 'Stats : Dwarf'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2288,7 +2287,7 @@ GameObject:
   - component: {fileID: 803486483}
   - component: {fileID: 803486484}
   m_Layer: 5
-  m_Name: InvTitre
+  m_Name: InvTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2423,7 +2422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 813463291}
   m_Layer: 5
-  m_Name: CarteZone
+  m_Name: CardZone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2461,7 +2460,7 @@ GameObject:
   - component: {fileID: 831024919}
   - component: {fileID: 831024918}
   m_Layer: 5
-  m_Name: TitreQuete
+  m_Name: QuestTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2506,7 +2505,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Qu\xEAte en cours"
+  m_text: Quest in progress
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2599,7 +2598,7 @@ GameObject:
   - component: {fileID: 836132067}
   - component: {fileID: 836132066}
   m_Layer: 5
-  m_Name: ButtonPortrait
+  m_Name: PortraitButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2718,7 +2717,7 @@ GameObject:
   - component: {fileID: 924885590}
   - component: {fileID: 924885591}
   m_Layer: 5
-  m_Name: DetailNom
+  m_Name: DetailName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2855,7 +2854,7 @@ GameObject:
   - component: {fileID: 945237274}
   - component: {fileID: 945237273}
   m_Layer: 5
-  m_Name: FichePanel
+  m_Name: InfoPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2932,7 +2931,7 @@ GameObject:
   - component: {fileID: 1027211670}
   - component: {fileID: 1027211669}
   m_Layer: 5
-  m_Name: TitreHeros
+  m_Name: HeroesTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2977,7 +2976,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "H\xE9ros :"
+  m_text: 'Heroes :'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3534,7 +3533,7 @@ GameObject:
   - component: {fileID: 1354084823}
   - component: {fileID: 1354084822}
   m_Layer: 5
-  m_Name: BoutonFleche
+  m_Name: ArrowButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3674,7 +3673,7 @@ GameObject:
   - component: {fileID: 1426496994}
   - component: {fileID: 1426496993}
   m_Layer: 5
-  m_Name: VieHeros
+  m_Name: HeroesHP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3719,7 +3718,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Ponts de vie : 7'
+  m_text: 'Health points : 7'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3947,7 +3946,7 @@ GameObject:
   - component: {fileID: 1587979112}
   - component: {fileID: 1587979113}
   m_Layer: 5
-  m_Name: InvGrille
+  m_Name: InvGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4009,7 +4008,7 @@ GameObject:
   - component: {fileID: 1624835573}
   - component: {fileID: 1624835575}
   m_Layer: 5
-  m_Name: BoutonFermer
+  m_Name: CloseButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4129,7 +4128,7 @@ GameObject:
   - component: {fileID: 1635368341}
   - component: {fileID: 1635368340}
   m_Layer: 5
-  m_Name: TitreMonstres
+  m_Name: MonstersTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4174,7 +4173,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Monstres :'
+  m_text: 'Monsters :'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4404,7 +4403,7 @@ GameObject:
   - component: {fileID: 1696360857}
   - component: {fileID: 1696360859}
   m_Layer: 5
-  m_Name: BoutonPoche
+  m_Name: PocketButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4664,7 +4663,7 @@ GameObject:
   - component: {fileID: 1842446549}
   - component: {fileID: 1842446550}
   m_Layer: 5
-  m_Name: GrilleHeros
+  m_Name: HeroesGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4725,7 +4724,7 @@ GameObject:
   - component: {fileID: 1917461919}
   - component: {fileID: 1917461918}
   m_Layer: 5
-  m_Name: BoiteQuete
+  m_Name: QuestBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4938,7 +4937,7 @@ GameObject:
   - component: {fileID: 2131087538}
   - component: {fileID: 2131087537}
   m_Layer: 5
-  m_Name: InventairePanel
+  m_Name: InventoryPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5018,7 +5017,7 @@ GameObject:
   - component: {fileID: 2145765745}
   - component: {fileID: 2145765744}
   m_Layer: 5
-  m_Name: EspritHeros
+  m_Name: HeroesSpirit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5063,7 +5062,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Points d''esprit : 3'
+  m_text: 'Spirit Points : 3'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

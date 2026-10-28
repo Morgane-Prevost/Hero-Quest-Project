@@ -18,11 +18,11 @@ public class FichePanel : MonoBehaviour
         titleText.text = monster.monsterName + " :";
 
         linesText.text =
-            "Cases de déplacement : " + monster.movementCells + "\n" +
-            "Dés d'attaque : " + monster.attackDices + "\n" +
-            "Dés de défense : " + monster.defenseDices + "\n" +
-            "Points de vie : " + monster.healthPoints + "\n" +
-            "Points d'esprit : " + monster.mindPoints;
+            "Movement Squares : " + monster.movementCells + "\n" +
+            "Attack Dice : " + monster.attackDices + "\n" +
+            "Defend Dice : " + monster.defenseDices + "\n" +
+            "Body Points : " + monster.healthPoints + "\n" +
+            "Mind Points : " + monster.mindPoints;
 
         box.SetActive(true);
     }
@@ -32,12 +32,12 @@ public class FichePanel : MonoBehaviour
         titleText.text = hero.name + " :";
 
         linesText.text =
-            "Dés d'attaque : " + hero.attackDices + "\n" +
-            "Déplacement : " + hero.movementDices + " dés rouges\n" +
-            "Dés de défense : " + hero.defenseDices + "\n" +
-            "Arme de départ : " + hero.weapon.name + "\n" +
-            "Points de vie : " + hero.bodyPoints + "\n" +
-            "Points d'esprit : " + hero.mindPoints;
+            "Attack Dice : " + hero.attackDices + "\n" +
+            "Movement : " + hero.movementDices + " red dice\n" +
+            "Defend Dice : " + hero.defenseDices + "\n" +
+            "Starting Weapon : " + hero.weapon.name + "\n" +
+            "Body Points : " + hero.bodyPoints + "\n" +
+            "Mind Points : " + hero.mindPoints;
 
         box.SetActive(true);
     }

@@ -11,7 +11,7 @@ public class StatsPanel : MonoBehaviour
     public void SetHero(HeroData hero)
     {
         nameText.text = "Stats : " + hero.name;
-        lifeText.text = "Points de vie : " + hero.bodyPoints;
-        spiritText.text = "Points d'esprit : " + hero.mindPoints;
+        lifeText.text = "Body points : " + hero.bodyPoints;
+        spiritText.text = "Mind Points : " + hero.mindPoints;
     }
 }

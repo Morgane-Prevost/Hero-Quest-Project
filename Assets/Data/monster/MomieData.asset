@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 6492330546316687010, guid: 77a6bffbad544744e9faef8c4ca029a4, type: 3}
   texture: {fileID: 2800000, guid: 5c0d10bf8ad68a641b38d060930cf720, type: 3}
-  monsterName: Momie
+  id: 
+  tags: []
+  monsterName: Mummy
   healthPoints: 2
   mindPoints: 0
   attackDices: 3
   defenseDices: 4
-  movementDices: 4
+  movementCells: 4

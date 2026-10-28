@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 6230054154969312186, guid: 9dd9bd02f3c0fa243bc364ab7facc025, type: 3}
   texture: {fileID: 2800000, guid: 150ddf5e2da1b6440b8b7964aef5cb5e, type: 3}
-  monsterName: Squelette
+  id: 
+  tags: []
+  monsterName: Skeleton
   healthPoints: 1
   mindPoints: 0
   attackDices: 2
   defenseDices: 2
-  movementDices: 6
+  movementCells: 6

@@ -118,9 +118,9 @@ public class InventoryPanel : MonoBehaviour
 
             items.AddRange(hero.Inventory);
 
-            titleText.text = "Inventaire : " + hero.heroName;
+            titleText.text = "Inventory : " + hero.heroName;
             subtitleText.text =
-                "Or : " + hero.gold;
+                "Gold : " + hero.gold;
         }
 
         for (int i = 0; i < slots.Count; i++)
@@ -179,18 +179,18 @@ public class InventoryPanel : MonoBehaviour
         {
             if (hero.weapon == weaponCard)
             {
-                return "Desequiper";
+                return "Unequip";
             }
-            return "Equiper";
+            return "Equip";
         }
 
         if (card is ArmorData armorCard)
         {
             if (hero.armors.Contains(armorCard))
             {
-                return "Desequiper";
+                return "Unequip";
             }
-            return "Equiper";
+            return "Equip";
         }
 
         return "";

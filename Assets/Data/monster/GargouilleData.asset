@@ -14,9 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 6993769548090507828, guid: 9ca41532b31f1e7458bb6486e77c8f8c, type: 3}
   texture: {fileID: 2800000, guid: dd1e9abf0d7b8414d945e664ef2aff6b, type: 3}
-  monsterName: Gargouille
+  id: 
+  tags: []
+  monsterName: Gargoyle
   healthPoints: 3
   mindPoints: 4
   attackDices: 4
   defenseDices: 5
-  movementDices: 6
+  movementCells: 6
