@@ -8,6 +8,13 @@ public interface ISpellHeroTarget
     void Heal(int amount);
 }
 
+
+// What a spell is allowed to ask of a monster. Implemented by Monster (TakeDamage already exists there).
+public interface ISpellMonsterTarget
+{
+    void TakeDamage(int amount); 
+}
+
 // Base of the 12 hero spells. One subclass per KIND of effect, values live in the assets.
 // Stateless: usage is tracked per hero by SpellBook.
 // No turn check and no line of sight here: both belong to the caller(rulebook p.14)
@@ -17,4 +24,6 @@ public class SpellCardSO : CardSO
 
     // The picker is passed in so random parts can be replayed in test games
     public virtual void CastOnHero(ISpellHeroTarget target, IRandomPicker picker) => throw new System.InvalidOperationException($"{displayName} cannot target a hero");
+
+    public virtual void CastOnMonster(ISpellMonsterTarget target, IRandomPicker picker) => throw new System.InvalidOperationException($"{displayName} cannot target a monster");
 }

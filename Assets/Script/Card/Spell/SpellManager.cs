@@ -51,4 +51,18 @@ public class SpellManager : MonoBehaviour
         return true;
     }
 
+    public bool CastOnMonster(Hero caster, SpellCardSO spell, ISpellMonsterTarget target)
+    {
+        if (caster == null || spell == null || target == null)
+        {
+            Debug.LogError("CastOnMonster: missing caster, spell or target");
+            return false;
+        }
+        if (!books.TryGetValue(caster, out SpellBook book) || !book.IsAvailable(spell)) return false;
+
+        spell.CastOnMonster(target, picker);   // may throw: then the spell is not spent
+        book.TryUse(spell);
+        return true;
+    }
+
 }

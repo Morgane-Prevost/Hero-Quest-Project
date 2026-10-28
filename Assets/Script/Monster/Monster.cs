@@ -2,7 +2,7 @@ using HeroQuest.Board;
 using System;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, ISpellMonsterTarget
 {
     public string monsterName;
 
