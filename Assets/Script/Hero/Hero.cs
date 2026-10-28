@@ -14,7 +14,7 @@ public enum HeroType
     Wizard = 3
 }
 
-public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget
+public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTarget
 {
     #region Hero Properties
     // Hero properties
@@ -540,7 +540,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget
     public int MaxBodyPoints => bodyPoints + SumStatBonus(a => a.bodyPointsBonus);
     public int MaxMindPoints => mindPoints + SumStatBonus(a => a.mindPointsBonus);
     // Combat must use this instead of defenseDices (then add the potion bonus)
-    public int EffectiveDefenseDice => defenseDices + SumStatBonus(a => a.defenseDiceBonus);
+    public int EffectiveDefenseDice => HasEffect(HeroEffect.Asleep) ? 0 : defenseDices + SumStatBonus(a => a.defenseDiceBonus);
 
     private int SumStatBonus(System.Func<StatBonusArtifactSO, int> pick)
     {
@@ -560,5 +560,35 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget
     public bool HasEffect(HeroEffect effect) => spellEffects.ContainsKey(effect);
     public int GetEffectValue(HeroEffect effect) => spellEffects.TryGetValue(effect, out int v) ? v : 0;
     public void EndEffect(HeroEffect effect) => spellEffects.Remove(effect);
+
+    // Asleep or controlled: the hero can neither move nor attack on his own turn (card text).
+    public bool CanMoveOrAttack => !HasEffect(HeroEffect.Asleep) && !HasEffect(HeroEffect.Controlled);
+
+    // Horror: only one attack die. Combat must use this instead of attackDices (card "Combat: artifact hooks").
+    public int EffectiveAttackDice => HasEffect(HeroEffect.Horror) ? Mathf.Min(attackDices, GetEffectValue(HeroEffect.Horror)) : attackDices;
+
+    // Body points never go below 0 (rulebook p.20). Rock skin ends when the hero loses a point.
+    public void TakeDamage(int amount)
+    {
+        if (amount <= 0) return;
+        currentBodyPoints = Mathf.Max(0, currentBodyPoints - amount);
+        EndEffect(HeroEffect.RockSkin);
+    }
+
+    // One red die per mind point, a 6 breaks the spell (card text).
+    public bool TryBreakEffect(HeroEffect effect, IRandomPicker picker)
+    {
+        if (!HasEffect(effect)) return true;
+        for (int i = 0; i < MaxMindPoints; i++)
+        {
+            if (picker.Pick(6) + 1 == 6)
+            {
+                EndEffect(effect);
+                return true;
+            }
+        }
+        return false;
+    }
+
     #endregion
 }

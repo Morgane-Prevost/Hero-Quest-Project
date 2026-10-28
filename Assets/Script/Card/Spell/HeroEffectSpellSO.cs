@@ -5,8 +5,13 @@ public enum HeroEffect
     SwiftWind,
     MistVeil,
     ThroughStone,
-    Courage, 
-    RockSkin
+    Courage,
+    RockSkin,
+    //States put on a hero by terror spells
+    SkipTurn,   // tornado
+    Asleep,     // sleep: no move, no attack, no defense
+    Horror,     // only on attack die
+    Controlled  // Zargon moves him and attacks with him
 }
 
 

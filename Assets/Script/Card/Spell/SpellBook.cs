@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEngine.Windows.Speech;
 
 // Spells of ONE hero. Each spell can be cast once per quest, then comes back 
 // Pure C# so it can be tested without a scene. 
