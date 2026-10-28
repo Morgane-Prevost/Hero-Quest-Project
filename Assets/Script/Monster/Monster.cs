@@ -12,12 +12,27 @@ public class Monster : MonoBehaviour
     public int defenseDices;
     public int movementCells;
 
-    // Position on the board grid (set it when spawning).
-    public Vector2Int cell;
-
-    // Turn state: enforces "move + action" or "action + move", never move-action-move.
+    // Turn state: enforces "move + action" or "action + move".
     public bool hasMoved;
     public bool hasActed;
+
+    private GridPawn pawn;
+
+    // The GridPawn is what puts the monster on the board (and what Hero / MovementSystem look at).
+    public GridPawn Pawn
+    {
+        get
+        {
+            if (pawn == null) pawn = GetComponent<GridPawn>();
+            return pawn;
+        }
+    }
+
+    // Logical cell of the monster = cell of its GridPawn .
+    public Vector2Int cell
+    {
+        get { return (Pawn != null && Pawn.HasCell) ? Pawn.Cell : new Vector2Int(-1, -1); }
+    }
 
     public bool IsDead => healthPoints <= 0;
     public bool CanMove => !hasMoved;
@@ -25,7 +40,6 @@ public class Monster : MonoBehaviour
 
     public event Action<Monster> Died;
 
-    //To add when classes are implemented
 
     public void Initialize(MonsterData monsterData, string name)
     {
