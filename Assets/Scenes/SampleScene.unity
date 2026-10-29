@@ -14347,6 +14347,68 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 296496336}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &300217541
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 300217544}
+  - component: {fileID: 300217543}
+  - component: {fileID: 300217542}
+  m_Layer: 0
+  m_Name: Quest
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &300217542
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300217541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1573e270321a1064ab50d8251e1ecc1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestManager
+  worldBehaviour: {fileID: 300217543}
+--- !u!114 &300217543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300217541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b41e84dc319feb4f99a61d3ade647d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.HeroQuestWorldBridge
+  board: {fileID: 321306690}
+  level: {fileID: 321306689}
+  treasure: {fileID: 556017473}
+  artifacts: {fileID: 1233441531}
+--- !u!4 &300217544
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300217541}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 26.44998, y: 0, z: 21.67641}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &305654598
 GameObject:
   m_ObjectHideFlags: 0
@@ -15924,6 +15986,7 @@ MonoBehaviour:
   wallOvershoot: 1
   zargonLayerName: ZargonView
   placeables: []
+  monsterLayerName: Monster
 --- !u!114 &321306690
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27808,6 +27871,51 @@ Texture2D:
     offset: 0
     size: 0
     path: 
+--- !u!1 &556017471
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 556017472}
+  - component: {fileID: 556017473}
+  m_Layer: 0
+  m_Name: TreasureManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &556017472
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556017471}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -42.18976, y: 0, z: -23.504158}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1535218872}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &556017473
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 556017471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a637cd49ec88fe4bbdaf571ab4e6872, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TreasureManager
+  deckData: {fileID: 11400000, guid: da45c7171437bc54b9383f87112cdf20, type: 2}
 --- !u!1 &556921708
 GameObject:
   m_ObjectHideFlags: 0
@@ -59528,7 +59636,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MonsterManager
   board: {fileID: 321306690}
-  level: {fileID: 321306689}
   monsters:
   - {fileID: 11400000, guid: 2ffb383320ab5454fad43b1b3be007b0, type: 2}
 --- !u!4 &1143686998
@@ -63980,6 +64087,65 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1233420842}
   m_Mesh: {fileID: 0}
+--- !u!1 &1233441529
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1233441530}
+  - component: {fileID: 1233441531}
+  m_Layer: 0
+  m_Name: ArtefactManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1233441530
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233441529}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -42.18976, y: 0, z: -23.504158}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1535218872}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1233441531
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1233441529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab07766e696af2a489ba9b7932785406, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ArtifactManager
+  artifacts:
+  - {fileID: 11400000, guid: c52c337b3a1aea04a9b7e97c7640a4f6, type: 2}
+  - {fileID: 11400000, guid: 2d7a6e22ba869af45ac44babd046e637, type: 2}
+  - {fileID: 11400000, guid: 798b6468736d4f24297c2bdf2afe2310, type: 2}
+  - {fileID: 11400000, guid: ffd4c7adc88cc674eb9112cfee7a7480, type: 2}
+  - {fileID: 11400000, guid: 36a151ec467d89b4ea4e9af83bf27bb0, type: 2}
+  - {fileID: 11400000, guid: 57b9c6f777da06e4b964b617c61c7f48, type: 2}
+  - {fileID: 11400000, guid: 2494b5b496f60e443b4a63b6512b6a57, type: 2}
+  - {fileID: 11400000, guid: 27e0f7058b1963c4fb303359b70ba7d1, type: 2}
+  - {fileID: 11400000, guid: a64be47e3d5c739479e0fd874ca0ebbf, type: 2}
+  - {fileID: 11400000, guid: 505bf8e9a14626b4d82077db6a4a7014, type: 2}
+  - {fileID: 11400000, guid: 151bcd2cd75874a42be7b0fc87102325, type: 2}
+  - {fileID: 11400000, guid: ba43866f56130564b81c4ba0f5fe1e45, type: 2}
+  - {fileID: 11400000, guid: c0d921955213d27478d410ad0e849613, type: 2}
+  - {fileID: 11400000, guid: baed62f55ca84ed4584613f2da76419c, type: 2}
 --- !u!1 &1233679537
 GameObject:
   m_ObjectHideFlags: 0
@@ -78955,6 +79121,8 @@ Transform:
   - {fileID: 1256220730}
   - {fileID: 1957598827}
   - {fileID: 1426712703}
+  - {fileID: 556017472}
+  - {fileID: 1233441530}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1538638985
@@ -114776,3 +114944,4 @@ SceneRoots:
   - {fileID: 3012028529023612853}
   - {fileID: 2003299317}
   - {fileID: 1135727266}
+  - {fileID: 300217544}
