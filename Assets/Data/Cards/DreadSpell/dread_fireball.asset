@@ -13,8 +13,12 @@ MonoBehaviour:
   m_Name: dread_fireball
   m_EditorClassIdentifier: Assembly-CSharp::DreadDamageSpellSO
   displayName: Fireball
-  description: 
+  description: This spell may be cast on any one hero, enveloping them in a ball
+    of fire. It inflicts 2 Body points of damage. The hero rolls 2 red dice. For
+    each 5 or 6 rolled, damage is reduced by 1 point.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
+  area: 0
   damage: 2
   resistDice: 2

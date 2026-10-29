@@ -9,4 +9,5 @@ public abstract class CardSO : ScriptableObject
     [TextArea] public string description; // our own wording, not the official card text
     public Texture2D icon;
     public Texture2D artwork;
+    public int goldCost;
 }

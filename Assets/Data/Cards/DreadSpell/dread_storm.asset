@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: dread_storm
   m_EditorClassIdentifier: Assembly-CSharp::DreadDamageSpellSO
   displayName: Fire Storm
-  description: 
+  description: This spell turns the room the spellcaster is in into an inferno, inflicting
+    3 Body points of damage to all heroes and monsters present. The caster is not
+    affected. Each victim rolls 2 red dice. For each 5 or 6 rolled, the damage is
+    reduced by 1 point. Cannot be used in a corridor.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   area: 1
   damage: 3
   resistDice: 2

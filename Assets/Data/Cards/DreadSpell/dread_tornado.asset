@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: dread_tornado
   m_EditorClassIdentifier: Assembly-CSharp::HeroStateSpellSO
   displayName: Tornado
-  description: 
+  description: This spell creates a small whirlwind that envelops any one hero of
+    your choice. That hero will miss their next turn.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   state: 5
   value: 1
   rollReleaseNow: 0
+  wholeArea: 0

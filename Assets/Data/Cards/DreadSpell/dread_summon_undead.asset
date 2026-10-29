@@ -13,9 +13,19 @@ MonoBehaviour:
   m_Name: dread_summon_undead
   m_EditorClassIdentifier: Assembly-CSharp::SummonSpellSO
   displayName: Summon Undead
-  description: 
+  description: 'This spell summons a group of Undead monsters around the spellcaster
+    to protect them. Their number and type are determined by rolling 1 red die.
+
+    1
+    or 2 = 4 skeletons.
+
+    3 or 4 = 3 skeletons, 2 zombies.
+
+    5 or 6 = 2 zombies,
+    2 mummies.'
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   outcomes:
   - rollFrom: 1
     rollTo: 2
