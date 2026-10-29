@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 3329495173766499171, guid: 38c20eccebfa0d54e977e6bdd62ad70b, type: 3}
   texture: {fileID: 2800000, guid: 060c3c87cd6eecf449543a0c6bd61fa3, type: 3}
-  id: 
+  id: dread_warrior
   description: These humans have become monsters, creatures of darkness. Their armor
     covers them from head to toe, and their weapons are often enchanted by the magic
     of Terror. Only the bravest (or the most reckless) are not terrified at the sight
