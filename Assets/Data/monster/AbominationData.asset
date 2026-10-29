@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 2610250548304416104, guid: 037be032501c14441ae5dcc242705f7e, type: 3}
   texture: {fileID: 2800000, guid: 0d96599dfe7c46742b6a90ac337c52a9, type: 3}
-  id: 
+  id: abomination
   description: We know very little about these monsters. Zargon uses these colossal
     amphibious humanoids to enforce his tyranny. They are very dangerous, even on
     their own.
   tags: []
-  monsterName: Abonimation
+  monsterName: Abomination
   healthPoints: 2
   mindPoints: 3
   attackDices: 3
