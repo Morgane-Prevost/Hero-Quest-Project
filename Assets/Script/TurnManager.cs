@@ -28,12 +28,11 @@ public enum HeroActionType
 }
 
 /// <summary>
-/// Turn by turn flow of a quest:
-/// heroes play one after the other, then Zargon moves all the monsters on the board, then a new round starts.
+/// Rounds of a quest (rulebook "Ordre du jeu"): the heroes play one after the other,
+/// then Zargon moves all the monsters on the board, then a new round starts.
 ///
 /// Hero turn: one move (2 red dice) and ONE action, in any order (move then action, or action then move).
-/// Free things (looking, opening doors, potions, picking up) are not handled here: they are always allowed.
-///
+/// Free things (looking, opening doors, potions, picking up) are not limited here.
 /// The UI only needs: RequestMove(), RequestAction(type), EndHeroTurn() and the events below.
 /// </summary>
 public class TurnManager : MonoBehaviour
@@ -49,7 +48,7 @@ public class TurnManager : MonoBehaviour
              "True: the hero code must call NotifyActionFinished(performed) when its action is over.")]
     [SerializeField] private bool heroReportsActionResult = false;
 
-    [Tooltip("Test keys (new Input System): Enter = start quest, M = move, A = attack, E = end hero turn. Disable in the real game.")]
+    [Tooltip("Test keys (new Input System): M = move, A = attack, E = end hero turn. Disable in the real game.")]
     [SerializeField] private bool debugKeys = true;
     [SerializeField] private bool logTurns = true;
 
@@ -58,6 +57,10 @@ public class TurnManager : MonoBehaviour
     private bool busy;
     private bool waitingForActionResult;
 
+    private Coroutine moveCoroutine;
+    private GridPawn movePawn;
+    private Action<GridPawn, Vector2Int, Vector2Int> moveHandler;
+
     public TurnPhase Phase { get; private set; } = TurnPhase.NotStarted;
     public int Round { get; private set; }
     public Hero CurrentHero { get; private set; }
@@ -65,8 +68,7 @@ public class TurnManager : MonoBehaviour
     public bool HasActed { get; private set; }
     public bool IsBusy => busy;
 
-    // What the UI should enable.
-    public bool CanMove => Phase == TurnPhase.HeroTurn && !busy && !HasMoved && (CurrentHero == null || CurrentHero.CanMoveOrAttack);
+    public bool CanMove => Phase == TurnPhase.HeroTurn && !busy && !HasMoved;
     public bool CanAct => Phase == TurnPhase.HeroTurn && !busy && !HasActed;
     public bool CanEndTurn => Phase == TurnPhase.HeroTurn && !busy;
 
@@ -75,7 +77,6 @@ public class TurnManager : MonoBehaviour
     public event Action<Hero> HeroTurnEnded;
     public event Action ZargonTurnStarted;
     public event Action ZargonTurnEnded;
-    public event Action<bool> QuestFinished; // true = heroes won
 
     private void Awake()
     {
@@ -84,57 +85,96 @@ public class TurnManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
-        Instance = this; // no DontDestroyOnLoad: this object references scene objects
+        Instance = this;
+    }
+
+    private void Start()
+    {
+        // A trap card can end the current hero's turn (treasure search).
+        if (HeroQuestWorldBridge.Instance != null)
+            HeroQuestWorldBridge.Instance.HeroTurnEndRequested += OnHeroTurnEndRequested;
+    }
+
+    private void OnDestroy()
+    {
+        if (HeroQuestWorldBridge.Instance != null)
+            HeroQuestWorldBridge.Instance.HeroTurnEndRequested -= OnHeroTurnEndRequested;
     }
 
     // ───────── Quest ─────────
 
-    // order = heroes in play order (the hero to Zargon's left first). Null = every Hero found in the scene.
+    // order = heroes in play order (the hero to Zargon's left first). Null = the order of HeroManager.
     public void StartQuest(IEnumerable<Hero> order = null)
     {
+        StopQuest();
+
         heroOrder.Clear();
         if (order != null) heroOrder.AddRange(order);
-        else heroOrder.AddRange(FindHeroes());
+        else heroOrder.AddRange(GatherHeroes());
 
-        if (heroOrder.Count == 0)
+        if (!AnyActiveHero())
         {
-            Debug.LogError("[Turn] No hero to play: create the heroes before starting the quest.");
+            Debug.LogError("[Turn] No hero to play: the heroes must exist before the rounds start.");
             return;
         }
 
+        Phase = TurnPhase.NotStarted;
         busy = false;
         waitingForActionResult = false;
         Round = 0;
         BeginRound();
     }
 
-    // For quest conditions (objective reached, boss dead...). All heroes dead is detected automatically.
-    public void EndQuest(bool heroesWon)
+    // Called by GameplayLoop when QuestManager ends the quest. Stops everything in progress.
+    public void StopQuest()
     {
-        if (Phase == TurnPhase.QuestEnded) return;
-        Phase = TurnPhase.QuestEnded;
+        if (Phase == TurnPhase.QuestEnded && !busy) return;
+
+        StopMoveRoutine();
+        if (CellPicker.Instance != null && CellPicker.Instance.IsPicking) CellPicker.Instance.Cancel();
+        if (monsterExecutor != null) monsterExecutor.TurnFinished -= OnMonsterTurnFinished;
+
+        busy = false;
+        waitingForActionResult = false;
         CurrentHero = null;
-        Log("Quest finished: " + (heroesWon ? "heroes win" : "heroes lose"));
-        QuestFinished?.Invoke(heroesWon);
+        Phase = TurnPhase.QuestEnded;
+        Log("Rounds stopped.");
     }
 
     // ───────── Rounds ─────────
 
     private void BeginRound()
     {
+        if (Phase == TurnPhase.QuestEnded) return;
+
         Round++;
         heroIndex = -1;
         Log("=== Round " + Round + " ===");
         RoundStarted?.Invoke(Round);
+
+        // Quest rules based on turns ("after 10 turns..."). May end the quest (-> StopQuest).
+        QuestEvents.Raise(QuestEventType.TurnStarted);
+        if (Phase == TurnPhase.QuestEnded) return;
+
         NextHero();
     }
 
     private void NextHero()
     {
+        if (Phase == TurnPhase.QuestEnded) return;
+
+        if (!AnyActiveHero())
+        {
+            // QuestManager should already have ended the quest (all dead / escaped). Stop here to avoid looping.
+            Debug.LogWarning("[Turn] No active hero left but the quest is not ended: rounds stopped.");
+            StopQuest();
+            return;
+        }
+
         while (++heroIndex < heroOrder.Count)
         {
             Hero hero = heroOrder[heroIndex];
-            if (IsAlive(hero))
+            if (IsActiveHero(hero))
             {
                 StartHeroTurn(hero);
                 return;
@@ -154,25 +194,14 @@ public class TurnManager : MonoBehaviour
         busy = false;
         waitingForActionResult = false;
         Log("Hero turn: " + hero.heroName);
-        QuestEvents.Raise(QuestEventType.TurnStarted);
-
-        // Release rolls (sleep, control, horror) come first, so the UI sees the real state
-        if (DreadSpellManager.Instance != null) DreadSpellManager.Instance.RollReleases(hero);
         HeroTurnStarted?.Invoke(hero);
-
-        if (hero.HasEffect(HeroEffect.SkipTurn))   // tornado: the hero passes this turn
-        {
-            hero.EndEffect(HeroEffect.SkipTurn);
-            Log(hero.heroName + " passes the turn (tornado).");
-            EndHeroTurn();
-        }
     }
 
     // Roll the movement dice and let the hero choose a cell. One move per turn.
     public bool RequestMove()
     {
         if (!CurrentHeroCanPlay() || !CanMove) return false;
-        StartCoroutine(MoveRoutine(CurrentHero));
+        moveCoroutine = StartCoroutine(MoveRoutine(CurrentHero));
         return true;
     }
 
@@ -182,13 +211,15 @@ public class TurnManager : MonoBehaviour
         if (pawn == null)
         {
             Debug.LogError("[Turn] " + hero.heroName + " has no GridPawn.");
+            moveCoroutine = null;
             yield break;
         }
 
         busy = true;
         bool moved = false;
-        Action<GridPawn, Vector2Int, Vector2Int> onCellChanged = (p, from, to) => moved = true;
-        pawn.CellChanged += onCellChanged;
+        moveHandler = (p, from, to) => moved = true;
+        movePawn = pawn;
+        pawn.CellChanged += moveHandler;
 
         hero.Move();
 
@@ -203,10 +234,18 @@ public class TurnManager : MonoBehaviour
             yield return null;
         }
 
-        pawn.CellChanged -= onCellChanged;
+        StopMoveRoutine();
         if (moved) HasMoved = true;
         else Log(hero.heroName + " cancelled the move (can still move).");
         busy = false;
+    }
+
+    private void StopMoveRoutine()
+    {
+        if (moveCoroutine != null) { StopCoroutine(moveCoroutine); moveCoroutine = null; }
+        if (movePawn != null && moveHandler != null) movePawn.CellChanged -= moveHandler;
+        movePawn = null;
+        moveHandler = null;
     }
 
     // One action per turn. Calls the matching Hero method.
@@ -214,7 +253,6 @@ public class TurnManager : MonoBehaviour
     {
         if (!CurrentHeroCanPlay() || !CanAct) return false;
         Hero hero = CurrentHero;
-        if (action == HeroActionType.Attack && !hero.CanMoveOrAttack) return false;   // asleep or controlled
 
         if (heroReportsActionResult)
         {
@@ -256,13 +294,26 @@ public class TurnManager : MonoBehaviour
             Debug.LogWarning("[Turn] Cannot end the turn: a move or action is still in progress.");
             return;
         }
+        FinishHeroTurn();
+    }
 
+    // The treasure trap card ends the turn even if an action is still "in progress".
+    private void OnHeroTurnEndRequested(Hero hero)
+    {
+        if (Phase != TurnPhase.HeroTurn || hero != CurrentHero) return;
+        StopMoveRoutine();
+        busy = false;
+        waitingForActionResult = false;
+        Log(hero.heroName + " turn ended by a card.");
+        FinishHeroTurn();
+    }
+
+    private void FinishHeroTurn()
+    {
         Hero ended = CurrentHero;
         CurrentHero = null;
         Log("End of hero turn: " + (ended != null ? ended.heroName : "?"));
         HeroTurnEnded?.Invoke(ended);
-
-        if (AllHeroesDead()) { EndQuest(false); return; }
         NextHero();
     }
 
@@ -270,10 +321,11 @@ public class TurnManager : MonoBehaviour
     private bool CurrentHeroCanPlay()
     {
         if (Phase != TurnPhase.HeroTurn || CurrentHero == null) return false;
-        if (!IsAlive(CurrentHero))
+        if (!IsActiveHero(CurrentHero))
         {
+            StopMoveRoutine();
             busy = false;
-            EndHeroTurn();
+            FinishHeroTurn();
             return false;
         }
         return true;
@@ -319,35 +371,33 @@ public class TurnManager : MonoBehaviour
 
     private void FinishZargonTurn()
     {
+        if (Phase == TurnPhase.QuestEnded) return; // the quest ended during the monsters' turn
         ZargonTurnEnded?.Invoke();
-        if (AllHeroesDead()) { EndQuest(false); return; }
         BeginRound();
     }
 
     // ───────── Helpers ─────────
 
-    private static bool IsAlive(Hero hero)
+    // Allies are moved by their controller, escaped / dead heroes do not play.
+    private static bool IsActiveHero(Hero hero)
     {
-        return hero != null && hero.currentBodyPoints > 0;
+        return hero != null && !hero.IsAlly && !hero.IsDead && !hero.HasEscaped;
     }
 
-    private bool AllHeroesDead()
+    private bool AnyActiveHero()
     {
         foreach (Hero hero in heroOrder)
-            if (IsAlive(hero)) return false;
-        return true;
+            if (IsActiveHero(hero)) return true;
+        return false;
     }
 
-    private static List<Hero> FindHeroes()
+    private static List<Hero> GatherHeroes()
     {
-#if UNITY_2023_1_OR_NEWER
-        List<Hero> found = new List<Hero>(FindObjectsByType<Hero>(FindObjectsSortMode.None));
-#else
-        List<Hero> found = new List<Hero>(FindObjectsOfType<Hero>());
-#endif
-        // Placeholder order. Replace by the real seating order (hero to Zargon's left first).
-        found.Sort((a, b) => string.CompareOrdinal(a.heroName, b.heroName));
-        return found;
+        List<Hero> list = new List<Hero>();
+        if (HeroManager.Instance != null)
+            foreach (Hero hero in HeroManager.Instance.Heroes)
+                if (hero != null) list.Add(hero);
+        return list;
     }
 
     private void Log(string message)
@@ -360,7 +410,6 @@ public class TurnManager : MonoBehaviour
     {
         if (!debugKeys || Keyboard.current == null) return;
 
-        if (Keyboard.current.enterKey.wasPressedThisFrame && Phase == TurnPhase.NotStarted) StartQuest();
         if (Keyboard.current.mKey.wasPressedThisFrame) RequestMove();
         if (Keyboard.current.aKey.wasPressedThisFrame) RequestAction(HeroActionType.Attack);
         if (Keyboard.current.eKey.wasPressedThisFrame) EndHeroTurn();
