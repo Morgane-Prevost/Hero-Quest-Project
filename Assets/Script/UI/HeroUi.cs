@@ -13,6 +13,11 @@ public class HeroUi : MonoBehaviour
         if (TurnManager.Instance != null)
         {
             TurnManager.Instance.HeroTurnStarted += OnHeroTurnStarted;
+
+            if (TurnManager.Instance.CurrentHero != null)
+            {
+                SetHero(TurnManager.Instance.CurrentHero);
+            }
         }
     }
 
@@ -31,9 +36,13 @@ public class HeroUi : MonoBehaviour
 
     public void SetHero(Hero hero)
     {
-        statsPanel.SetHero(hero);
-        portraitPanel.SetHero(hero.Data);
-        cardViewer.SetHero(hero.Data);
-        inventoryPanel.SetHero(hero);
+        if (hero == null) return;
+
+        HeroData heroData = hero.Data;
+
+        if (statsPanel != null) statsPanel.SetHero(hero);
+        if (portraitPanel != null) portraitPanel.SetHero(heroData);
+        if (cardViewer != null) cardViewer.SetHero(heroData);
+        if (inventoryPanel != null) inventoryPanel.SetHero(hero);
     }
 }

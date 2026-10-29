@@ -15,45 +15,47 @@ public class CardViewer : MonoBehaviour
 
     private void Awake()
     {
-        overlay.SetActive(false);
-
-        portraitButton.onClick.AddListener(Open);
-        overlayButton.onClick.AddListener(Close);
+        if (overlay != null) overlay.SetActive(false);
+        if (portraitButton != null) portraitButton.onClick.AddListener(Open);
+        if (overlayButton != null) overlayButton.onClick.AddListener(Close);
     }
 
     public void SetHero(HeroData hero)
     {
-        currentCard = hero.cardTexture;
-
-        // Si la carte n'est pas encore faite, on affiche le portrait à la place
-        if (currentCard == null)
+        if (hero == null)
         {
-            currentCard = hero.texture;
+            currentCard = null;
+            return;
         }
+
+        currentCard = hero.cardTexture != null ? hero.cardTexture : hero.texture;
     }
 
     private void Open()
     {
-        if (currentCard == null)
-            return;
+        if (currentCard == null || cardImage == null || overlay == null) return;
 
         cardImage.texture = currentCard;
-        ratioFitter.aspectRatio = (float)currentCard.width / currentCard.height;
+        if (ratioFitter != null && currentCard.height > 0)
+        {
+            ratioFitter.aspectRatio = (float)currentCard.width / currentCard.height;
+        }
 
         overlay.SetActive(true);
     }
 
     private void Close()
     {
-        overlay.SetActive(false);
+        if (overlay != null) overlay.SetActive(false);
     }
 
     private void Update()
     {
-        // Échap ferme aussi la carte
-        if (overlay.activeSelf && Keyboard.current.escapeKey.wasPressedThisFrame)
+#if ENABLE_INPUT_SYSTEM
+        if (overlay != null && overlay.activeSelf && Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame)
         {
             Close();
         }
+#endif
     }
 }
