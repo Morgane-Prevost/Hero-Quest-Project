@@ -20,9 +20,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private int slotCount = 12;
 
     [Header("Details")]
-    [SerializeField] private RawImage detailIcon;
-    [SerializeField] private TMP_Text detailName;
-    [SerializeField] private TMP_Text detailDescription;
+    [SerializeField] private CardView detailCard;
     [SerializeField] private Button actionButton;
     [SerializeField] private TMP_Text actionButtonText;
 
@@ -143,19 +141,15 @@ public class InventoryPanel : MonoBehaviour
     {
         if (selectedIndex < 0 || selectedIndex >= items.Count)
         {
-            detailIcon.enabled = false;
-            detailName.text = "";
-            detailDescription.text = "";
+            detailCard.gameObject.SetActive(false);
             actionButton.gameObject.SetActive(false);
             return;
         }
 
         CardSO card = items[selectedIndex];
 
-        detailIcon.texture = card.icon;
-        detailIcon.enabled = card.icon != null;
-        detailName.text = card.displayName;
-        detailDescription.text = card.description;
+        detailCard.gameObject.SetActive(true);
+        detailCard.Show(card);
 
         string label = GetActionLabel(card);
         actionButton.gameObject.SetActive(label != "");

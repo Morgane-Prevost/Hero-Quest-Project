@@ -13,12 +13,15 @@ MonoBehaviour:
   m_Name: LongSword
   m_EditorClassIdentifier: Assembly-CSharp::WeaponData
   displayName: Long Sword
-  description: 
-  icon: {fileID: 0}
-  artwork: {fileID: 0}
+  description: Weapon - A long-bladed sword that gives you 3 attack dice. Its reach
+    also lets you attack diagonally. Cannot be used by the wizard.
+  icon: {fileID: 2800000, guid: 9b340b3b4847c8d4ba7a9e9b41de93a0, type: 3}
+  artwork: {fileID: 2800000, guid: b3979497d529107479a5f12140924b58, type: 3}
+  goldCost: 350
   equipement:
     type: 1
     cost: 350
+  weaponType: 0
   attackDice: 3
   canDiagoAttack: 1
   canCloseRangeAttack: 1
