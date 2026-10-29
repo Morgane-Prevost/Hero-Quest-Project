@@ -1,15 +1,17 @@
-﻿using HeroQuest.Board;
+using HeroQuest.Board;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MonsterManager : MonoBehaviour
 {
     [SerializeField] private BoardBuilder board;
-    [Tooltip("Optional: if assigned, level monsters are spawned automatically when the level is built / revealed.")]
-    [SerializeField] private LevelBuilder level;
     [SerializeField] private List<MonsterData> monsters;
 
     public static MonsterManager Instance { get; private set; }
+
+    // Quest hooks: HeroQuestWorldBridge listens to these.
+    public event System.Action<Monster> MonsterSpawned;   // after creation (level build or SpawnByType)
+    public event System.Action<Monster> MonsterKilled;    // just before the monster is destroyed (cell still valid)
 
     private void Awake()
     {
@@ -23,7 +25,7 @@ public class MonsterManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    // Living monsters on the board (Zargon's turn moves all of them).
+    // Living monsters on the board, revealed or not (check Monster.revealedToHeroes).
     private readonly List<Monster> activeMonsters = new List<Monster>();
     public IReadOnlyList<Monster> ActiveMonsters => activeMonsters;
 
@@ -38,7 +40,7 @@ public class MonsterManager : MonoBehaviour
         return monsters.Find(m => !string.IsNullOrEmpty(m.id) &&
                                   string.Equals(m.id, id.Trim(), System.StringComparison.OrdinalIgnoreCase));
     }
-    
+
     public MonsterData FindData(string typeName)
     {
         // 1. exact id ("goblin"), 2. loose match on the name
@@ -95,6 +97,7 @@ public class MonsterManager : MonoBehaviour
             monster = monsterObj.AddComponent<Monster>();
 
         monster.Initialize(data, data.monsterName);
+        monster.monsterType = data.monsterName;   // used by kill bounties / quest conditions
 
         if (!pawn.PlaceAt(cell))
         {
@@ -107,100 +110,61 @@ public class MonsterManager : MonoBehaviour
         return monster;
     }
 
-    private LevelBuilder boundLevel;
-    private readonly HashSet<string> spawnedElementIds = new HashSet<string>();
-
-    private void Start()
+    // Called by LevelBuilder for every "monsters" entry of the level JSON (replaces the old red placeholder).
+    // The monster exists from the start; LevelBuilder hides it from the heroes until it is revealed.
+    public Monster SpawnForElement(string elementId, string typeName, Vector2Int cell)
     {
-        if (level == null) return;
-        level.LevelBuilt += OnLevelBuilt;
-        if (level.Model != null) OnLevelBuilt(level); // level already built before this Start
+        MonsterData data = FindData(typeName);
+        if (data == null)
+        {
+            Debug.LogWarning("[Monster] No MonsterData for level type '" + typeName + "' (element " + elementId + ").");
+            return null;
+        }
+        Monster monster = CreateMonster(data, cell);
+        if (monster == null) return null;
+        monster.elementId = elementId;
+        monster.revealedToHeroes = false;
+        Debug.Log("[Monster] Spawned " + elementId + " (" + data.monsterName + ") at " + cell);
+        MonsterSpawned?.Invoke(monster);
+        return monster;
     }
 
-    private void OnDestroy()
+    // Spawns a monster by type name (wandering monster, quest spawn). No level element behind it.
+    public Monster SpawnByType(string typeName, Vector2Int cell)
     {
-        if (level != null) level.LevelBuilt -= OnLevelBuilt;
-        UnbindLevel();
+        MonsterData data = FindData(typeName);
+        if (data == null)
+        {
+            Debug.LogWarning("[Monster] No MonsterData for type '" + typeName + "'.");
+            return null;
+        }
+        Monster monster = CreateMonster(data, cell);
+        if (monster == null) return null;
+        monster.elementId = "";
+        MonsterSpawned?.Invoke(monster);
+        return monster;
     }
 
-    private void OnLevelBuilt(LevelBuilder built)
-    {
-        ClearMonsters();
-        SpawnLevelMonsters(built);
-    }
-
+    // Called by LevelBuilder.Clear() before a new level is built.
     public void ClearMonsters()
     {
         foreach (Monster m in new List<Monster>(activeMonsters))
         {
             if (m == null) continue;
             m.Died -= OnMonsterDied;
+            if (m.Pawn != null) m.Pawn.Remove();   // frees the cell NOW (Destroy only happens at end of frame)
+            m.gameObject.SetActive(false);
             Destroy(m.gameObject);
         }
         activeMonsters.Clear();
     }
 
-    // Rulebook: a monster only exists on the board once a hero has SEEN it (corridor line of sight)
-    // or opened its room's door. So real Monster objects are created when LevelBuilder reveals them,
-    // not at level start.
-    public int SpawnLevelMonsters(LevelBuilder level)
-    {
-        UnbindLevel();
-        if (level == null || level.Model == null) return 0;
-
-        boundLevel = level;
-        boundLevel.ElementRevealed += OnElementRevealed;
-
-        int count = 0;
-        foreach (ElementDef def in level.Model.Elements)
-        {
-            if (def.kind != ElementKind.Monster) continue;
-            PlacedElement placeholder = level.GetElement(def.id);
-            if (placeholder != null && placeholder.VisibleToHeroes && SpawnFromElement(def)) count++;
-        }
-        return count;
-    }
-
-    private void UnbindLevel()
-    {
-        if (boundLevel != null) boundLevel.ElementRevealed -= OnElementRevealed;
-        boundLevel = null;
-        spawnedElementIds.Clear();
-    }
-
-    private void OnElementRevealed(ElementDef def)
-    {
-        if (def.kind == ElementKind.Monster) SpawnFromElement(def);
-    }
-
-    // Replaces the red placeholder pawn LevelBuilder put for this monster by a real Monster (same cell).
-    private bool SpawnFromElement(ElementDef def)
-    {
-        if (spawnedElementIds.Contains(def.id)) return false;
-
-        MonsterData data = FindData(def.type);
-        if (data == null)
-        {
-            Debug.LogWarning("[Monster] No MonsterData for level type '" + def.type + "' (element " + def.id + ").");
-            return false;
-        }
-
-        PlacedElement placeholder = boundLevel.GetElement(def.id);
-        if (placeholder != null)
-        {
-            if (placeholder.Pawn != null) placeholder.Pawn.Remove(); // frees the cell
-            placeholder.gameObject.SetActive(false);
-        }
-
-        if (CreateMonster(data, new Vector2Int(def.x, def.y)) == null) return false;
-        spawnedElementIds.Add(def.id);
-        return true;
-    }
-
     private void OnMonsterDied(Monster monster)
     {
         monster.Died -= OnMonsterDied;
+        MonsterKilled?.Invoke(monster);
         activeMonsters.Remove(monster);
-        Destroy(monster.gameObject); // GridPawn.OnDestroy frees the cell
+        if (monster.Pawn != null) monster.Pawn.Remove();
+        Destroy(monster.gameObject);
     }
 }

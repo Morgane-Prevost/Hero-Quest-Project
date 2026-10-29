@@ -14,7 +14,7 @@ public interface ISpellHeroTarget
 public interface ISpellMonsterTarget
 {
     int DefenseDice {  get; } // 0 when the monster cannot defend (asleep)
-    void TakeDamage(int amount); 
+    void TakeDamage(int amount, Hero source = null); 
     bool HasTag(string tag);
     void SkipNextTurn();
     void FallAsleep();

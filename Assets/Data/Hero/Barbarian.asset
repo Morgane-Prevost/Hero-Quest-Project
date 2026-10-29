@@ -22,6 +22,6 @@ MonoBehaviour:
   attackDices: 3
   defenseDices: 2
   movementDices: 2
-  weapon: {fileID: 11400000, guid: a3d406a2e0583ed45ae491aea8d54630, type: 2}
+  weapon: {fileID: 11400000, guid: 45b1af438e394cc42b4a558a7314f76a, type: 2}
   armor: []
   gold: 0

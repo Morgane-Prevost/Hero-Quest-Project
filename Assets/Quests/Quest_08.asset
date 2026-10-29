@@ -1,0 +1,164 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7313713684628535816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q8_chest
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 20
+  elementId: q8_chest
+--- !u!114 &-5622991582187453056
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q8_balur'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q8_balur
+  monsterType: 
+  count: 1
+--- !u!114 &-4566950903181033948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 150
+  cards: []
+  artifactIds:
+  - magic_wand
+  replacesTreasureDraw: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_08
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_08
+  questNumber: 8
+  title: The Fire Mage
+  description: 'The orcs of the Black Mountain use fire magic. Balur, the fire mage,
+    helps them: no fire spell can affect him. Go and defeat him in his lair: 100
+    gold coins each.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Abomination
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 'Balur knows six spells, one cast each: fireball, firestorm, tornado,
+    summon orcs, dread and teleport (to square XX of the central room). If he has
+    teleported, do not place his miniature in that room until a hero opens its door.
+    Fire spells do not affect him.'
+  victoryNote: 
+  defeatNote: 
+  namedMonsters:
+  - elementId: q8_balur
+    displayName: Balur
+    movement: 8
+    attackDice: 2
+    defenseDice: 5
+    bodyPoints: 3
+    mindPoints: 7
+    dormant: 0
+    invulnerableUntilActed: 0
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: 
+    immuneToAllSpells: 0
+    spellImmunities:
+    - fire
+    spellIds:
+    - boule_de_feu
+    - tempete_de_feu
+    - tornade
+    - invocation_orcs
+    - horreur
+    - teleportation
+    castsSpellInsteadOfAttacking: 0
+    spellsOncePerQuest: 1
+  allies: []
+  objectives:
+  - id: kill_balur
+    description: Defeat Balur
+    optional: 0
+  rules:
+  - ruleId: balur_dead
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -5622991582187453056}
+    actions:
+    - {fileID: 7742243623934149123}
+  - ruleId: chest
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -7313713684628535816}
+    actions:
+    - {fileID: 7529710501687988773}
+    - {fileID: -4566950903181033948}
+  sharedGoldReward: 0
+  goldRewardPerHero: 100
+  rewardRequiresObjectiveId: 
+--- !u!114 &7529710501687988773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note Note
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: 
+  title: Note
+  text: The chest contains 150 gold coins and the Magic Wand (artifact).
+--- !u!114 &7742243623934149123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective kill_balur
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: kill_balur
