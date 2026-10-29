@@ -65,15 +65,15 @@
     { "id": "gargoyle_verag", "type": "Gargoyle", "x": 12, "y": 10, "facing": "S", "note": "Verag (Boss)" },
     { "id": "orc_2", "type": "Orc", "x": 14, "y": 10, "facing": "S" },
     { "id": "orc_3", "type": "Orc", "x": 11, "y": 7, "facing": "N" },
-    { "id": "ChaosWarrior_1", "type": "ChaosWarrior", "x": 14, "y": 7, "facing": "N" },
+    { "id": "ChaosWarrior_1", "type": "Dread Warrior", "x": 14, "y": 7, "facing": "N" },
     { "id": "goblin_4", "type": "Goblin", "x": 2, "y": 7, "facing": "E" },
     { "id": "orc_4", "type": "Orc", "x": 2, "y": 6, "facing": "E" },
     { "id": "orc_5", "type": "Orc", "x": 7, "y": 4, "facing": "S" },
     { "id": "orc_6", "type": "Orc", "x": 8, "y": 3, "facing": "S" },
     { "id": "goblin_5", "type": "Goblin", "x": 10, "y": 4, "facing": "W" },
-    { "id": "fimir_1", "type": "Fimir", "x": 10, "y": 2, "facing": "W" },
-    { "id": "ChaosWarrior_2", "type": "ChaosWarrior", "x": 16, "y": 3, "facing": "S" },
-    { "id": "ChaosWarrior_3", "type": "ChaosWarrior", "x": 15, "y": 2, "facing": "S" }
+    { "id": "fimir_1", "type": "Abomination", "x": 10, "y": 2, "facing": "W" },
+    { "id": "ChaosWarrior_2", "type": "Dread Warrior", "x": 16, "y": 3, "facing": "S" },
+    { "id": "ChaosWarrior_3", "type": "Dread Warrior", "x": 15, "y": 2, "facing": "S" }
   ],
   "traps": []
 }

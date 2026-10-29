@@ -19,7 +19,7 @@ MonoBehaviour:
     amphibious humanoids to enforce his tyranny. They are very dangerous, even on
     their own.
   tags: []
-  monsterName: Abonimation
+  monsterName: Abomination
   healthPoints: 2
   mindPoints: 3
   attackDices: 3

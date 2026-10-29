@@ -1,0 +1,314 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7726913864146358044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards:
+  - {fileID: 11400000, guid: d410f86e90e7a0d4dbc5192ca7f65f7c, type: 2}
+  artifactIds: []
+  replacesTreasureDraw: 1
+--- !u!114 &-6567482428365256642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: All monsters dead
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllMonstersDeadCondition
+--- !u!114 &-6115278553929471179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag gargoyle_awake=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: gargoyle_awake
+  expected: 0
+--- !u!114 &-5840008264814827907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: 'The chest is trapped: the stone gargoyle comes to life and attacks immediately.
+    It cannot be hurt before it has moved or attacked a hero.'
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_11
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_11
+  questNumber: 11
+  title: The Fortress of Terror
+  description: 'Orcs and goblins allied with Zargon are plundering the east. Storm
+    their fortress and kill every monster. Each hero is paid for his victims: 10
+    gold per goblin, 20 per orc, 30 per abomination, 50 per Chaos Warrior.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Abomination
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties:
+  - monsterType: Goblin
+    gold: 10
+  - monsterType: Orc
+    gold: 20
+  - monsterType: Abomination
+    gold: 30
+  - monsterType: Chaos Warrior
+    gold: 50
+  introTitle: "Qu\xEAte"
+  introNote: 
+  victoryNote: 
+  defeatNote: 
+  namedMonsters:
+  - elementId: q11_gargoyle
+    displayName: 
+    movement: -1
+    attackDice: -1
+    defenseDice: -1
+    bodyPoints: -1
+    mindPoints: -1
+    dormant: 1
+    invulnerableUntilActed: 1
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: 
+    immuneToAllSpells: 0
+    spellImmunities: []
+    spellIds: []
+    castsSpellInsteadOfAttacking: 0
+    spellsOncePerQuest: 0
+  allies: []
+  objectives:
+  - id: kill_all
+    description: Kill every monster in the fortress
+    optional: 0
+  rules:
+  - ruleId: all_dead
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -6567482428365256642}
+    actions:
+    - {fileID: 6730271893738790160}
+  - ruleId: note_A
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 1987270975035704006}
+    actions:
+    - {fileID: 2828246139209271253}
+    - {fileID: -7726913864146358044}
+  - ruleId: note_B_trap
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 1380099811593847957}
+    - {fileID: 2862241416838042562}
+    - {fileID: -6115278553929471179}
+    actions:
+    - {fileID: -5840008264814827907}
+    - {fileID: 3138620434124451448}
+    - {fileID: 2737837110627765347}
+  - ruleId: note_C
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 7134456656643540946}
+    actions:
+    - {fileID: 3672351167854958675}
+    - {fileID: 6994452585627998163}
+  sharedGoldReward: 0
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &1380099811593847957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q11_chest
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 28
+  elementId: q11_chest
+--- !u!114 &1987270975035704006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q11_armory
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 27
+  elementId: q11_armory
+--- !u!114 &2737837110627765347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set gargoyle_awake
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: gargoyle_awake
+  value: 1
+--- !u!114 &2828246139209271253
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: 'An armory: the first hero to search finds a shield here (same as the equipment
+    card). The other weapons are unusable.'
+--- !u!114 &2862241416838042562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag disarmed:q11_chest=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: disarmed:q11_chest
+  expected: 0
+--- !u!114 &3138620434124451448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Activate q11_gargoyle
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ActivateMonsterAction
+  elementId: q11_gargoyle
+--- !u!114 &3672351167854958675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note CNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: C
+  title: Note
+  text: 'This Chaos Warrior carried a magic sword: the hero who killed him may take
+    the Orc''s Bane (artifact).'
+--- !u!114 &6730271893738790160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective kill_all
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: kill_all
+--- !u!114 &6994452585627998163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - orc_bane
+  replacesTreasureDraw: 0
+--- !u!114 &7134456656643540946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q11_warrior_sword'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q11_warrior_sword
+  monsterType: 
+  count: 1

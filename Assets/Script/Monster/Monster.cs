@@ -19,6 +19,7 @@ public class Monster : MonoBehaviour, ISpellMonsterTarget, IDamageable
     public List<string> spellIds = new List<string>();          // read by the future spell system
     public bool castsSpellInsteadOfAttacking;
     public bool spellsOncePerQuest;
+    public bool revealedToHeroes = false;
     public Hero LastAttacker { get; private set; }
 
     public int healthPoints;
