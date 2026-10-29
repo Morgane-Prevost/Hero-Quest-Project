@@ -1,0 +1,305 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8523175581603431113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Last hero has passed
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllHeroesVisitedTileCondition
+  tile: {x: 0, y: 0}
+--- !u!114 &-8364773158715093657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Rockfall
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SealPassageAction
+  cells: []
+--- !u!114 &-8279575376585274432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: The Star of the West was in this zombie's hand.
+--- !u!114 &-7664961649512648162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Activate q12_sorcerer
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ActivateMonsterAction
+  elementId: q12_sorcerer
+--- !u!114 &-740560364776455605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note DNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: D
+  title: Note
+  text: 'You have broken the magic seal holding the Sorcerer Lord. He is awake: flee,
+    for only the Mystic Sword can hurt him.'
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_12
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_12
+  questNumber: 12
+  title: "Barak Tor \u2014 The Lair of the Sorcerer Lord"
+  description: 'The king needs the Star of the West to unite the kingdom before war
+    breaks out. It lies in Barak Tor, where the Sorcerer Lord sleeps. Reward: 200
+    gold coins to share.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Skeleton
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: Some doors are false and will not open. The trapped rockfall near the
+    exit only triggers after the last hero has passed and permanently cuts off the
+    way back to the stairs.
+  victoryNote: 
+  defeatNote: 
+  namedMonsters:
+  - elementId: q12_zombie
+    displayName: 
+    movement: -1
+    attackDice: -1
+    defenseDice: -1
+    bodyPoints: -1
+    mindPoints: -1
+    dormant: 0
+    invulnerableUntilActed: 0
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: 
+    immuneToAllSpells: 0
+    spellImmunities: []
+    spellIds: []
+    castsSpellInsteadOfAttacking: 0
+    spellsOncePerQuest: 0
+  - elementId: q12_sorcerer
+    displayName: The Sorcerer Lord
+    movement: 1
+    attackDice: 2
+    defenseDice: -1
+    bodyPoints: -1
+    mindPoints: -1
+    dormant: 1
+    invulnerableUntilActed: 0
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: mystic_sword
+    immuneToAllSpells: 1
+    spellImmunities: []
+    spellIds:
+    - invocation_morts_vivants
+    - horreur
+    - controle
+    - boule_de_feu
+    castsSpellInsteadOfAttacking: 0
+    spellsOncePerQuest: 0
+  allies: []
+  objectives:
+  - id: get_star
+    description: Retrieve the Star of the West
+    optional: 0
+  rules:
+  - ruleId: note_B
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 6567520006803888757}
+    actions:
+    - {fileID: -8279575376585274432}
+    - {fileID: 2258712506937326621}
+  - ruleId: note_D
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 168763346572439411}
+    actions:
+    - {fileID: -740560364776455605}
+    - {fileID: 639008582346007917}
+    - {fileID: -7664961649512648162}
+  - ruleId: note_E
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 7449900998275317444}
+    actions:
+    - {fileID: 8914150339391026187}
+    - {fileID: 8655633904417242234}
+  - ruleId: note_C
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -8523175581603431113}
+    actions:
+    - {fileID: 8119895696989709995}
+    - {fileID: -8364773158715093657}
+  sharedGoldReward: 200
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: get_star
+--- !u!114 &168763346572439411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Entered room 29
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
+  zone: 29
+--- !u!114 &639008582346007917
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Reveal q12_sorcerer
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RevealElementAction
+  elementId: q12_sorcerer
+--- !u!114 &2258712506937326621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective get_star
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: get_star
+--- !u!114 &6567520006803888757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q12_zombie'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q12_zombie
+  monsterType: 
+  count: 1
+--- !u!114 &7449900998275317444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q12_library
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 30
+  elementId: q12_library
+--- !u!114 &8119895696989709995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note CNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: C
+  title: Note
+  text: 'The rockfall collapses behind the last hero: the way back is blocked forever.'
+--- !u!114 &8655633904417242234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - enchanter_staff
+  replacesTreasureDraw: 1
+--- !u!114 &8914150339391026187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ENote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: E
+  title: Note
+  text: 'Behind the bookcase: the Enchanter''s Staff (artifact).'

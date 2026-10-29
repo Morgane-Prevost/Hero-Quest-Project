@@ -70,6 +70,12 @@ namespace HeroQuest.Board
         [Header("Elements: imported visuals (replace the placeholders)")]
         public List<PlaceableBinding> placeables = new List<PlaceableBinding>();
 
+        public string monsterLayerName = "Monster";  
+        int monsterLayer;
+        readonly Dictionary<string, Monster> monsters = new Dictionary<string, Monster>();
+
+        public Monster GetMonster(string id) { Monster m; return monsters.TryGetValue(id, out m) ? m : null; }
+
         // ---- Public API ----
         public LevelModel Model { get; private set; }
         public LevelData Data { get; private set; }
@@ -351,6 +357,8 @@ namespace HeroQuest.Board
                 var t = board.transform.Find(RootName);
                 if (t != null) { t.name = RootName + "_old"; SafeDestroy(t.gameObject); }
             }
+            if (MonsterManager.Instance != null) MonsterManager.Instance.ClearMonsters();
+            monsters.Clear();
             DestroyOwned();
             walls.Clear(); openEdges.Clear(); placed.Clear(); visuals.Clear(); revealedZones.Clear(); mats.Clear();
             runtimeWallMat = null;
@@ -378,6 +386,8 @@ namespace HeroQuest.Board
                 Debug.LogWarning("[Level] Layer '" + zargonLayerName + "' introuvable : les éléments cachés seront visibles par TOUS. " +
                                  "Crée-le dans Project Settings > Tags and Layers.");
             }
+            monsterLayer = LayerMask.NameToLayer(monsterLayerName);
+            if (monsterLayer < 0) monsterLayer = boardLayer;
         }
 
         // ---------- Unused rooms ----------
@@ -578,9 +588,21 @@ namespace HeroQuest.Board
         void BuildMonster(PlacedElement pe)
         {
             ElementDef d = pe.Def; float t = board.tileSize;
+
+            Monster m = MonsterManager.Instance != null
+                ? MonsterManager.Instance.SpawnForElement(d.id, d.type, new Vector2Int(d.x, d.y))
+                : null;
+            if (m != null)
+            {
+                m.transform.rotation = board.transform.rotation * Quaternion.Euler(0f, Yaw(d.facing), 0f);
+                monsters[d.id] = m;
+                return;   // real monster: no placeholder
+            }
+
+            // Fallback (no MonsterData / no manager): the old red placeholder
             var pawn = pe.gameObject.AddComponent<GridPawn>();
             pawn.board = board;
-            pawn.PlaceAt(d.x, d.y);                                       // snapped to the cell center
+            pawn.PlaceAt(d.x, d.y);
             pe.transform.rotation = board.transform.rotation * Quaternion.Euler(0f, Yaw(d.facing), 0f);
             pe.Pawn = pawn;
             pe.visual = CreateVisual(d.type, pe.transform, new Vector3(0.7f * t, 0.6f * t, 0.7f * t),
@@ -621,6 +643,15 @@ namespace HeroQuest.Board
                 return;
             }
             SetLayerRecursive(pe.gameObject, pe.VisibleToHeroes ? boardLayer : zargonLayer);
+            if (pe.Def.kind == ElementKind.Monster)
+            {
+                Monster m;
+                if (monsters.TryGetValue(pe.Def.id, out m) && m != null)
+                {
+                    m.revealedToHeroes = pe.VisibleToHeroes;
+                    SetLayerRecursive(m.gameObject, pe.VisibleToHeroes ? monsterLayer : zargonLayer);
+                }
+            }
             if (pe.Def.kind == ElementKind.Door) HideWall(pe.Def.edge, pe.VisibleToHeroes);
         }
 
@@ -762,6 +793,13 @@ namespace HeroQuest.Board
             if (Application.isPlaying) Destroy(tmp); else DestroyImmediate(tmp);
             primMeshes[type] = m;
             return m;
+        }
+        [ContextMenu("Log Element Zones")]
+        void LogElementZones()
+        {
+            if (Model == null) { Debug.LogWarning("[Level] Build the level first."); return; }
+            foreach (var e in Model.Elements)
+                Debug.Log("[Level] " + e.kind + " '" + e.id + "' (" + e.type + ") -> zones: " + string.Join(", ", e.zones));
         }
     }
 }

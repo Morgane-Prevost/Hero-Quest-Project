@@ -53,6 +53,7 @@ public class MonsterActionExecutor : MonoBehaviour
         foreach (Monster monster in snapshot)
         {
             if (monster == null || monster.IsDead) continue;
+            if (monster.isDormant) continue;      // statue of a quest: does nothing until it is activated
 
             monster.StartTurn();
             List<MonsterAction> plan = MonsterPlanner.PlanTurn(monster, grid, targetScore);
@@ -127,6 +128,7 @@ public class MonsterActionExecutor : MonoBehaviour
         }
 
         monster.hasMoved = true;
+        monster.OnActed();
 
         // Animate through the cell centers. The cell is only taken at the end (PlaceAt):
         // the monster may walk through cells occupied by other monsters.
@@ -172,6 +174,7 @@ public class MonsterActionExecutor : MonoBehaviour
         }
 
         monster.hasActed = true;
+        monster.OnActed();
 
         // Combat from ActionManager: monster attacks, hero defends.
         int damage = ActionManager.Instance.Fight(hero, monster, false);

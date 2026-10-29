@@ -1,0 +1,266 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-5717508703512379959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: Your equipment is in this sideboard. The hero who searches finds it; each
+    hero must then enter the room to recover his own and get his spells back.
+--- !u!114 &-4673274427751988984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Give equipment back
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RestoreEquipmentAction
+  recipient: 0
+--- !u!114 &-3952842185038375455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q6_buffet
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 16
+  elementId: q6_buffet
+--- !u!114 &-3118975173574486693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: 'These stairs lead out of the dungeon: any hero who reaches them has escaped.'
+--- !u!114 &-2332442495195605818
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 2
+  heroType: 3
+  gold: 0
+  cards: []
+  artifactIds:
+  - wizard_cloak
+  replacesTreasureDraw: 0
+--- !u!114 &-2143104338691531301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Give equipment back
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RestoreEquipmentAction
+  recipient: 0
+--- !u!114 &-1786964694731120117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag equipment_found=True
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: equipment_found
+  expected: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_06
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_06
+  questNumber: 6
+  title: The Orc Warlord's Offspring
+  description: 'Grak, Ulag''s son, has captured you to take his revenge. You have
+    picked the lock of your cell: find your equipment and escape through the stairs.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 1
+  startZone: 15
+  exitMode: 1
+  noTreasureZones: 0f000000
+  startEquipmentLocked: 1
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Abomination
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: Quest 6
+  introNote: 'You start in the cell, where searching is not allowed. Your equipment
+    has been confiscated: without it you cannot use it or cast spells. With no weapon
+    or armor you roll 1 die to attack and 2 to defend.'
+  victoryNote: 
+  defeatNote: 
+  namedMonsters:
+  - elementId: q6_grak
+    displayName: Grak
+    movement: 8
+    attackDice: 4
+    defenseDice: 4
+    bodyPoints: 3
+    mindPoints: 3
+    dormant: 0
+    invulnerableUntilActed: 0
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: 
+    immuneToAllSpells: 0
+    spellImmunities: []
+    spellIds:
+    - horreur
+    - sommeil
+    - tornade
+    castsSpellInsteadOfAttacking: 1
+    spellsOncePerQuest: 0
+  allies: []
+  objectives: []
+  rules:
+  - ruleId: equipment_found
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -3952842185038375455}
+    actions:
+    - {fileID: -5717508703512379959}
+    - {fileID: 804146611628851557}
+    - {fileID: -2143104338691531301}
+    - {fileID: 5010806022947031477}
+  - ruleId: recover_equipment
+    once: 0
+    oncePerActor: 1
+    conditions:
+    - {fileID: 7958210229908175659}
+    - {fileID: -1786964694731120117}
+    actions:
+    - {fileID: -4673274427751988984}
+  - ruleId: note_B
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 3339949085274436023}
+    actions:
+    - {fileID: -3118975173574486693}
+  - ruleId: grak_cloak
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 7847293742690741835}
+    actions:
+    - {fileID: -2332442495195605818}
+  sharedGoldReward: 0
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &804146611628851557
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set equipment_found
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: equipment_found
+  value: 1
+--- !u!114 &3339949085274436023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Hero escaped
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:HeroEscapedCondition
+--- !u!114 &5010806022947031477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search consumed
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ConsumeTreasureSearchAction
+--- !u!114 &7847293742690741835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q6_grak'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q6_grak
+  monsterType: 
+  count: 1
+--- !u!114 &7958210229908175659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Entered room 16
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
+  zone: 16

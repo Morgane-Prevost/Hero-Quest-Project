@@ -1,0 +1,301 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8349567820135188269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Teleport 2d6
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TeleportByDiceAction
+  dice: 2
+  table:
+  - roll: 2
+    toStairs: 1
+    cell: {x: 0, y: 0}
+  - roll: 12
+    toStairs: 1
+    cell: {x: 0, y: 0}
+--- !u!114 &-7209194727602108380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Entered room 26
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
+  zone: 26
+--- !u!114 &-3810279906811289812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flags warrior_1+warrior_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllFlagsCondition
+  flags:
+  - warrior_1
+  - warrior_2
+--- !u!114 &-3687706186611067121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set warrior_1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: warrior_1
+  value: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_10
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_10
+  questNumber: 10
+  title: The Mysterious Castle
+  description: The mage Ollar built a magic castle above a gold mine, guarded by
+    monsters frozen in time. Find the entrance to the mine.
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: 
+  wanderingMonsterNote: Ollar's ghost appears, cackles like a madman, then disappears.
+    Nothing else happens.
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 'The doors are magic: a hero who walks through one stops immediately,
+    rolls 2 red dice and is teleported to the square bearing that total (if occupied:
+    see the quest book). Only one door passage per turn. A total of 2 or 12 sends
+    him back to the stairs. The quest ends when all monsters are dead or all heroes
+    have returned to the stairs.'
+  victoryNote: 
+  defeatNote: 
+  namedMonsters: []
+  allies: []
+  objectives: []
+  rules:
+  - ruleId: teleport_doors
+    once: 0
+    oncePerActor: 0
+    conditions:
+    - {fileID: 6331419971011770292}
+    actions:
+    - {fileID: -8349567820135188269}
+  - ruleId: warrior_1
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 5941451764490021646}
+    actions:
+    - {fileID: -3687706186611067121}
+  - ruleId: warrior_2
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 6407271838760965073}
+    actions:
+    - {fileID: 3567602747215618205}
+  - ruleId: note_A
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 1747401303881174638}
+    - {fileID: -3810279906811289812}
+    actions:
+    - {fileID: 178401929626149847}
+    - {fileID: 4342327576197715378}
+  - ruleId: note_B
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -7209194727602108380}
+    actions:
+    - {fileID: 9098600546810778007}
+  - ruleId: all_dead
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 9137582096579810039}
+    actions:
+    - {fileID: 7322315685492999119}
+  sharedGoldReward: 0
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &178401929626149847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: 'Both Chaos Warriors are defeated: one of them was carrying the Ring of Return
+    (artifact).'
+--- !u!114 &1747401303881174638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Search '
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 25
+  elementId: 
+--- !u!114 &3567602747215618205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set warrior_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: warrior_2
+  value: 1
+--- !u!114 &4342327576197715378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - return_ring
+  replacesTreasureDraw: 1
+--- !u!114 &5941451764490021646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q10_warrior_1'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q10_warrior_1
+  monsterType: 
+  count: 1
+--- !u!114 &6331419971011770292
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Door crossed
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:DoorCrossedCondition
+--- !u!114 &6407271838760965073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q10_warrior_2'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q10_warrior_2
+  monsterType: 
+  count: 1
+--- !u!114 &7322315685492999119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: End Victory
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:EndQuestAction
+  result: 0
+--- !u!114 &9098600546810778007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: 'Entrance to the mine: 5000 gold coins can be taken from here. The carrier
+    can neither attack nor defend; if he drops the gold, he is sent back into the
+    mine. At the end, Zargon reveals that the gold is fake.'
+--- !u!114 &9137582096579810039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: All monsters dead
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllMonstersDeadCondition
