@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee74c86305849f1aacd4fe9ff5bacfe, type: 3}
   m_Name: DreadWarriorData
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  prefab: {fileID: 3329495173766499171, guid: 38c20eccebfa0d54e977e6bdd62ad70b, type: 3}
+  prefab: {fileID: 1246891314395918, guid: 7624f2e64f703a1409e714760c82d0c1, type: 3}
   texture: {fileID: 2800000, guid: 060c3c87cd6eecf449543a0c6bd61fa3, type: 3}
   id: dread_warrior
   description: These humans have become monsters, creatures of darkness. Their armor
