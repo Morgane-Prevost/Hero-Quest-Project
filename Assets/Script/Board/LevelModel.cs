@@ -5,18 +5,18 @@ namespace HeroQuest.Board
 {
     public enum ElementKind { Stairs, Door, Blocked, Furniture, Monster, Trap }
 
-    /// <summary>Pure description (without GameObject) of a level element. Read-only by convention.</summary>
+    /// <summary>Pure description (no GameObject) of one level element. Read-only by convention.</summary>
     public sealed class ElementDef
     {
-        public string id, type;
+        public string id, type, note;
         public ElementKind kind;
-        public int x, y, w, h;                     // footprint (door: reference cell, 1x1)
-        public Dir facing;                         // furniture / monsters
-        public Dir side;                           // doors: side of cell (x,y)
-        public EdgeKey edge;                       // doors
+        public int x, y, w, h;                       // footprint (door: reference cell, 1x1)
+        public Dir facing;                           // furniture / monsters
+        public Dir side;                             // doors: side of cell (x,y)
+        public EdgeKey edge;                         // doors
         public bool hidden, trapped;
-        public List<Vector2Int> cells = new List<Vector2Int>();   // covered cells (door: the 2 neighboring cells)
-        public List<int> zones = new List<int>();                 // affected zones
+        public List<Vector2Int> cells = new List<Vector2Int>();   // covered cells (door: its 2 neighbours)
+        public List<int> zones = new List<int>();                 // touched zones
 
         public bool BlocksMovement { get { return kind == ElementKind.Blocked || kind == ElementKind.Furniture; } }
 
@@ -28,8 +28,8 @@ namespace HeroQuest.Board
     }
 
     /// <summary>
-    /// Read-only level model: walls + elements. This is what the Lead Dev queries
-    /// (never the GameObjects).
+    /// Read-only level model: walls + elements + unused rooms.
+    /// This is what the game logic queries (never the GameObjects).
     /// </summary>
     public sealed class LevelModel
     {
@@ -38,6 +38,8 @@ namespace HeroQuest.Board
         readonly List<EdgeKey> wallList;
         readonly List<ElementDef> elements;
         readonly List<int> initialZones;
+        readonly List<int> unusedZones;
+        readonly HashSet<int> unusedSet;
         readonly Dictionary<string, ElementDef> byId = new Dictionary<string, ElementDef>();
         readonly HashSet<Vector2Int> blockedCells = new HashSet<Vector2Int>();
         readonly List<Vector2Int> stairsCells = new List<Vector2Int>();
@@ -46,12 +48,15 @@ namespace HeroQuest.Board
         public IReadOnlyList<ElementDef> Elements { get { return elements; } }
         public IReadOnlyList<Vector2Int> StairsCells { get { return stairsCells; } }
         public IReadOnlyList<int> InitialZones { get { return initialZones; } }
+        public IReadOnlyList<int> UnusedZones { get { return unusedZones; } }
 
-        public LevelModel(string id, string name, List<EdgeKey> walls, List<ElementDef> elements, List<int> initialZones)
+        public LevelModel(string id, string name, List<EdgeKey> walls, List<ElementDef> elements,
+                          List<int> initialZones, List<int> unusedZones)
         {
             this.id = id; this.name = name;
             wallList = walls; wallSet = new HashSet<EdgeKey>(walls);
             this.elements = elements; this.initialZones = initialZones;
+            this.unusedZones = unusedZones; unusedSet = new HashSet<int>(unusedZones);
             foreach (var e in elements)
             {
                 byId[e.id] = e;
@@ -65,8 +70,17 @@ namespace HeroQuest.Board
 
         public ElementDef GetElement(string id) { ElementDef d; return byId.TryGetValue(id, out d) ? d : null; }
 
-        /// <summary>Cell occupied by a piece of furniture or an obstructed cell (impassable).</summary>
+        /// <summary>Cell covered by furniture or a blocked square (impassable).</summary>
         public bool IsBlocked(int x, int y) { return blockedCells.Contains(new Vector2Int(x, y)); }
+
+        public bool IsUnusedZone(int zone) { return unusedSet.Contains(zone); }
+
+        /// <summary>True if the cell exists on the board and belongs to a room/corridor used by this level.</summary>
+        public bool IsPlayable(BoardModel board, int x, int y)
+        {
+            int z = board.ZoneAt(x, y);
+            return z >= 0 && !unusedSet.Contains(z);
+        }
 
         public IEnumerable<ElementDef> ElementsAt(int x, int y)
         {

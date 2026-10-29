@@ -39,6 +39,7 @@ namespace HeroQuest.Board
             if (board == null) { Debug.LogError("[GridPawn] 'board' not assigned on " + name); return false; }
             CellView target = board.GetCell(x, y);
             if (target == null) { Debug.LogWarning("[GridPawn] Cell (" + x + "," + y + ") does not exist."); return false; }
+            if (!target.Playable) return false;   // cell belongs to a room unused by the current level
             if (!allowSharedCell && !target.IsFree && target.Occupant != this) return false;
 
             Vector2Int from = HasCell ? Cell : new Vector2Int(-1, -1);

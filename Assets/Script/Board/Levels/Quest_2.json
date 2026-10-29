@@ -1,0 +1,71 @@
+{
+  "schemaVersion": 1,
+  "levelId": "quest_02",
+  "name": "The Rescue of Sir Ragnar",
+  "gridMap": "heroquest_base_2021",
+  "unusedRooms": [1, 2, 3, 6, 7, 8, 15, 16, 19, 20, 21, 22],
+  "reveal": { "initialZones": [11] },
+  "walls": {
+    "mode": "zoneBoundaries",
+    "includeBoardBorder": true,
+    "addEdges": [],
+    "removeEdges": []
+  },
+  "stairs": { "x": 10, "y": 10, "w": 2, "h": 2 },
+  "doors": [
+    { "id": "door_1", "type": "Door", "x": 16, "y": 15, "side": "E" },
+    { "id": "door_2", "type": "Door", "x": 19, "y": 14, "side": "S" },
+    { "id": "door_3", "type": "Door", "x": 15, "y": 13, "side": "S" },
+    { "id": "door_4", "type": "Door", "x": 20, "y": 12, "side": "E" },
+    { "id": "door_5", "type": "Door", "x": 23, "y": 10, "side": "S" },
+    { "id": "door_6", "type": "Door", "x": 2, "y": 9, "side": "S" },
+    { "id": "door_7", "type": "Door", "x": 6, "y": 7, "side": "E" },
+    { "id": "door_8", "type": "Door", "x": 8, "y": 3, "side": "E" },
+    { "id": "door_9", "type": "Door", "x": 11, "y": 1, "side": "S" },
+    { "id": "door_10", "type": "Door", "x": 10, "y": 7, "side": "S" },
+    { "id": "secret_door_1", "type": "SecretDoor", "x": 8, "y": 6, "side": "S" }
+  ],
+  "blocked": [
+    { "id": "rubble_1", "type": "Rubble", "x": 12, "y": 13, "w": 2, "h": 1 },
+    { "id": "rubble_2", "type": "Rubble", "x": 24, "y": 9, "w": 1, "h": 1 },
+    { "id": "rubble_3", "type": "Rubble", "x": 1, "y": 9, "w": 1, "h": 1 },
+    { "id": "rubble_4", "type": "Rubble", "x": 9, "y": 0, "w": 1, "h": 1 },
+    { "id": "rubble_5", "type": "Rubble", "x": 14, "y": 0, "w": 1, "h": 1 }
+  ],
+  "furniture": [
+    { "id": "table_1", "type": "Table", "x": 18, "y": 16, "w": 3, "h": 2, "facing": "S" },
+    { "id": "cupboard_1", "type": "Cupboard", "x": 17, "y": 10, "w": 1, "h": 3, "facing": "E" },
+    { "id": "chest_b", "type": "Chest", "x": 19, "y": 10, "w": 1, "h": 1, "facing": "S", "note": "Note B" },
+    { "id": "rack_1", "type": "TortureRack", "x": 14, "y": 7, "w": 2, "h": 3, "facing": "S" },
+    { "id": "table_2", "type": "Table", "x": 5, "y": 1, "w": 2, "h": 3, "facing": "E" }
+  ],
+  "npcs": [
+    { "id": "sir_ragnar", "type": "SirRagnar", "x": 5, "y": 7 }
+  ],
+  "monsters": [
+    { "id": "orc_1", "type": "Orc", "x": 15, "y": 15, "facing": "S" },
+    { "id": "orc_2", "type": "Orc", "x": 16, "y": 14, "facing": "S" },
+    { "id": "orc_3", "type": "Orc", "x": 19, "y": 15, "facing": "S" },
+    { "id": "goblin_1", "type": "Goblin", "x": 18, "y": 14, "facing": "S" },
+    { "id": "goblin_2", "type": "Goblin", "x": 14, "y": 12, "facing": "S" },
+    { "id": "goblin_3", "type": "Goblin", "x": 16, "y": 12, "facing": "S" },
+    { "id": "goblin_4", "type": "Goblin", "x": 18, "y": 11, "facing": "W" },
+    { "id": "orc_4", "type": "Orc", "x": 19, "y": 11, "facing": "W" },
+    { "id": "goblin_5", "type": "Goblin", "x": 20, "y": 11, "facing": "W" },
+    { "id": "orc_5", "type": "Orc", "x": 23, "y": 12, "facing": "S" },
+    { "id": "orc_6", "type": "Orc", "x": 24, "y": 11, "facing": "S" },
+    { "id": "goblin_6", "type": "Goblin", "x": 23, "y": 9, "facing": "S" },
+    { "id": "goblin_7", "type": "Goblin", "x": 16, "y": 6, "facing": "N" },
+    { "id": "goblin_8", "type": "Goblin", "x": 3, "y": 9, "facing": "E" },
+    { "id": "goblin_9", "type": "Goblin", "x": 2, "y": 6, "facing": "S" },
+    { "id": "orc_7", "type": "Orc", "x": 7, "y": 6, "facing": "S" },
+    { "id": "fimir_1", "type": "Fimir", "x": 8, "y": 7, "facing": "W" },
+    { "id": "orc_8", "type": "Orc", "x": 8, "y": 4, "facing": "S" },
+    { "id": "orc_9", "type": "Orc", "x": 7, "y": 3, "facing": "S" },
+    { "id": "orc_10", "type": "Orc", "x": 9, "y": 3, "facing": "W" },
+    { "id": "goblin_10", "type": "Goblin", "x": 10, "y": 0, "facing": "N" }
+  ],
+  "traps": [
+    { "id": "pit_a", "type": "PitTrap", "x": 2, "y": 5, "note": "Note A" }
+  ]
+}
