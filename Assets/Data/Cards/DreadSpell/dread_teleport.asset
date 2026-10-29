@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: dread_teleport
   m_EditorClassIdentifier: Assembly-CSharp::TeleportSpellSO
   displayName: Teleport
-  description: 
+  description: This spell allows the caster to instantly disappear and reappear in
+    a safe location known only to Zargon. This secret spot is indicated on the Quest
+    map.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
