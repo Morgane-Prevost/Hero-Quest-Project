@@ -22,6 +22,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
     public int mindPoints { get; set; }
+    public HeroData Data { get; private set; }
 
     public int currentBodyPoints { get; private set; }
     public int attackDices { get; set; }
@@ -36,6 +37,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
     GridPawn gridPawn;
 
     private List<CardSO> inventory = new List<CardSO>();
+    public IReadOnlyList<CardSO> Inventory => inventory;
     private bool hasAToolBag = false;
 
     #endregion
@@ -53,6 +55,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
     public void Initialize(HeroData heroData, string name, Vector2Int cell)
     {
         heroName = name;
+        Data = heroData;
         heroType = heroData.type;
         bodyPoints = heroData.bodyPoints;
         currentBodyPoints = bodyPoints;

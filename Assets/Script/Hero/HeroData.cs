@@ -6,6 +6,7 @@ public class HeroData : ScriptableObject
 {
     public GameObject prefab;
     public Texture2D texture;
+    public Texture2D cardTexture;
 
     public string name;
 
