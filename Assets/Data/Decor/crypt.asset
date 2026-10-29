@@ -16,46 +16,36 @@ MonoBehaviour:
   props:
   - prefab: {fileID: 1094353618168382, guid: 22c54b1dddacc1d4f9fbbd03d11095a1, type: 3}
     slot: 2
-    size: 0.3
-    weight: 0
-    randomYaw: 0
+    size: 1
+    weight: 2
+    randomYaw: 1
   - prefab: {fileID: 1505542250231858, guid: d4fa17e8c80cfe249be92becbf42ac34, type: 3}
     slot: 1
     size: 0.3
-    weight: 0
+    weight: 5
     randomYaw: 0
   - prefab: {fileID: 1395345469812158, guid: 3547ccdebfb33f04095620758a890316, type: 3}
     slot: 2
     size: 0.5
     weight: 1
-    randomYaw: 0
+    randomYaw: 1
   - prefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}
     slot: 0
     size: 0.35
     weight: 1
     randomYaw: 0
-  - prefab: {fileID: 1597451195019188, guid: 8c963b4b5f9e4b942addeda6a13d63d8, type: 3}
-    slot: 2
-    size: 1
-    weight: 1
-    randomYaw: 0
-  - prefab: {fileID: 1284988852937320, guid: 0231ddd5f86764b4fa5e97cff1c5bef8, type: 3}
-    slot: 2
-    size: 1
-    weight: 1
-    randomYaw: 0
-  - prefab: {fileID: 1892588652519434, guid: 767e78174833bd64d9cf6621d2647bf3, type: 3}
-    slot: 1
-    size: 1
-    weight: 1
-    randomYaw: 0
   - prefab: {fileID: 1090822546823394, guid: 27f4a21e2514df54f866ebe53b36a940, type: 3}
     slot: 2
     size: 0.5
-    weight: 1
+    weight: 3
+    randomYaw: 1
+  - prefab: {fileID: 1395345469812158, guid: 3547ccdebfb33f04095620758a890316, type: 3}
+    slot: 2
+    size: 0.5
+    weight: 4
     randomYaw: 0
-  density: 0.15
-  minProps: 2
+  density: 0.3
+  minProps: 3
   maxProps: 10
   torchPrefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}
   flameFxPrefab: {fileID: 1283514324608574, guid: 2fba35f53ac35564cb7b58e268e904bd, type: 3}

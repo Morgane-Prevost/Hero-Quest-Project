@@ -27,24 +27,24 @@ MonoBehaviour:
   - prefab: {fileID: 1482718109276594, guid: 89594687c37df294db5249ce37b9fea2, type: 3}
     slot: 2
     size: 1
-    weight: 1
-    randomYaw: 0
+    weight: 3
+    randomYaw: 1
   - prefab: {fileID: 1785181203448870, guid: 6516033cdfc8508489ef86252045d2a0, type: 3}
     slot: 0
     size: 0.8
-    weight: 1
-    randomYaw: 0
+    weight: 2
+    randomYaw: 1
   - prefab: {fileID: 1982111698289346, guid: 1032a67a38b1b2c4399df73a06c1a900, type: 3}
     slot: 2
     size: 0.8
     weight: 1
-    randomYaw: 0
+    randomYaw: 1
   - prefab: {fileID: 1276598632478310, guid: 5f6e27052a7e74e48a0df3a83b2588e4, type: 3}
     slot: 1
     size: 0.8
-    weight: 1
+    weight: 4
     randomYaw: 0
-  density: 0.18
+  density: 0.25
   minProps: 3
   maxProps: 8
   torchPrefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}

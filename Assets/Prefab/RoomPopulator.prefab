@@ -1,0 +1,68 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8807193417875134405
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1111531401609661341}
+  - component: {fileID: 2041527588654804982}
+  m_Layer: 0
+  m_Name: RoomPopulator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1111531401609661341
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807193417875134405}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2041527588654804982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8807193417875134405}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5975af1cffd42e943917a150420e1c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Board.RoomPopulator
+  level: {fileID: 0}
+  roomThemes:
+  - {fileID: 11400000, guid: 84ee3eb7f15d813448c2f6b891f59588, type: 2}
+  - {fileID: 11400000, guid: 23066c20f2b5ffa46b2054ff4e2d1fb7, type: 2}
+  - {fileID: 11400000, guid: 66a331b44ad1dd74e8ab0d5a12c5b26e, type: 2}
+  - {fileID: 11400000, guid: cb31cacfa33261545a81f3fc47862d27, type: 2}
+  - {fileID: 11400000, guid: 3b24fb1ffa640ea46aa6bf2fe96d8378, type: 2}
+  - {fileID: 11400000, guid: f931d27e7280b974a9d31efa92f57414, type: 2}
+  zoneOverrides: []
+  corridorTheme: {fileID: 11400000, guid: 11afd417543d23e429bfb2c9f1fc7d5c, type: 2}
+  corridorTorchSpacing: 4
+  maxCorridorTorches: 25
+  seed: 1234
+  themeRules:
+  - furnitureType: Workbench
+    theme: {fileID: 11400000, guid: 66a331b44ad1dd74e8ab0d5a12c5b26e, type: 2}
+  - furnitureType: TortureRack
+    theme: {fileID: 11400000, guid: cb31cacfa33261545a81f3fc47862d27, type: 2}
+  - furnitureType: Table
+    theme: {fileID: 11400000, guid: 3b24fb1ffa640ea46aa6bf2fe96d8378, type: 2}
+  - furnitureType: Throne
+    theme: {fileID: 11400000, guid: f931d27e7280b974a9d31efa92f57414, type: 2}

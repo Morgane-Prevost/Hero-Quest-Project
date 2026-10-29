@@ -38,6 +38,16 @@ namespace HeroQuest.Board
         [Serializable]
         public class ZoneTheme { public int zone; public RoomThemeSO theme; }
 
+        [Header("Auto-Detection Rules")]
+        [SerializeField] private List<ThemeRule> themeRules = new List<ThemeRule>();
+
+        [Serializable]
+        public class ThemeRule
+        {
+            public string furnitureType;
+            public RoomThemeSO theme;  
+        }
+
         private struct CellInfo
         {
             public Vector2Int cell;
@@ -129,6 +139,31 @@ namespace HeroQuest.Board
 
             int levelHash = Fnv(lm.id);
 
+            Dictionary<int, RoomThemeSO> autoThemes = new Dictionary<int, RoomThemeSO>();
+            if (lm.Elements != null)
+            {
+                foreach (var element in lm.Elements)
+                {
+                    if (element.kind == ElementKind.Furniture)
+                    {
+                        int zone = bm.ZoneAt(element.x, element.y);
+                        if (zone > 0)
+                        {
+                            foreach (var rule in themeRules)
+                            {
+                                if (rule != null && rule.theme != null &&
+                                    string.Equals(element.type, rule.furnitureType, StringComparison.OrdinalIgnoreCase))
+                                {
+                                    autoThemes[zone] = rule.theme;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+
             List<RoomThemeSO> order = new List<RoomThemeSO>();
             foreach (RoomThemeSO t in roomThemes) if (t != null) order.Add(t);
             Shuffle(order, new System.Random(Mix(seed, levelHash, -1)));
@@ -138,8 +173,22 @@ namespace HeroQuest.Board
             {
                 if (lm.IsUnusedZone(zone)) continue;
 
+                // Ordre de priorité des thèmes :
+                // 1. Override manuel (Inspector)
                 RoomThemeSO theme = FindOverride(zone);
-                if (theme == null && order.Count > 0) theme = order[index++ % order.Count];
+
+                // 2. Détection automatique par meuble (JSON)
+                if (theme == null && autoThemes.ContainsKey(zone))
+                {
+                    theme = autoThemes[zone];
+                }
+
+                // 3. Pool aléatoire général par défaut
+                if (theme == null && order.Count > 0)
+                {
+                    theme = order[index++ % order.Count];
+                }
+
                 if (theme == null) continue;
 
                 GameObject root = new GameObject("Decor_Zone_" + zone);
@@ -274,6 +323,9 @@ namespace HeroQuest.Board
                 }
             Shuffle(pool, rng);
 
+            HashSet<Vector2Int> used = new HashSet<Vector2Int>();
+
+            // 1) Torches dans les couloirs
             List<Vector2Int> torches = new List<Vector2Int>();
             foreach (CellInfo c in pool)
             {
@@ -281,9 +333,39 @@ namespace HeroQuest.Board
                 if (!FarEnough(c.cell, torches, corridorTorchSpacing)) continue;
                 PlaceTorch(root.transform, c, corridorTheme, rng);
                 torches.Add(c.cell);
+                used.Add(c.cell);
+            }
+
+            // 2) Props dans les couloirs (si le thème en contient)
+            if (corridorTheme.props != null && corridorTheme.props.Count > 0)
+            {
+                List<CellInfo> wallPool = pool.FindAll(c => c.walls.Count > 0 && !used.Contains(c.cell));
+                List<CellInfo> floorPool = pool.FindAll(c => !used.Contains(c.cell));
+                Shuffle(wallPool, rng);
+                Shuffle(floorPool, rng);
+
+                int target = Mathf.Clamp(Mathf.RoundToInt(pool.Count * corridorTheme.density), corridorTheme.minProps, corridorTheme.maxProps);
+                int placed = 0, tries = 0;
+
+                while (placed < target && tries++ < target * 4)
+                {
+                    PropEntry entry = PickEntry(corridorTheme.props, rng);
+                    if (entry == null) break;
+
+                    List<CellInfo> subPool = entry.slot == PropSlot.Wall ? wallPool : floorPool;
+                    if (!Take(subPool, used, out CellInfo c)) continue;
+
+                    List<Dir> sides = null;
+                    if (entry.slot == PropSlot.Wall && c.walls.Count > 0)
+                        sides = new List<Dir> { c.walls[rng.Next(c.walls.Count)] };
+
+                    float yaw = entry.randomYaw ? (float)rng.NextDouble() * 360f : 90f * rng.Next(4);
+
+                    if (DecorPlacer.Place(board, level.wallThickness, entry.prefab, root.transform, c.cell, sides, entry.size, 0f, yaw) != null)
+                        placed++;
+                }
             }
         }
-
         // --- Lights & Torches Placement ---
 
         private void PlaceTorch(Transform root, CellInfo c, RoomThemeSO theme, System.Random rng)
