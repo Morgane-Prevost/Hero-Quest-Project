@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "levelId": "quest_08",
-  "name": "The fire wizard",
+  "name": "The Fire Mage",
   "gridMap": "heroquest_base_2021",
   "unusedRooms": [2, 3, 4, 5, 6, 8, 9, 13, 18, 22],
   "reveal": { "initialZones": [10] },
@@ -57,7 +57,7 @@
     { "id": "skeleton_2",   "type": "Skeleton",   "x": 2,  "y": 16, "facing": "N" },
     { "id": "skeleton_3",   "type": "Skeleton",   "x": 3,  "y": 16, "facing": "N" },
     { "id": "skeleton_4",   "type": "Skeleton",   "x": 4,  "y": 16, "facing": "N" },
-    { "id": "wizard_Balur",   "type": "TerrorWizard",   "x": 2,  "y": 15, "facing": "N", "note": "Boss Balur" },
+    { "id": "chaoswarlock_Balur",   "type": "ChaosWarlock",   "x": 2,  "y": 15, "facing": "N", "note": "Boss Balur" },
     { "id": "zombie_3",    "type": "Zombie",    "x": 3,  "y": 12, "facing": "N" },
     { "id": "skeleton_5", "type": "Skeleton", "x": 4,  "y": 8,  "facing": "N" },
     { "id": "skeleton_6", "type": "Skeleton", "x": 3,  "y": 5,  "facing": "N" },

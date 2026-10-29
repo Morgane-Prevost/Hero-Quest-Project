@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "levelId": "quest_12",
+  "name": "Barak Tor - Barrow of the Witch Lord",
+  "gridMap": "heroquest_base_2021",
+  "unusedRooms": [4, 7, 8, 9, 15, 16, 19, 21, 22],
+  "reveal": { "initialZones": [20] },
+  "walls": {
+    "mode": "zoneBoundaries",
+    "includeBoardBorder": true,
+    "addEdges": [],
+    "removeEdges": []
+  },
+  "stairs": { "x": 1, "y": 3, "w": 2, "h": 2 },
+  "doors": [
+    { "id": "door_1",  "type": "Door", "x": 1,  "y": 1,  "side": "W" },
+    { "id": "door_2",  "type": "Door", "x": 10, "y": 1,  "side": "S" },
+    { "id": "door_4",  "type": "Door", "x": 4,  "y": 5,  "side": "E" },
+    { "id": "door_5",  "type": "Door", "x": 4,  "y": 7,  "side": "E" },
+    { "id": "door_6",  "type": "Door", "x": 6,  "y": 6,  "side": "E" },
+    { "id": "door_7",  "type": "Door", "x": 5,  "y": 8,  "side": "N" },
+    { "id": "door_8",  "type": "Door", "x": 10, "y": 9,  "side": "W" },
+    { "id": "door_9",  "type": "Door", "x": 12, "y": 11, "side": "N" },
+    { "id": "door_10", "type": "Door", "x": 3,  "y": 17, "side": "N" },
+    { "id": "door_11", "type": "Door", "x": 7,  "y": 17, "side": "N" },
+    { "id": "door_12", "type": "Door", "x": 8,  "y": 15, "side": "E" },
+    { "id": "door_13", "type": "Door", "x": 11, "y": 16, "side": "E" },
+    { "id": "fakedoor_1", "type": "FakeDoor", "x": 18, "y": 17, "side": "N" },
+    { "id": "fakedoor_2", "type": "FakeDoor", "x": 22, "y": 17, "side": "N" },
+    { "id": "fakedoor_3", "type": "FakeDoor", "x": 24, "y": 11, "side": "E" },
+    { "id": "door_secret_1", "type": "Door", "x": 8, "y": 2, "side": "E", "hidden": true },
+    { "id": "door_secret_2", "type": "Door", "x": 4, "y": 2, "side": "E", "hidden": true },
+    { "id": "door_secret_3", "type": "Door", "x": 11, "y": 14, "side": "E", "hidden": true },
+    { "id": "door_secret_4", "type": "Door", "x": 15, "y": 11, "side": "N", "hidden": true }
+  ],
+  "blocked": [
+    { "id": "rubble_1",  "type": "Rubble", "x": 9,  "y": 18, "w": 1, "h": 1 },
+    { "id": "rubble_2",  "type": "Rubble", "x": 12, "y": 15, "w": 2, "h": 1 },
+    { "id": "rubble_4",  "type": "Rubble", "x": 10, "y": 12, "w": 1, "h": 1 },
+    { "id": "rubble_5",  "type": "Rubble", "x": 14, "y": 12, "w": 1, "h": 1 },
+    { "id": "rubble_6",  "type": "Rubble", "x": 1,  "y": 9,  "w": 1, "h": 1 },
+    { "id": "rubble_7",  "type": "Rubble", "x": 16, "y": 8,  "w": 1, "h": 1 },
+    { "id": "rubble_8",  "type": "Rubble", "x": 12, "y": 5,  "w": 2, "h": 1 },
+    { "id": "rubble_9",  "type": "Rubble", "x": 25, "y": 10, "w": 1, "h": 1 },
+    { "id": "rubble_10", "type": "Rubble", "x": 0,  "y": 0,  "w": 1, "h": 1 },
+    { "id": "rubble_11", "type": "Rubble", "x": 9,  "y": 0,  "w": 1, "h": 1 }
+  ],
+  "furniture": [
+    { "id": "tomb_1",    "type": "Tomb",     "x": 1,  "y": 6,  "w": 3, "h": 2, "facing": "E" },
+    { "id": "table_1",   "type": "Table",    "x": 12, "y": 8,  "w": 2, "h": 3, "facing": "W" },
+    { "id": "cupboard_1","type": "Cupboard", "x": 6,  "y": 5,  "w": 3, "h": 1, "facing": "S" },
+    { "id": "cupboard_2",   "type": "Cupboard", "x": 6,  "y": 1,  "w": 3, "h": 1, "facing": "N" }
+  ],
+  "monsters": [
+    { "id": "mummy_1",   "type": "Mummy",   "x": 3,  "y": 16, "facing": "N" },
+    { "id": "zombie_1",   "type": "Zombie",   "x": 5,  "y": 16, "facing": "N" },
+    { "id": "zombie_2",   "type": "Zombie",   "x": 7,  "y": 16, "facing": "N" },
+    { "id": "skeleton_1",   "type": "Skeleton",   "x": 8,  "y": 16, "facing": "N" },
+    { "id": "skeleton_2",   "type": "Skeleton",   "x": 7,  "y": 15, "facing": "N" },
+    { "id": "zombie_3",    "type": "Zombie",    "x": 11, "y": 9,  "facing": "E" },
+    { "id": "skeleton_3", "type": "Skeleton", "x": 8,  "y": 8,  "facing": "W" },
+    { "id": "skeleton_4", "type": "Skeleton", "x": 8,  "y": 7,  "facing": "W" },
+    { "id": "zombie_4",    "type": "Zombie",    "x": 3,  "y": 8,  "facing": "E" },
+    { "id": "skeleton_5", "type": "Skeleton", "x": 5,  "y": 6,  "facing": "N" },
+    { "id": "zombie_5",    "type": "Zombie",    "x": 3,  "y": 5,  "facing": "E" },
+    { "id": "mummy_2",    "type": "Mummy",    "x": 7,  "y": 3,  "facing": "W" },
+    { "id": "gargoyle_1", "type": "Gargoyle", "x": 12, "y": 3,  "facing": "S" },
+    { "id": "witch_lord_boss", "type": "Gargoyle", "x": 1, "y": 8,  "facing": "E", "note": "Only the Spirit Blade can harm him" }
+  ],
+  "traps": [
+    { "id": "rockfall_1",   "type": "RockFall",   "x": 0,  "y": 18 },
+    { "id": "trap_spear_1", "type": "Spear", "x": 15, "y": 18 },
+    { "id": "trap_spear_2", "type": "Spear", "x": 17, "y": 18 },
+    { "id": "trap_spear_3", "type": "Spear", "x": 20, "y": 18 },
+    { "id": "trap_pit_2",   "type": "Pit",   "x": 25, "y": 12 },
+    { "id": "trap_pit_3",   "type": "Pit",   "x": 16, "y": 6 }
+  ]
+}

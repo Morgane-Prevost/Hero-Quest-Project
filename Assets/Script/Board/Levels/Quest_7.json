@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "levelId": "quest_07",
-  "name": "The Vanished Enchanter",
+  "name": "The Lost Wizard",
   "gridMap": "heroquest_base_2021",
   "unusedRooms": [1, 2, 3, 4, 5, 6, 9, 10, 11, 14, 16, 18],
   "reveal": { "initialZones": [8] },

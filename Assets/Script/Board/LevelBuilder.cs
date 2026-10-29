@@ -51,8 +51,8 @@ namespace HeroQuest.Board
         public float wallHeight = 1f;
         public float wallThickness = 0.12f;
         public bool wallColliders = false;
-        [Tooltip("Used by the default wall (cube) only.")]
-        public bool wallColliders = true;
+        //[Tooltip("Used by the default wall (cube) only.")]
+        //public bool wallColliders = true;
         public Material wallMaterial;
         [Tooltip("Imported wall prefab (any size/pivot: fitted through its Bounds). Textured face = +Z.")]
         public GameObject wallPrefab;
