@@ -61,7 +61,7 @@
     { "id": "skeleton_10", "type": "Skeleton", "x": 22, "y": 2,  "facing": "W" }
   ],
   "traps": [
-    { "id": "pit_1", "type": "Pit", "x": 7, "y": 4 },
-    { "id": "pit_2", "type": "Pit", "x": 7, "y": 1 }
+    { "id": "pit_1", "type": "PitTrap", "x": 7, "y": 4 },
+    { "id": "pit_2", "type": "PitTrap", "x": 7, "y": 1 }
   ]
 }

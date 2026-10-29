@@ -78,15 +78,15 @@
     { "id": "orc_6",  "type": "Orc",   "x": 20, "y": 2,  "facing": "N" }
   ],
   "traps": [
-    { "id": "pit_1", "type": "Pit", "x": 1,  "y": 18 },
+    { "id": "pit_1", "type": "PitTrap", "x": 1,  "y": 18 },
     { "id": "speartrap_1", "type": "SpearTrap", "x": 0,  "y": 13 },
     { "id": "speartrap_2", "type": "SpearTrap", "x": 0,  "y": 6 },
     { "id": "speartrap_3", "type": "SpearTrap", "x": 1,  "y": 0 },
-    { "id": "pit_2",       "type": "Pit",       "x": 9,  "y": 12 },
+    { "id": "pit_2",       "type": "PitTrap",       "x": 9,  "y": 12 },
     { "id": "speartrap_4", "type": "SpearTrap", "x": 16, "y": 10 },
     { "id": "speartrap_5", "type": "SpearTrap", "x": 25, "y": 9 },
     { "id": "speartrap_6", "type": "SpearTrap", "x": 25, "y": 8 },
-    { "id": "pit_3",       "type": "Pit",       "x": 6,  "y": 1 },
-    { "id": "pit_4",       "type": "Pit",       "x": 7,  "y": 0 }
+    { "id": "pit_3",       "type": "PitTrap",       "x": 6,  "y": 1 },
+    { "id": "pit_4",       "type": "PitTrap",       "x": 7,  "y": 0 }
   ]
 }

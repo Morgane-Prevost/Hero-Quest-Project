@@ -65,8 +65,8 @@
     { "id": "skeleton_4",     "type": "Skeleton",     "x": 23, "y": 2, "facing": "S" }
   ],
   "traps": [
-    { "id": "trap_spear_1", "type": "Spear",    "x": 11, "y": 12 },
-    { "id": "trap_spear_2", "type": "Spear",    "x": 14, "y": 12 },
+    { "id": "trap_spear_1", "type": "SpearTrap",    "x": 11, "y": 12 },
+    { "id": "trap_spear_2", "type": "SpearTrap",    "x": 14, "y": 12 },
     { "id": "rockfall_1",   "type": "RockFall", "x": 0,  "y": 9  },
     { "id": "rockfall_2",   "type": "RockFall", "x": 9,  "y": 7  },
     { "id": "rockfall_3",   "type": "RockFall", "x": 12, "y": 4  },

@@ -68,8 +68,8 @@
     { "id": "goblin_11", "type": "Goblin", "x": 24, "y": 0,  "facing": "E" }
   ],
   "traps": [
-    { "id": "pit_1",       "type": "Pit",       "x": 0,  "y": 0 },
-    { "id": "pit_2",       "type": "Pit",       "x": 8,  "y": 0 },
-    { "id": "pit_3",       "type": "Pit",       "x": 16, "y": 6 }
+    { "id": "pit_1",       "type": "PitTrap",       "x": 0,  "y": 0 },
+    { "id": "pit_2",       "type": "PitTrap",       "x": 8,  "y": 0 },
+    { "id": "pit_3",       "type": "PitTrap",       "x": 16, "y": 6 }
   ]
 }

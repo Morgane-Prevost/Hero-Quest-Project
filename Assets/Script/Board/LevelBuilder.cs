@@ -268,6 +268,9 @@ namespace HeroQuest.Board
         /// <summary>The trap is triggered: its tile is laid down.</summary>
         public bool TriggerTrap(string id) { return SetTrap(id, TrapState.Triggered); }
 
+        /// <summary>The trap is gone for good (disarmed, or a spear trap that already fired): all its visuals disappear.</summary>
+        public bool RemoveTrap(string id) { return SetTrap(id, TrapState.Removed); }
+
         bool SetTrap(string id, TrapState s)
         {
             PlacedElement pe;
@@ -638,9 +641,10 @@ namespace HeroQuest.Board
             if (pe.Def.kind == ElementKind.Trap)
             {
                 bool triggered = pe.Trap == TrapState.Triggered;
-                SetActiveAndLayer(pe.marker, !triggered, zargonLayer);                          // gold marker: Zargon only
+                bool removed = pe.Trap == TrapState.Removed;
+                SetActiveAndLayer(pe.marker, !triggered && !removed, zargonLayer);              // gold marker: Zargon only
                 SetActiveAndLayer(pe.highlight, pe.Trap == TrapState.Highlighted, boardLayer);  // suspect cell, no tile
-                SetActiveAndLayer(pe.tile, triggered, boardLayer);
+                SetActiveAndLayer(pe.tile, triggered, boardLayer);                              // removed: everything off
                 return;
             }
             SetLayerRecursive(pe.gameObject, pe.VisibleToHeroes ? boardLayer : zargonLayer);

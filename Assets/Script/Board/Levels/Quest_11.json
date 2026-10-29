@@ -78,9 +78,9 @@
     { "id": "orc_7",     "type": "Orc",    "x": 23, "y": 2,  "facing": "S" }
   ],
   "traps": [
-    { "id": "trap_pit_1", "type": "Pit", "x": 9,  "y": 6 },
-    { "id": "trap_pit_2", "type": "Pit", "x": 12, "y": 5 },
-    { "id": "trap_pit_3", "type": "Pit", "x": 13, "y": 5 },
-    { "id": "trap_pit_4", "type": "Pit", "x": 25, "y": 0 }
+    { "id": "trap_pit_1", "type": "PitTrap", "x": 9,  "y": 6 },
+    { "id": "trap_pit_2", "type": "PitTrap", "x": 12, "y": 5 },
+    { "id": "trap_pit_3", "type": "PitTrap", "x": 13, "y": 5 },
+    { "id": "trap_pit_4", "type": "PitTrap", "x": 25, "y": 0 }
   ]
 }

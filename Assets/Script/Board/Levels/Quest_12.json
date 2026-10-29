@@ -72,7 +72,7 @@
     { "id": "trap_spear_1", "type": "Spear", "x": 15, "y": 18 },
     { "id": "trap_spear_2", "type": "Spear", "x": 17, "y": 18 },
     { "id": "trap_spear_3", "type": "Spear", "x": 20, "y": 18 },
-    { "id": "trap_pit_2",   "type": "Pit",   "x": 25, "y": 12 },
-    { "id": "trap_pit_3",   "type": "Pit",   "x": 16, "y": 6 }
+    { "id": "trap_pit_2",   "type": "PitTrap",   "x": 25, "y": 12 },
+    { "id": "trap_pit_3",   "type": "PitTrap",   "x": 16, "y": 6 }
   ]
 }

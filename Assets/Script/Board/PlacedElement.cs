@@ -2,7 +2,9 @@ using UnityEngine;
 
 namespace HeroQuest.Board
 {
-    public enum TrapState { Hidden = 0, Highlighted = 1, Triggered = 2 }
+    // Visual state of a floor trap. States only progress.
+    // Removed = disarmed, or spent (a spear trap that already fired): every visual is gone.
+    public enum TrapState { Hidden = 0, Highlighted = 1, Triggered = 2, Removed = 3 }
 
     /// <summary>Scene instance of a level element (door, furniture, monster, trap...).</summary>
     public class PlacedElement : MonoBehaviour

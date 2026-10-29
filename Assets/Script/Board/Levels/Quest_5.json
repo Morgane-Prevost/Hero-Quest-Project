@@ -69,12 +69,12 @@
     { "id": "gargoyle_1", "type": "Gargoyle", "x": 4,  "y": 6,  "facing": "W", "note": "Note B" }
   ],
   "traps": [
-    { "id": "rockfall_1", "type": "Rockfall", "x": 9, "y": 18 },
-    { "id": "pit_1", "type": "Pit", "x": 6, "y": 16 },
-    { "id": "pit_2", "type": "Pit", "x": 9, "y": 7 },
-    { "id": "pit_3", "type": "Pit", "x": 3, "y": 4 },
+    { "id": "rockfall_1", "type": "RockFall", "x": 9, "y": 18 },
+    { "id": "pit_1", "type": "PitTrap", "x": 6, "y": 16 },
+    { "id": "pit_2", "type": "PitTrap", "x": 9, "y": 7 },
+    { "id": "pit_3", "type": "PitTrap", "x": 3, "y": 4 },
     { "id": "speartrap_1", "type": "SpearTrap", "x": 3, "y": 3 },
     { "id": "speartrap_2", "type": "SpearTrap", "x": 0, "y": 2 },
-    { "id": "pit_4", "type": "Pit", "x": 7, "y": 1 }
+    { "id": "pit_4", "type": "PitTrap", "x": 7, "y": 1 }
   ]
 }
