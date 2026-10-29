@@ -1453,7 +1453,7 @@ GameObject:
   - component: {fileID: 4817271152796091385}
   - component: {fileID: 4185056769436792195}
   m_Layer: 5
-  m_Name: ShopUI
+  m_Name: ShopPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

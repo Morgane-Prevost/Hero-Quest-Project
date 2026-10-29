@@ -56,21 +56,32 @@ public class QuestPanel : MonoBehaviour
     {
         if (quest == null) return;
 
+        // 1. Titre fixe en haut du panneau
         if (titleText != null)
         {
-            titleText.text = string.IsNullOrEmpty(quest.title) ? quest.questId : quest.title;
+            titleText.text = "Quest in progress"; // Ou laisse vide cette ligne si c'est déjà écrit dans Unity
         }
 
+        // 2. Contenu textuel dans la description
         if (descriptionText != null)
         {
             StringBuilder sb = new StringBuilder();
 
+            // Titre spécifique de la quête (ex: "The Trial")
+            if (!string.IsNullOrEmpty(quest.title))
+            {
+                sb.AppendLine($"<b><size=115%>{quest.title}</size></b>");
+                sb.AppendLine();
+            }
+
+            // Description principale
             if (!string.IsNullOrEmpty(quest.description))
             {
                 sb.AppendLine(quest.description);
                 sb.AppendLine();
             }
 
+            // Note d'introduction
             if (!string.IsNullOrEmpty(quest.introNote))
             {
                 string header = string.IsNullOrEmpty(quest.introTitle) ? "Quête" : quest.introTitle;
@@ -78,6 +89,7 @@ public class QuestPanel : MonoBehaviour
                 sb.AppendLine();
             }
 
+            // Objectifs
             if (quest.objectives != null && quest.objectives.Count > 0)
             {
                 sb.AppendLine("<b>Objectifs :</b>");

@@ -3105,11 +3105,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "My friends, you have learned a great deal. The time has now come to face
-    your first trial. You must enter the catacombs where Fellmarg\u2019s tomb lies.
-    You must find and destroy Verag, the vile gargoyle hiding there. It will not
-    be easy, and you will have to work as a team to survive. This is the first step
-    on your journey toward becoming true heroes. Be careful, my friends."
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4678,6 +4674,8 @@ MonoBehaviour:
   toggleButton: {fileID: 481708973533000599}
   toggleButtonText: {fileID: 7298288237724076754}
   questBox: {fileID: 6125221488565537336}
+  titleText: {fileID: 6353518677838474514}
+  descriptionText: {fileID: 8731530653586970934}
   listPanel: {fileID: 8640997607680379436}
   inventoryPanel: {fileID: 2980464047423876610}
 --- !u!114 &8640997607680379436
