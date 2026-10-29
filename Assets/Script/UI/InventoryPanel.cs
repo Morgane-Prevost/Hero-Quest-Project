@@ -13,6 +13,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private TMP_Text subtitleText;
     [SerializeField] private QuestPanel questPanel;
     [SerializeField] private ListPanel listPanel;
+    [SerializeField] private ShopPanel shopPanel;
 
     [Header("Slots")]
     [SerializeField] private Transform grid;
@@ -33,13 +34,18 @@ public class InventoryPanel : MonoBehaviour
     private List<CardSO> items = new List<CardSO>();
     private int selectedIndex = -1;
 
+    private class SimpleRandomPicker : IRandomPicker
+    {
+        public int Pick(int maxExclusive) => Random.Range(0, maxExclusive);
+    }
+
     private void Awake()
     {
-        box.SetActive(false);
+        if (box != null) box.SetActive(false);
 
-        pocketButton.onClick.AddListener(OnPocketClicked);
-        closeButton.onClick.AddListener(Close);
-        actionButton.onClick.AddListener(OnActionClicked);
+        if (pocketButton != null) pocketButton.onClick.AddListener(OnPocketClicked);
+        if (closeButton != null) closeButton.onClick.AddListener(Close);
+        if (actionButton != null) actionButton.onClick.AddListener(OnActionClicked);
 
         for (int i = 0; i < slotCount; i++)
         {
@@ -66,8 +72,9 @@ public class InventoryPanel : MonoBehaviour
             return;
         }
 
-        questPanel.Close();
-        listPanel.ClearSelection();
+        if (questPanel != null) questPanel.Close();
+        if (listPanel != null) listPanel.ClearSelection();
+        if (shopPanel != null) shopPanel.Close();
 
         Refresh();
         box.SetActive(true);
@@ -75,39 +82,29 @@ public class InventoryPanel : MonoBehaviour
 
     public void Close()
     {
-        box.SetActive(false);
+        if (box != null) box.SetActive(false);
     }
 
     private void OnSlotClicked(int index)
     {
-        if (index >= items.Count)
-            return;
+        if (index >= items.Count) return;
 
         selectedIndex = index;
         Refresh();
     }
 
-    private void Refresh()
+    public void Refresh()
     {
         items.Clear();
 
-        if (hero  != null)
+        if (hero != null)
         {
-            if (hero.weapon  != null)
-            {
-                items.Add(hero.weapon);
-            }
-
-            if (hero.armors  != null)
-            {
-                items.AddRange(hero.armors);
-            }
-
+            if (hero.weapon != null) items.Add(hero.weapon);
+            if (hero.armors != null) items.AddRange(hero.armors);
             items.AddRange(hero.Inventory);
 
-            titleText.text = "Inventory : " + hero.heroName;
-            subtitleText.text =
-                "Gold : " + hero.gold;
+            if (titleText != null) titleText.text = "Inventory : " + hero.heroName;
+            if (subtitleText != null) subtitleText.text = "Gold : " + hero.gold;
         }
 
         for (int i = 0; i < slots.Count; i++)
@@ -116,21 +113,20 @@ public class InventoryPanel : MonoBehaviour
 
             if (i < items.Count)
             {
-                icon.texture = items[i].icon;
-                icon.enabled = items[i].icon != null;
+                if (icon != null)
+                {
+                    icon.texture = items[i].icon;
+                    icon.enabled = items[i].icon != null;
+                }
             }
             else
             {
-                icon.enabled = false;
+                if (icon != null) icon.enabled = false;
             }
 
-            if (i == selectedIndex)
+            if (slots[i].image != null)
             {
-                slots[i].image.color = selectedColor;
-            }
-            else
-            {
-                slots[i].image.color = normalColor;
+                slots[i].image.color = (i == selectedIndex) ? selectedColor : normalColor;
             }
         }
 
@@ -141,39 +137,42 @@ public class InventoryPanel : MonoBehaviour
     {
         if (selectedIndex < 0 || selectedIndex >= items.Count)
         {
-            detailCard.gameObject.SetActive(false);
-            actionButton.gameObject.SetActive(false);
+            if (detailCard != null) detailCard.gameObject.SetActive(false);
+            if (actionButton != null) actionButton.gameObject.SetActive(false);
             return;
         }
 
         CardSO card = items[selectedIndex];
 
-        detailCard.gameObject.SetActive(true);
-        detailCard.Show(card);
+        if (detailCard != null)
+        {
+            detailCard.gameObject.SetActive(true);
+            detailCard.Show(card);
+        }
 
         string label = GetActionLabel(card);
-        actionButton.gameObject.SetActive(label != "");
-        actionButtonText.text = label;
+        if (actionButton != null)
+        {
+            actionButton.gameObject.SetActive(label != "");
+            if (actionButtonText != null) actionButtonText.text = label;
+        }
     }
 
     private string GetActionLabel(CardSO card)
     {
         if (card is WeaponData weaponCard)
         {
-            if (hero.weapon == weaponCard)
-            {
-                return "Unequip";
-            }
-            return "Equip";
+            return (hero.weapon == weaponCard) ? "Unequip" : "Equip";
         }
 
         if (card is ArmorData armorCard)
         {
-            if (hero.armors.Contains(armorCard))
-            {
-                return "Unequip";
-            }
-            return "Equip";
+            return hero.armors.Contains(armorCard) ? "Unequip" : "Equip";
+        }
+
+        if (card is PotionCardSO)
+        {
+            return "Use";
         }
 
         return "";
@@ -181,8 +180,7 @@ public class InventoryPanel : MonoBehaviour
 
     private void OnActionClicked()
     {
-        if (selectedIndex < 0 || selectedIndex >= items.Count)
-            return;
+        if (selectedIndex < 0 || selectedIndex >= items.Count) return;
 
         CardSO card = items[selectedIndex];
 
@@ -194,10 +192,7 @@ public class InventoryPanel : MonoBehaviour
             }
             else
             {
-                if (hero.weapon != null)
-                {
-                    hero.unequipWeapon();
-                }
+                if (hero.weapon != null) hero.unequipWeapon();
                 hero.equipWeapon(weaponCard);
             }
         }
@@ -212,9 +207,15 @@ public class InventoryPanel : MonoBehaviour
                 hero.EquipArmor(armorCard);
             }
         }
+        else if (card is PotionCardSO potionCard)
+        {
+            bool used = hero.UsePotion(potionCard, new SimpleRandomPicker());
+            if (used)
+            {
+                selectedIndex = -1;
+            }
+        }
 
-        Refresh();
-        selectedIndex = items.IndexOf(card);
         Refresh();
     }
 }

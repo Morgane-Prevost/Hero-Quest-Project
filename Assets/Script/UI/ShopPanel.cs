@@ -6,12 +6,19 @@ using TMPro;
 public class ShopPanel : MonoBehaviour
 {
     [Header("References")]
+    [SerializeField] private GameObject box;
+    [SerializeField] private Button shopButton;
+    [SerializeField] private Button closeButton;
     [SerializeField] private Transform content;
     [SerializeField] private Button slotPrefab;
     [SerializeField] private TMP_Text goldText;
     [SerializeField] private TMP_Text messageText;
     [SerializeField] private Button buyButton;
     [SerializeField] private TMP_Text buyButtonText;
+
+    [Header("Connected UI")]
+    [SerializeField] private InventoryPanel inventoryPanel;
+    [SerializeField] private GameObject gameUI;
 
     [Header("Shop")]
     [SerializeField] private List<CardSO> shopCards;
@@ -26,17 +33,42 @@ public class ShopPanel : MonoBehaviour
 
     private void Awake()
     {
-        buyButton.onClick.AddListener(OnBuyClicked);
-        messageText.text = "";
+        if (box != null) box.SetActive(false);
+
+        if (shopButton != null) shopButton.onClick.AddListener(ToggleShop);
+        if (closeButton != null) closeButton.onClick.AddListener(Close);
+        if (buyButton != null) buyButton.onClick.AddListener(OnBuyClicked);
+        if (messageText != null) messageText.text = "";
 
         BuildSlots();
+    }
+
+    public void ToggleShop()
+    {
+        if (box != null && box.activeSelf)
+        {
+            Close();
+            return;
+        }
+
+        if (inventoryPanel != null) inventoryPanel.Close();
+
+        Refresh();
+        if (box != null) box.SetActive(true);
+        if (gameUI != null) gameUI.SetActive(false);
+    }
+
+    public void Close()
+    {
+        if (box != null) box.SetActive(false);
+        if (gameUI != null) gameUI.SetActive(true);
     }
 
     public void SetBuyer(Hero newBuyer)
     {
         buyer = newBuyer;
         selectedIndex = -1;
-        messageText.text = "";
+        if (messageText != null) messageText.text = "";
         Refresh();
     }
 
@@ -44,7 +76,7 @@ public class ShopPanel : MonoBehaviour
     {
         foreach (Button slot in slots)
         {
-            Destroy(slot.gameObject);
+            if (slot != null) Destroy(slot.gameObject);
         }
         slots.Clear();
         selectedIndex = -1;
@@ -54,7 +86,9 @@ public class ShopPanel : MonoBehaviour
             int index = i;
 
             Button slot = Instantiate(slotPrefab, content);
-            slot.GetComponentInChildren<CardView>().Show(shopCards[i]);
+            CardView cardView = slot.GetComponentInChildren<CardView>();
+            if (cardView != null) cardView.Show(shopCards[i]);
+
             slot.onClick.AddListener(() => OnSlotClicked(index));
             slots.Add(slot);
         }
@@ -65,41 +99,28 @@ public class ShopPanel : MonoBehaviour
     private void OnSlotClicked(int index)
     {
         selectedIndex = index;
-        messageText.text = GetBuyProblem(shopCards[index]);
+        if (messageText != null) messageText.text = GetBuyProblem(shopCards[index]);
         Refresh();
     }
 
     private string GetBuyProblem(CardSO card)
     {
-        if (buyer == null)
-        {
-            return "No hero is shopping.";
-        }
-
-        if (card.goldCost <= 0)
-        {
-            return "This card is not for sale.";
-        }
-
-        if (buyer.gold < card.goldCost)
-        {
-            return "Not enough gold : " + (card.goldCost - buyer.gold) + " missing.";
-        }
-
+        if (buyer == null) return "No hero is shopping.";
+        if (card.goldCost <= 0) return "This card is not for sale.";
+        if (buyer.gold < card.goldCost) return "Not enough gold : " + (card.goldCost - buyer.gold) + " missing.";
         return "";
     }
 
     private void OnBuyClicked()
     {
-        if (selectedIndex < 0 || selectedIndex >= shopCards.Count)
-            return;
+        if (selectedIndex < 0 || selectedIndex >= shopCards.Count) return;
 
         CardSO card = shopCards[selectedIndex];
 
         string problem = GetBuyProblem(card);
         if (problem != "")
         {
-            messageText.text = problem;
+            if (messageText != null) messageText.text = problem;
             return;
         }
 
@@ -109,37 +130,37 @@ public class ShopPanel : MonoBehaviour
         shopCards.RemoveAt(selectedIndex);
         BuildSlots();
 
-        messageText.text = "You bought : " + card.displayName;
+        if (inventoryPanel != null) inventoryPanel.Refresh();
+
+        if (messageText != null) messageText.text = "You bought : " + card.displayName;
     }
 
     private void Refresh()
     {
         for (int i = 0; i < slots.Count; i++)
         {
-            if (i == selectedIndex)
+            if (slots[i] != null && slots[i].image != null)
             {
-                slots[i].image.color = selectedColor;
-            }
-            else
-            {
-                slots[i].image.color = normalColor;
+                slots[i].image.color = (i == selectedIndex) ? selectedColor : normalColor;
             }
         }
 
-        if (buyer != null)
+        if (buyer != null && goldText != null)
         {
             goldText.text = "Gold : " + buyer.gold;
         }
 
+        if (buyButton == null) return;
+
         if (selectedIndex < 0 || selectedIndex >= shopCards.Count)
         {
             buyButton.interactable = false;
-            buyButtonText.text = "Buy";
+            if (buyButtonText != null) buyButtonText.text = "Buy";
             return;
         }
 
         CardSO card = shopCards[selectedIndex];
         buyButton.interactable = GetBuyProblem(card) == "";
-        buyButtonText.text = "Buy (" + card.goldCost + ")";
+        if (buyButtonText != null) buyButtonText.text = "Buy (" + card.goldCost + ")";
     }
 }
