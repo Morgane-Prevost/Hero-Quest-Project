@@ -441,13 +441,6 @@ namespace HeroQuest.Board
                 SetLayerRecursive(root, boardLayer);
                 foreach (var c in root.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
                 walls[e] = root;
-                w.name = "Wall_" + e;
-                w.transform.localPosition = pos;
-                w.transform.localRotation = e.horizontal ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
-                SetLayerRecursive(w, boardLayer);
-                w.layer = LayerMask.NameToLayer("Obstacle");
-                foreach (var c in w.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
-                walls[e] = w;
             }
         }
 
