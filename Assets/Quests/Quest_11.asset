@@ -1,6 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7726913864146358044
+--- !u!114 &-8473928590439462461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag gargoyle_awake=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: gargoyle_awake
+  expected: 0
+--- !u!114 &-7141946400110757595
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q11_chest
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 28
+  elementId: q11_chest
+--- !u!114 &-6297236188075726588
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -15,11 +43,42 @@ MonoBehaviour:
   recipient: 0
   heroType: 0
   gold: 0
-  cards:
-  - {fileID: 11400000, guid: d410f86e90e7a0d4dbc5192ca7f65f7c, type: 2}
-  artifactIds: []
-  replacesTreasureDraw: 1
---- !u!114 &-6567482428365256642
+  cards: []
+  artifactIds:
+  - orc_bane
+  replacesTreasureDraw: 0
+--- !u!114 &-5054633519117963622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q11_warrior_sword'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q11_warrior_sword
+  monsterType: 
+  count: 1
+--- !u!114 &-4474799141979240735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: 'An armory: the first hero to search finds a shield here (same as the equipment
+    card). The other weapons are unusable.'
+--- !u!114 &-3529249903226516432
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -31,7 +90,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: All monsters dead
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllMonstersDeadCondition
---- !u!114 &-6115278553929471179
+--- !u!114 &-1170452483279220982
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,26 +100,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Flag gargoyle_awake=False
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  m_Name: Set gargoyle_awake
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
   flag: gargoyle_awake
-  expected: 0
---- !u!114 &-5840008264814827907
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
-  m_Name: Note BNote
-  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
-  noteLetter: B
-  title: Note
-  text: 'The chest is trapped: the stone gargoyle comes to life and attacks immediately.
-    It cannot be hurt before it has moved or attacked a hero.'
+  value: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +123,7 @@ MonoBehaviour:
     their fortress and kill every monster. Each hero is paid for his victims: 10
     gold per goblin, 20 per orc, 30 per abomination, 50 per Chaos Warrior.'
   thumbnail: {fileID: 0}
-  levelJson: {fileID: 0}
+  levelJson: {fileID: 4900000, guid: 315905224c8464b44b4fe086490c94b3, type: 3}
   startMode: 0
   startZone: 0
   exitMode: 0
@@ -98,7 +141,7 @@ MonoBehaviour:
     gold: 20
   - monsterType: Abomination
     gold: 30
-  - monsterType: Chaos Warrior
+  - monsterType: Dread Warrior
     gold: 50
   introTitle: "Qu\xEAte"
   introNote: 
@@ -131,112 +174,40 @@ MonoBehaviour:
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: -6567482428365256642}
+    - {fileID: -3529249903226516432}
     actions:
-    - {fileID: 6730271893738790160}
+    - {fileID: 7712675449973588550}
   - ruleId: note_A
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 1987270975035704006}
+    - {fileID: 2963902813833179748}
     actions:
-    - {fileID: 2828246139209271253}
-    - {fileID: -7726913864146358044}
+    - {fileID: -4474799141979240735}
+    - {fileID: 4948455404788012791}
   - ruleId: note_B_trap
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 1380099811593847957}
-    - {fileID: 2862241416838042562}
-    - {fileID: -6115278553929471179}
+    - {fileID: -7141946400110757595}
+    - {fileID: 3893610774398166422}
+    - {fileID: -8473928590439462461}
     actions:
-    - {fileID: -5840008264814827907}
-    - {fileID: 3138620434124451448}
-    - {fileID: 2737837110627765347}
+    - {fileID: 1439844608666286684}
+    - {fileID: 457206890902784921}
+    - {fileID: -1170452483279220982}
   - ruleId: note_C
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 7134456656643540946}
+    - {fileID: -5054633519117963622}
     actions:
-    - {fileID: 3672351167854958675}
-    - {fileID: 6994452585627998163}
+    - {fileID: 1856088550409924924}
+    - {fileID: -6297236188075726588}
   sharedGoldReward: 0
   goldRewardPerHero: 0
   rewardRequiresObjectiveId: 
---- !u!114 &1380099811593847957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Search q11_chest
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
-  zone: 28
-  elementId: q11_chest
---- !u!114 &1987270975035704006
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Search q11_armory
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
-  zone: 27
-  elementId: q11_armory
---- !u!114 &2737837110627765347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Set gargoyle_awake
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
-  flag: gargoyle_awake
-  value: 1
---- !u!114 &2828246139209271253
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
-  m_Name: Note ANote
-  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
-  noteLetter: A
-  title: Note
-  text: 'An armory: the first hero to search finds a shield here (same as the equipment
-    card). The other weapons are unusable.'
---- !u!114 &2862241416838042562
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Flag disarmed:q11_chest=False
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
-  flag: disarmed:q11_chest
-  expected: 0
---- !u!114 &3138620434124451448
+--- !u!114 &457206890902784921
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +220,23 @@ MonoBehaviour:
   m_Name: Activate q11_gargoyle
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ActivateMonsterAction
   elementId: q11_gargoyle
---- !u!114 &3672351167854958675
+--- !u!114 &1439844608666286684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: 'The chest is trapped: the stone gargoyle comes to life and attacks immediately.
+    It cannot be hurt before it has moved or attacked a hero.'
+--- !u!114 &1856088550409924924
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -265,7 +252,7 @@ MonoBehaviour:
   title: Note
   text: 'This Chaos Warrior carried a magic sword: the hero who killed him may take
     the Orc''s Bane (artifact).'
---- !u!114 &6730271893738790160
+--- !u!114 &2963902813833179748
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,10 +262,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Objective kill_all
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
-  objectiveId: kill_all
---- !u!114 &6994452585627998163
+  m_Name: Search q11_armory
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 27
+  elementId: q11_armory
+--- !u!114 &3893610774398166422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag disarmed:q11_chest=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: disarmed:q11_chest
+  expected: 0
+--- !u!114 &4948455404788012791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -293,11 +295,11 @@ MonoBehaviour:
   recipient: 0
   heroType: 0
   gold: 0
-  cards: []
-  artifactIds:
-  - orc_bane
-  replacesTreasureDraw: 0
---- !u!114 &7134456656643540946
+  cards:
+  - {fileID: 11400000, guid: d410f86e90e7a0d4dbc5192ca7f65f7c, type: 2}
+  artifactIds: []
+  replacesTreasureDraw: 1
+--- !u!114 &7712675449973588550
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -307,8 +309,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: 'Killed: q11_warrior_sword'
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
-  elementId: q11_warrior_sword
-  monsterType: 
-  count: 1
+  m_Name: Objective kill_all
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: kill_all

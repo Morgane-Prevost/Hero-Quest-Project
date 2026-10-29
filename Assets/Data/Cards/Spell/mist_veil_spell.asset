@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: mist_veil_spell
   m_EditorClassIdentifier: Assembly-CSharp::HeroEffectSpellSO
   displayName: Mist Veil Spell
-  description: 
+  description: This spell may be cast on any one hero, including yourself. On their
+    next move, that hero may pass through squares occupied by monsters.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: c2a7d1480f5f57344874fb3536e53190, type: 3}
+  goldCost: 0
   element: 2
   effect: 1
   value: 0

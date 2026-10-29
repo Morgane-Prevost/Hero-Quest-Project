@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: dread_control
   m_EditorClassIdentifier: Assembly-CSharp::HeroStateSpellSO
   displayName: Control
-  description: 
+  description: This spell puts a hero under Zargon's control. The hero may break
+    the spell immediately or on a future turn by rolling 1 red die for each of their
+    Mind points. If a 6 is rolled, the spell is broken. Until then, Zargon may move
+    the hero during his turn and use them to attack other heroes.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   state: 8
   value: 1
   rollReleaseNow: 1
+  wholeArea: 0

@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "levelId": "quest_10",
+  "name": "Castle of Mystery",
+  "gridMap": "heroquest_base_2021",
+  "unusedRooms": [1, 9, 15],
+  "reveal": { "initialZones": [20] },
+  "walls": {
+    "mode": "zoneBoundaries",
+    "includeBoardBorder": true,
+    "addEdges": [],
+    "removeEdges": []
+  },
+  "stairs": { "x": 1, "y": 1, "w": 2, "h": 2 },
+  "doors": [
+    { "id": "door_2_12", "type": "Door", "x": 4,  "y": 4,  "side": "N", "note": "teleport to if 2d6=2/12" },
+    { "id": "door_3",    "type": "Door", "x": 9,  "y": 16, "side": "W", "note": "teleport to if 2d6=3" },
+    { "id": "door_4",    "type": "Door", "x": 4,  "y": 12, "side": "E", "note": "teleport to if 2d6=4" },
+    { "id": "door_5",    "type": "Door", "x": 6,  "y": 7,  "side": "E", "note": "teleport to if 2d6=5" },
+    { "id": "door_6",    "type": "Door", "x": 9,  "y": 3,  "side": "W", "note": "teleport to if 2d6=6" },
+    { "id": "door_7",    "type": "Door", "x": 15, "y": 9,  "side": "E", "note": "teleport to if 2d6=7" },
+    { "id": "door_8",    "type": "Door", "x": 16, "y": 16, "side": "E", "note": "teleport to if 2d6=8" },
+    { "id": "door_9",    "type": "Door", "x": 17, "y": 2,  "side": "E", "note": "teleport to if 2d6=9" },
+    { "id": "door_10",   "type": "Door", "x": 22, "y": 5,  "side": "S", "note": "teleport to if 2d6=10" },
+    { "id": "door_11",   "type": "Door", "x": 22, "y": 14, "side": "S", "note": "teleport to if 2d6=11" }
+  ],
+  "blocked": [],
+  "furniture": [
+    { "id": "chest_b", "type": "Chest", "x": 14, "y": 14, "w": 1, "h": 1, "facing": "E", "note": "Mine with 5000 golds" }
+  ],
+  "monsters": [
+    { "id": "skeleton_1",  "type": "Skeleton",     "x": 10, "y": 17, "facing": "S" },
+    { "id": "zombie_1",     "type": "Zombie",        "x": 10, "y": 15, "facing": "N" },
+    { "id": "zombie_2",     "type": "Zombie",        "x": 9,  "y": 14, "facing": "N" },
+    { "id": "orc_1",       "type": "Orc",          "x": 22, "y": 17, "facing": "S" },
+    { "id": "orc_2",       "type": "Orc",          "x": 21, "y": 16, "facing": "S" },
+    { "id": "orc_3",       "type": "Orc",          "x": 24, "y": 15, "facing": "W" },
+    { "id": "orc_4",       "type": "Orc",          "x": 3,  "y": 13, "facing": "E" },
+    { "id": "orc_5",       "type": "Orc",          "x": 2,  "y": 12, "facing": "E" },
+    { "id": "goblin_1",     "type": "Goblin", "x": 13, "y": 10, "facing": "E" },
+    { "id": "goblin_2",     "type": "Goblin", "x": 12, "y": 9,  "facing": "E" },
+    { "id": "goblin_3",     "type": "Goblin", "x": 11, "y": 8,  "facing": "E" },
+    { "id": "goblin_4",     "type": "Goblin", "x": 13, "y": 7,  "facing": "N" },
+    { "id": "dreadwarrior_1",  "type": "DreadWarrior",     "x": 5,  "y": 8,  "facing": "E" },
+    { "id": "dreadwarrior_2",  "type": "DreadWarrior",     "x": 22, "y": 7,  "facing": "S" },
+    { "id": "dreadwarrior_3",  "type": "DreadWarrior",     "x": 24, "y": 6,  "facing": "W" },
+    { "id": "mummy_1",    "type": "Mummy",       "x": 10, "y": 2,  "facing": "N" },
+    { "id": "mummy_2",    "type": "Mummy",       "x": 16, "y": 5,  "facing": "S" },
+    { "id": "skeleton_2",  "type": "Skeleton",     "x": 15, "y": 3,  "facing": "E" },
+    { "id": "skeleton_3",  "type": "Skeleton",     "x": 14, "y": 2,  "facing": "E" },
+    { "id": "skeleton_4",  "type": "Skeleton",     "x": 16, "y": 1,  "facing": "N" }
+  ],
+  "traps": []
+}

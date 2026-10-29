@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Card_Trap_Arrow
   m_EditorClassIdentifier: Assembly-CSharp::TrapCardSO
   displayName: Trap Card
-  description: 
-  artwork: {fileID: 0}
+  description: During your search, you are struck by an arrow shooting from the wall.
+    You lose 1 Body point and your turn is over. Put this card at the bottom of the
+    deck.
+  icon: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 5dcc599808d88e64a816bb83cbfbda5d, type: 3}
+  goldCost: 0
   lifeLoss: 1
   endsTurn: 1

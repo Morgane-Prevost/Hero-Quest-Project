@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "levelId": "quest_13",
+  "name": "Quest for the Spirit Blade",
+  "gridMap": "heroquest_base_2021",
+  "unusedRooms": [1, 2, 3, 4, 5, 6, 7, 8, 10, 15, 16, 18, 19],
+  "reveal": { "initialZones": [11] },
+  "walls": {
+    "mode": "zoneBoundaries",
+    "includeBoardBorder": true,
+    "addEdges": [],
+    "removeEdges": []
+  },
+  "stairs": { "x": 14, "y": 10, "w": 2, "h": 2 },
+  "doors": [
+    { "id": "door_1",  "type": "Door", "x": 12, "y": 11, "side": "N" },
+    { "id": "door_2",  "type": "Door", "x": 10, "y": 9,  "side": "W" },
+    { "id": "door_3",  "type": "Door", "x": 15, "y": 9,  "side": "E" },
+    { "id": "door_4",  "type": "Door", "x": 12, "y": 7,  "side": "S" },
+    { "id": "door_5",  "type": "Door", "x": 19, "y": 10, "side": "S" },
+    { "id": "door_6",  "type": "Door", "x": 2,  "y": 8,  "side": "N" },
+    { "id": "door_7",  "type": "Door", "x": 7,  "y": 8,  "side": "N" },
+    { "id": "door_8",  "type": "Door", "x": 4,  "y": 7,  "side": "E" },
+    { "id": "door_9",  "type": "Door", "x": 2,  "y": 4,  "side": "N" },
+    { "id": "door_10", "type": "Door", "x": 4,  "y": 1,  "side": "E" },
+    { "id": "door_11", "type": "Door", "x": 19 , "y": 0,  "side": "N" },
+    { "id": "door_12", "type": "Door", "x": 20, "y": 3,  "side": "E" },
+    { "id": "door_13", "type": "Door", "x": 22, "y": 1,  "side": "S" },
+    { "id": "door_14", "type": "Door", "x": 3, "y": 0,  "side": "N" }
+  ],
+  "blocked": [
+    { "id": "rubble_1", "type": "Rubble", "x": 12, "y": 13, "w": 2, "h": 1 },
+    { "id": "rubble_2", "type": "Rubble", "x": 0,  "y": 11, "w": 1, "h": 1 },
+    { "id": "rubble_3", "type": "Rubble", "x": 0,  "y": 7,  "w": 1, "h": 1 },
+    { "id": "rubble_4", "type": "Rubble", "x": 6,  "y": 9,  "w": 1, "h": 1 },
+    { "id": "rubble_5", "type": "Rubble", "x": 20, "y": 9,  "w": 1, "h": 1 },
+    { "id": "rubble_6", "type": "Rubble", "x": 0,  "y": 0,  "w": 1, "h": 1 },
+    { "id": "rubble_7", "type": "Rubble", "x": 24, "y": 0,  "w": 1, "h": 1 }
+  ],
+  "furniture": [
+    { "id": "chest_1", "type": "Chest", "x": 6, "y": 7, "w": 1, "h": 1, "facing": "W" },
+    { "id": "table_1", "type": "Table", "x": 6, "y": 4, "w": 3, "h": 2, "facing": "S" },
+    { "id": "table_2", "type": "Table", "x": 3, "y": 2, "w": 2, "h": 3, "facing": "W" }
+  ],
+  "monsters": [
+    { "id": "orc_1",          "type": "Orc",          "x": 2,  "y": 7, "facing": "S" },
+    { "id": "dread_warrior_1","type": "DreadWarrior", "x": 3,  "y": 7, "facing": "S" },
+    { "id": "abomination_1", "type": "Abomination", "x": 3,  "y": 6, "facing": "S" },
+    { "id": "orc_3",          "type": "Orc",          "x": 1,  "y": 3, "facing": "S" },
+    { "id": "orc_4",          "type": "Orc",          "x": 2,  "y": 3, "facing": "S" },
+    { "id": "abomination_2",  "type": "Abomination",  "x": 2,  "y": 1, "facing": "E" },
+    { "id": "goblin_1",       "type": "Goblin",       "x": 6,  "y": 3, "facing": "S" },
+    { "id": "goblin_2",       "type": "Goblin",       "x": 6,  "y": 2, "facing": "S" },
+    { "id": "orc_5",          "type": "Orc",          "x": 7,  "y": 2, "facing": "W" },
+    { "id": "goblin_3",       "type": "Goblin",       "x": 7,  "y": 1, "facing": "W" },
+    { "id": "orc_6",          "type": "Orc",          "x": 12, "y": 5, "facing": "N" },
+    { "id": "orc_7",          "type": "Orc",          "x": 13, "y": 5, "facing": "N" },
+    { "id": "orc_8",          "type": "Orc",          "x": 16, "y": 6, "facing": "N" },
+    { "id": "abomination_3",  "type": "Abomination",  "x": 12, "y": 0, "facing": "N" },
+    { "id": "mummy_1",       "type": "Mummy",       "x": 20, "y": 1, "facing": "W" },
+    { "id": "skeleton_1",     "type": "Skeleton",     "x": 21, "y": 3, "facing": "S" },
+    { "id": "dread_warrior_2","type": "DreadWarrior", "x": 22, "y": 3, "facing": "S" },
+    { "id": "skeleton_2",     "type": "Skeleton",     "x": 24, "y": 3, "facing": "S" },
+    { "id": "skeleton_3",     "type": "Skeleton",     "x": 22, "y": 2, "facing": "S" },
+    { "id": "skeleton_4",     "type": "Skeleton",     "x": 23, "y": 2, "facing": "S" }
+  ],
+  "traps": [
+    { "id": "trap_spear_1", "type": "Spear",    "x": 11, "y": 12 },
+    { "id": "trap_spear_2", "type": "Spear",    "x": 14, "y": 12 },
+    { "id": "rockfall_1",   "type": "RockFall", "x": 0,  "y": 9  },
+    { "id": "rockfall_2",   "type": "RockFall", "x": 9,  "y": 7  },
+    { "id": "rockfall_3",   "type": "RockFall", "x": 12, "y": 4  },
+    { "id": "rockfall_4",   "type": "RockFall", "x": 13, "y": 2  },
+    { "id": "rockfall_5",   "type": "RockFall", "x": 19, "y": 9  },
+    { "id": "rockfall_6",   "type": "RockFall", "x": 19, "y": 1  }
+  ]
+}

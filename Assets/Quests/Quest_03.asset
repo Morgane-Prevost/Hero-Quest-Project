@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8782564809885567847
+--- !u!114 &-5966490493131788754
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9,13 +9,43 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
-  m_Name: Note ANote
-  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
-  noteLetter: A
-  title: Note
-  text: The orcs' armory. The first hero to search finds a staff here, to keep or
-    to give to another hero (same as the equipment card).
+  m_Script: {fileID: 0}
+  m_Name: Objective kill_ulag
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: kill_ulag
+--- !u!114 &-5271372837260550326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search cupboard_b
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 12
+  elementId: cupboard_b
+--- !u!114 &-4497596651223015958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards:
+  - {fileID: 11400000, guid: 8fd3519e3ef40744e9f8085cd2811354, type: 2}
+  artifactIds: []
+  replacesTreasureDraw: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,7 +82,7 @@ MonoBehaviour:
   victoryNote: 
   defeatNote: 
   namedMonsters:
-  - elementId: q3_ulag
+  - elementId: orc_ulag
     displayName: Ulag
     movement: 10
     attackDice: 4
@@ -78,29 +108,29 @@ MonoBehaviour:
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 2473331958648593300}
+    - {fileID: 6088803290118631231}
     actions:
-    - {fileID: -8782564809885567847}
-    - {fileID: 3883202319323320361}
+    - {fileID: 2728392000163712032}
+    - {fileID: -4497596651223015958}
   - ruleId: note_B
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 1618858975706477295}
+    - {fileID: -5271372837260550326}
     actions:
-    - {fileID: 62557817324263871}
-    - {fileID: 3082432989509875804}
+    - {fileID: 257355795645557675}
+    - {fileID: 6354789323524170668}
   - ruleId: ulag_dead
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 2052461697853263941}
+    - {fileID: 6968538269756287815}
     actions:
-    - {fileID: 8172066529162830500}
+    - {fileID: -5966490493131788754}
   sharedGoldReward: 180
   goldRewardPerHero: 0
   rewardRequiresObjectiveId: 
---- !u!114 &62557817324263871
+--- !u!114 &257355795645557675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,8 +145,24 @@ MonoBehaviour:
   noteLetter: B
   title: Note
   text: The first hero to search finds 24 gold coins and a healing potion in the
-    sideboard (restores up to 4 body points).
---- !u!114 &1618858975706477295
+    cupboard (restores up to 4 body points).
+--- !u!114 &2728392000163712032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: The orcs' armory. The first hero to search finds a staff here, to keep or
+    to give to another hero (same as the equipment card).
+--- !u!114 &6088803290118631231
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -126,40 +172,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Search q3_buffet
+  m_Name: Search weapons_rack_a
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
-  zone: 10
-  elementId: q3_buffet
---- !u!114 &2052461697853263941
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 'Killed: q3_ulag'
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
-  elementId: q3_ulag
-  monsterType: 
-  count: 1
---- !u!114 &2473331958648593300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Search q3_armory
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
-  zone: 9
-  elementId: q3_armory
---- !u!114 &3082432989509875804
+  zone: 1
+  elementId: weapons_rack_a
+--- !u!114 &6354789323524170668
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -177,7 +194,7 @@ MonoBehaviour:
   cards: []
   artifactIds: []
   replacesTreasureDraw: 1
---- !u!114 &3883202319323320361
+--- !u!114 &6968538269756287815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,25 +204,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Loot
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
-  recipient: 0
-  heroType: 0
-  gold: 0
-  cards:
-  - {fileID: 11400000, guid: 8fd3519e3ef40744e9f8085cd2811354, type: 2}
-  artifactIds: []
-  replacesTreasureDraw: 1
---- !u!114 &8172066529162830500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Objective kill_ulag
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
-  objectiveId: kill_ulag
+  m_Name: 'Killed: orc_ulag'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: orc_ulag
+  monsterType: 
+  count: 1

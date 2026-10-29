@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Card_Heroism_Potion
   m_EditorClassIdentifier: Assembly-CSharp::HeroismPotionSO
   displayName: Heroism Potion
-  description: 
+  description: "You discover with surprise a wineskin hanging from the wall. If you
+    drink its contents before attacking, you will attack twice instead of once. Single
+    use. Do not put this card back in the deck.\n\nQuelle est la prochaine \xE9tape
+    de votre dossier d'i"
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: abb6392b83154704ca699742c4193193, type: 3}
+  goldCost: 0

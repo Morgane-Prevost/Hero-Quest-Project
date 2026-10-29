@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: mystic_sword
   m_EditorClassIdentifier: Assembly-CSharp::ArtifactWeaponData
   displayName: Mystic Sword
-  description: 
+  description: 'Weapon: This magical broadsword has a strange handle carved from
+    bone. It grants 3 attack dice, or 4 attack dice against undead monsters (skeletons,
+    zombies, or mummies). Cannot be used by the Wizard.'
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: fd987b527e838ee4982e9c9d2389fba3, type: 3}
+  goldCost: 0
   equipement:
     type: 1
     cost: 0

@@ -13,6 +13,10 @@ MonoBehaviour:
   m_Name: Card_Monster
   m_EditorClassIdentifier: Assembly-CSharp::WanderingMonsterCardSO
   displayName: Wandering Monster
-  description: 
+  description: While searching, a monster sneaks up on you and attacks! Zargon must
+    place the wandering monster (as indicated in the Quest Book) on a square adjacent
+    to the hero. The monster attacks immediately. Put this card at the bottom of
+    the deck.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 5c343709ff4049346a4652aa53f7866f, type: 3}
+  goldCost: 0

@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: dread_cloud
   m_EditorClassIdentifier: Assembly-CSharp::HeroStateSpellSO
   displayName: Dread Cloud
-  description: 
+  description: This spell paralyzes all heroes in a room or corridor. A paralyzed
+    hero cannot move, attack, or defend. They may break the spell immediately or
+    on a future turn by rolling 1 red die for each of their Mind points. If a 6 is
+    rolled, they are freed.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   state: 6
   value: 1
   rollReleaseNow: 1

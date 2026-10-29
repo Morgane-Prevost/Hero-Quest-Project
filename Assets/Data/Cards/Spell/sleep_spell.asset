@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: sleep_spell
   m_EditorClassIdentifier: Assembly-CSharp::SleepSpellSO
   displayName: Sleep Spell
-  description: 
+  description: This spell puts any one monster into a deep sleep. The monster cannot
+    move, attack, or defend itself. The monster may break the spell immediately or
+    on a future turn by rolling 1 red die for each of its Mind points. If a 6 is
+    rolled, the spell is broken. This spell does not affect mummies, zombies, or
+    skeletons.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: a4489bdd39f57fe43b09a95b233c2fb8, type: 3}
+  goldCost: 0
   element: 2
   immuneTags:
   - undead

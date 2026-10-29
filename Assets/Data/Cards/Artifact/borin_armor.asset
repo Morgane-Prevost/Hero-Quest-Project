@@ -12,10 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9152f34f8ebef8e45a572fb66d7741a7, type: 3}
   m_Name: borin_armor
   m_EditorClassIdentifier: Assembly-CSharp::ArtifactArmorData
-  displayName: Borin Armor
-  description: 
+  displayName: Borin's Armor
+  description: 'Armor: This magical plate armor gives you 2 extra defense dice. Unlike
+    normal plate armor, this armor made of a mysterious ultra-light metal does not
+    slow the hero down. May be combined with the helmet and/or shield. Cannot be
+    worn by the Wizard.'
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 27b39076ffd3d5e4eb3a66517b41bc23, type: 3}
+  goldCost: 0
   equipement:
     type: 2
     cost: 0

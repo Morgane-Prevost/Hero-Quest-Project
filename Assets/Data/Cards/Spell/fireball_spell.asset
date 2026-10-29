@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: fireball_spell
   m_EditorClassIdentifier: Assembly-CSharp::DamageSpellSO
   displayName: Fireball Spell
-  description: 
+  description: This spell may be cast on any one monster, enveloping it in a ball
+    of fire. It inflicts 2 Body points of damage. The monster rolls 2 red dice. For
+    each 5 or 6 rolled, the damage is reduced by 1 point.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 2b7a03babfc223d4daa544769bed420e, type: 3}
+  goldCost: 0
   element: 1
   damage: 2
   resistDice: 2

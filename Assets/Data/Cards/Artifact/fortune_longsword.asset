@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: fortune_longsword
   m_EditorClassIdentifier: Assembly-CSharp::ArtifactWeaponData
   displayName: Fortune Longsword
-  description: 
+  description: 'Weapon: This long-bladed sword grants 3 attack dice and allows diagonal
+    attacks. Once per quest, the hero may use its power to reroll 1 attack die. Cannot
+    be used by the Wizard.'
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 88ff9ea7b43c27946812f17cb0cc1740, type: 3}
+  goldCost: 0
   equipement:
     type: 1
     cost: 0
