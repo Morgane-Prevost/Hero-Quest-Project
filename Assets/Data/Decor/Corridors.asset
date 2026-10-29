@@ -13,14 +13,34 @@ MonoBehaviour:
   m_Name: Corridors
   m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Board.RoomThemeSO
   themeId: crypt
-  props: []
+  props:
+  - prefab: {fileID: 161946, guid: 7098fb36b610961409481b19c3c89f3d, type: 3}
+    slot: 1
+    size: 0.5
+    weight: 1
+    randomYaw: 0
+  - prefab: {fileID: 118608, guid: faca720d8063fe04ea9eaba459ea2758, type: 3}
+    slot: 1
+    size: 0.3
+    weight: 1
+    randomYaw: 0
+  - prefab: {fileID: 109274, guid: b131c4e5b11659844ad695035a09c896, type: 3}
+    slot: 1
+    size: 0.3
+    weight: 1
+    randomYaw: 0
+  - prefab: {fileID: 132660, guid: d6487cafe050ad94fb7235770972834e, type: 3}
+    slot: 1
+    size: 0.5
+    weight: 1
+    randomYaw: 0
   density: 0.15
   minProps: 2
   maxProps: 8
   torchPrefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}
   flameFxPrefab: {fileID: 1283514324608574, guid: 2fba35f53ac35564cb7b58e268e904bd, type: 3}
-  minTorches: 1
-  maxTorches: 3
+  minTorches: 5
+  maxTorches: 10
   torchSize: 0.35
   torchHeight: 0.5
   torchColor: {r: 1, g: 0.7739354, b: 0.25098038, a: 1}
