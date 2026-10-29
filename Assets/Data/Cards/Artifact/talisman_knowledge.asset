@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: talisman_knowledge
   m_EditorClassIdentifier: Assembly-CSharp::StatBonusArtifactSO
   displayName: Talisman Knowledge
-  description: 
+  description: The hero wearing this magic medallion adds 1 point to their maximum
+    Mind points.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: fa9d4159cf1362d479e1009791026632, type: 3}
+  goldCost: 0
   info:
     id: talisman_knowledge
     usage: 0

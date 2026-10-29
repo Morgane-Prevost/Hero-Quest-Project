@@ -13,9 +13,14 @@ MonoBehaviour:
   m_Name: dread_horror
   m_EditorClassIdentifier: Assembly-CSharp::HeroStateSpellSO
   displayName: Horror
-  description: 
+  description: This spell places a hero under the grip of a dread so intense that
+    they may roll only 1 attack die. The hero may break the spell on a future turn
+    by rolling 1 red die for each of their Mind points. If a 6 is rolled, the spell
+    is broken.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   state: 7
   value: 1
   rollReleaseNow: 0
+  wholeArea: 0

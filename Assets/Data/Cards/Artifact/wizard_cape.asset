@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 149e8a8dcde5a084cab84a5e486a10e6, type: 3}
   m_Name: wizard_cape
   m_EditorClassIdentifier: Assembly-CSharp::StatBonusArtifactSO
-  displayName: Wizard Cape
-  description: 
+  displayName: Wizard's Cape
+  description: The shimmering cloth of this magical cloak is covered in runes. It
+    can only be worn by the Wizard and gives him 1 extra defense die.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 5f3cf9f00577c364cb59ae15bde66833, type: 3}
+  goldCost: 0
   info:
     id: wizard_cape
     usage: 0

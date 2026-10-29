@@ -12,9 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2db07f6b94b77124e827ece6ba691739, type: 3}
   m_Name: earth_heal_spell
   m_EditorClassIdentifier: Assembly-CSharp::HealSpellSO
-  displayName: Earth Heal Spell
-  description: 
+  displayName: Heal Body
+  description: This spell may be cast on any one hero, including yourself. It restores
+    up to 4 lost Body points (never exceeding their starting total).
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 3ff54aecb635f6d4687ba0ba73878f73, type: 3}
+  goldCost: 0
   element: 3
   amount: 4

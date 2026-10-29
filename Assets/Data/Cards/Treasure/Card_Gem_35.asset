@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Card_Gem_35
   m_EditorClassIdentifier: Assembly-CSharp::GoldCardSO
   displayName: Gem
-  description: 
+  description: You find a small gem hidden at the bottom of a boot. It is worth 35
+    gold coins. Record this amount on your character sheet. Do not put this card
+    back in the deck.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 8e19a7493234c7043964002b15b96457, type: 3}
+  goldCost: 0
   goldAmount: 35

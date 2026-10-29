@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: wizard_staff
   m_EditorClassIdentifier: Assembly-CSharp::ArtifactWeaponData
   displayName: Wizard Staff
-  description: 
+  description: This long, ancient-looking staff glows with a soft blue light. It
+    can only be used by the Wizard, gives him 2 attack dice, and allows him to attack
+    diagonally.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: fe604df653eb55a438106dcceb2e50cc, type: 3}
+  goldCost: 0
   equipement:
     type: 1
     cost: 0
@@ -35,3 +38,5 @@ MonoBehaviour:
   bonusAgainstTag: 
   bonusAttackDice: 0
   bonusAttacks: 0
+  canRerollOneDie: 0
+  canIgnoreTargetDefense: 0
