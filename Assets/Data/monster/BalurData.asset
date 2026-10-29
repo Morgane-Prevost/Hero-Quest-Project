@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ee74c86305849f1aacd4fe9ff5bacfe, type: 3}
   m_Name: BalurData
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
-  prefab: {fileID: 0}
+  prefab: {fileID: 2657107104071573070, guid: 62b9f418fb7565f4c9fb2db675ffe265, type: 3}
   texture: {fileID: 0}
   id: balur
   description: Balur aids the Black Mountain Orcs with elemental fire magic. Fire
