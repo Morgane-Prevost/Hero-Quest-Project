@@ -9,9 +9,16 @@ public class PortraitPanel : MonoBehaviour
 
     public void SetHero(HeroData hero)
     {
-        portraitImage.texture = hero.texture;
+        if (hero == null || hero.texture == null)
+        {
+            if (portraitImage != null) portraitImage.enabled = false;
+            return;
+        }
 
-        if (hero.texture  != null)
+        portraitImage.texture = hero.texture;
+        portraitImage.enabled = true;
+
+        if (ratioFitter != null && hero.texture.height > 0)
         {
             ratioFitter.aspectRatio = (float)hero.texture.width / hero.texture.height;
         }
