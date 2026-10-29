@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "levelId": "quest_07",
+  "name": "The Lost Wizard",
+  "gridMap": "heroquest_base_2021",
+  "unusedRooms": [1, 2, 3, 4, 5, 6, 9, 10, 11, 14, 16, 18],
+  "reveal": { "initialZones": [8] },
+  "walls": {
+    "mode": "zoneBoundaries",
+    "includeBoardBorder": true,
+    "addEdges": [],
+    "removeEdges": []
+  },
+  "stairs": { "x": 7, "y": 13, "w": 2, "h": 2 },
+  "doors": [
+    { "id": "door_1",  "type": "Door", "x": 4,  "y": 12, "side": "E" },
+    { "id": "door_2",  "type": "Door", "x": 3,  "y": 10, "side": "S" },
+    { "id": "door_3",  "type": "Door", "x": 5,  "y": 8,  "side": "N" },
+    { "id": "door_4",  "type": "Door", "x": 4,  "y": 6,  "side": "E" },
+    { "id": "door_5",  "type": "Door", "x": 2,  "y": 5,  "side": "S" },
+    { "id": "door_6",  "type": "Door", "x": 2,  "y": 1,  "side": "S" },
+    { "id": "door_7",  "type": "Door", "x": 7,  "y": 1,  "side": "S" },
+    { "id": "door_8",  "type": "Door", "x": 18, "y": 8,  "side": "N" },
+    { "id": "door_9",  "type": "Door", "x": 19, "y": 5,  "side": "S" },
+    { "id": "door_10", "type": "Door", "x": 17, "y": 3,  "side": "E" },
+    { "id": "door_11", "type": "Door", "x": 20, "y": 3,  "side": "E" }
+  ],
+  "blocked": [
+    { "id": "rubble_1", "type": "Rubble", "x": 12, "y": 13, "w": 2, "h": 1 },
+    { "id": "rubble_2", "type": "Rubble", "x": 12, "y": 5,  "w": 2, "h": 1 },
+    { "id": "rubble_3", "type": "Rubble", "x": 1,  "y": 9,  "w": 1, "h": 1 },
+    { "id": "rubble_4", "type": "Rubble", "x": 20, "y": 9,  "w": 1, "h": 1 },
+    { "id": "rubble_5", "type": "Rubble", "x": 1,  "y": 0,  "w": 1, "h": 1 },
+    { "id": "rubble_6", "type": "Rubble", "x": 9,  "y": 0,  "w": 1, "h": 1 }
+  ],
+  "furniture": [
+    { "id": "fireplace_1",     "type": "Fireplace",      "x": 1,  "y": 11, "w": 1, "h": 3, "facing": "E" },
+    { "id": "alchemist_bench_1","type": "AlchemistBench", "x": 14, "y": 3,  "w": 2, "h": 3, "facing": "E" },
+    { "id": "table_1",         "type": "Table",          "x": 19, "y": 6,  "w": 2, "h": 3, "facing": "W" },
+    { "id": "weaponsrack_1",   "type": "WeaponsRack",    "x": 24, "y": 2,  "w": 1, "h": 3, "facing": "W" },
+    { "id": "chest_1",         "type": "Chest",          "x": 14, "y": 1,  "facing": "N" },
+    { "id": "trapped_chest_1", "type": "Chest",          "x": 7,  "y": 5,  "facing": "S", "trapped": "true", "note": "Poisoned Darts" }
+  ],
+  "monsters": [
+    { "id": "skeleton_1",  "type": "Skeleton", "x": 3,  "y": 12, "facing": "E" },
+    { "id": "skeleton_2",  "type": "Skeleton", "x": 4,  "y": 11, "facing": "N" },
+    { "id": "dreadwarrior_1",  "type": "DreadWarrior", "x": 9,  "y": 12, "facing": "E" },
+    { "id": "dreadwarrior_2",  "type": "DreadWarrior", "x": 16, "y": 12, "facing": "W"},
+    { "id": "dreadwarrior_3",  "type": "DreadWarrior", "x": 9,  "y": 6,  "facing": "E" },
+    { "id": "dreadwarrior_4",  "type": "DreadWarrior", "x": 16, "y": 6,  "facing": "W" },
+    { "id": "skeleton_3",  "type": "Skeleton", "x": 1,  "y": 7,  "facing": "E" },
+    { "id": "skeleton_4",  "type": "Skeleton", "x": 2,  "y": 6,  "facing": "E" },
+    { "id": "skeleton_5",  "type": "Skeleton", "x": 3,  "y": 5,  "facing": "E" },
+    { "id": "skeleton_6",  "type": "Skeleton", "x": 1,  "y": 2,  "facing": "E" },
+    { "id": "skeleton_7",  "type": "Skeleton", "x": 2,  "y": 1,  "facing": "N" },
+    { "id": "skeleton_8",  "type": "Skeleton", "x": 18, "y": 5,  "facing": "E" },
+    { "id": "zombie_Wardoz",     "type": "Zombie",    "x": 16, "y": 4,  "facing": "W", "note": "Boss: Wardoz" },
+    { "id": "gargoyle_5",  "type": "Gargoyle", "x": 19, "y": 1,  "facing": "N" },
+    { "id": "skeleton_9",  "type": "Skeleton", "x": 22, "y": 4,  "facing": "W" },
+    { "id": "mummy_1",     "type": "Mummy",    "x": 22, "y": 3,  "facing": "W" },
+    { "id": "skeleton_10", "type": "Skeleton", "x": 22, "y": 2,  "facing": "W" }
+  ],
+  "traps": [
+    { "id": "pit_1", "type": "Pit", "x": 7, "y": 4 },
+    { "id": "pit_2", "type": "Pit", "x": 7, "y": 1 }
+  ]
+}

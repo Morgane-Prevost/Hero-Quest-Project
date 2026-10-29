@@ -35,37 +35,36 @@
   "furniture": [
     { "id": "table_1", "type": "Table", "x": 18, "y": 16, "w": 3, "h": 2, "facing": "S" },
     { "id": "cupboard_1", "type": "Cupboard", "x": 17, "y": 10, "w": 1, "h": 3, "facing": "E" },
-    { "id": "chest_b", "type": "Chest", "x": 19, "y": 10, "w": 1, "h": 1, "facing": "S", "note": "Note B" },
-    { "id": "rack_1", "type": "TortureRack", "x": 14, "y": 7, "w": 2, "h": 3, "facing": "S" },
+    { "id": "chest_b", "type": "Chest", "x": 19, "y": 10, "w": 1, "h": 1, "facing": "N" },
+    { "id": "torture_rack_1", "type": "TortureRack", "x": 14, "y": 7, "w": 2, "h": 3, "facing": "W" },
+    { "id": "trapped_chest_1", "type": "Chest", "x": 2, "y": 5, "facing": "N", "trapped": "true", "note": "poisoned darts" },
     { "id": "table_2", "type": "Table", "x": 5, "y": 1, "w": 2, "h": 3, "facing": "E" }
   ],
   "npcs": [
-    { "id": "sir_ragnar", "type": "SirRagnar", "x": 5, "y": 7 }
+    { "id": "sir_ragnar", "type": "SirRagnar", "x": 5, "y": 7, "facing": "E" }
   ],
   "monsters": [
     { "id": "orc_1", "type": "Orc", "x": 15, "y": 15, "facing": "S" },
     { "id": "orc_2", "type": "Orc", "x": 16, "y": 14, "facing": "S" },
     { "id": "orc_3", "type": "Orc", "x": 19, "y": 15, "facing": "S" },
-    { "id": "goblin_1", "type": "Goblin", "x": 18, "y": 14, "facing": "S" },
-    { "id": "goblin_2", "type": "Goblin", "x": 14, "y": 12, "facing": "S" },
+    { "id": "goblin_1", "type": "Goblin", "x": 18, "y": 14, "facing": "W" },
+    { "id": "goblin_2", "type": "Goblin", "x": 14, "y": 12, "facing": "W" },
     { "id": "goblin_3", "type": "Goblin", "x": 16, "y": 12, "facing": "S" },
-    { "id": "goblin_4", "type": "Goblin", "x": 18, "y": 11, "facing": "W" },
-    { "id": "orc_4", "type": "Orc", "x": 19, "y": 11, "facing": "W" },
-    { "id": "goblin_5", "type": "Goblin", "x": 20, "y": 11, "facing": "W" },
+    { "id": "goblin_4", "type": "Goblin", "x": 18, "y": 11, "facing": "N" },
+    { "id": "orc_4", "type": "Orc", "x": 19, "y": 11, "facing": "N" },
+    { "id": "goblin_5", "type": "Goblin", "x": 20, "y": 11, "facing": "N" },
     { "id": "orc_5", "type": "Orc", "x": 23, "y": 12, "facing": "S" },
     { "id": "orc_6", "type": "Orc", "x": 24, "y": 11, "facing": "S" },
-    { "id": "goblin_6", "type": "Goblin", "x": 23, "y": 9, "facing": "S" },
+    { "id": "goblin_6", "type": "Goblin", "x": 23, "y": 9, "facing": "w" },
     { "id": "goblin_7", "type": "Goblin", "x": 16, "y": 6, "facing": "N" },
     { "id": "goblin_8", "type": "Goblin", "x": 3, "y": 9, "facing": "E" },
-    { "id": "goblin_9", "type": "Goblin", "x": 2, "y": 6, "facing": "S" },
-    { "id": "orc_7", "type": "Orc", "x": 7, "y": 6, "facing": "S" },
-    { "id": "fimir_1", "type": "Abomination", "x": 8, "y": 7, "facing": "W" },
+    { "id": "goblin_9", "type": "Goblin", "x": 2, "y": 6, "facing": "N" },
+    { "id": "orc_7", "type": "Orc", "x": 7, "y": 6, "facing": "E" },
+    { "id": "abomination_1", "type": "Abomination", "x": 8, "y": 7, "facing": "S" },
     { "id": "orc_8", "type": "Orc", "x": 8, "y": 4, "facing": "S" },
-    { "id": "orc_9", "type": "Orc", "x": 7, "y": 3, "facing": "S" },
-    { "id": "orc_10", "type": "Orc", "x": 9, "y": 3, "facing": "W" },
-    { "id": "goblin_10", "type": "Goblin", "x": 10, "y": 0, "facing": "N" }
+    { "id": "orc_9", "type": "Orc", "x": 7, "y": 3, "facing": "E" },
+    { "id": "orc_10", "type": "Orc", "x": 9, "y": 3, "facing": "E" },
+    { "id": "goblin_10", "type": "Goblin", "x": 10, "y": 0, "facing": "E" }
   ],
-  "traps": [
-    { "id": "pit_a", "type": "PitTrap", "x": 2, "y": 5, "note": "Note A" }
-  ]
+  "traps": []
 }
