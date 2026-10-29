@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: telekinesis_scepter
   m_EditorClassIdentifier: Assembly-CSharp::TelekinesisScepterSO
   displayName: Telekinesis Scepter
-  description: 
+  description: Once per quest, you may use this staff to trap a monster in a magical
+    cage. The trapped monster loses its next turn. It may immediately resist the
+    spell by rolling 1 red die for each of its Mind points. If it rolls a 6, it resists
+    the spell.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: b1c97dcf2d57d62489d39fb458f0233b, type: 3}
+  goldCost: 0
   info:
     id: telekinesis_scepter
     usage: 1

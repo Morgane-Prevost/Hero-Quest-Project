@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: ring_return
   m_EditorClassIdentifier: Assembly-CSharp::ReturnRingSO
   displayName: Ring Return
-  description: 
+  description: This ring allows the wearer to teleport all heroes in their line of
+    sight back to the starting point of the quest. Single use only.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 5826f0e3840d68d4495f21073649b8aa, type: 3}
+  goldCost: 0
   info:
     id: ring_return
     usage: 2

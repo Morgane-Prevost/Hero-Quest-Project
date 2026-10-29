@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: spectral_dagger
   m_EditorClassIdentifier: Assembly-CSharp::ArtifactWeaponData
   displayName: Spectral Dagger
-  description: 
+  description: 'Weapon: This ornate dagger gives you 1 attack die. Once per quest,
+    when you attack with the dagger, your target cannot defend because the weapon
+    passes completely through its armor.'
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: f1fd8efe314e48a42b7ccc2e28be0c53, type: 3}
+  goldCost: 0
   equipement:
     type: 1
     cost: 0
