@@ -1,4 +1,5 @@
 using HeroQuest.Board;
+using HeroQuest.Quests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -153,6 +154,7 @@ public class TurnManager : MonoBehaviour
         busy = false;
         waitingForActionResult = false;
         Log("Hero turn: " + hero.heroName);
+        QuestEvents.Raise(QuestEventType.TurnStarted);
 
         // Release rolls (sleep, control, horror) come first, so the UI sees the real state
         if (DreadSpellManager.Instance != null) DreadSpellManager.Instance.RollReleases(hero);

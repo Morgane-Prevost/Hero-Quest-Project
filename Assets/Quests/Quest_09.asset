@@ -1,0 +1,352 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4767935665045510918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set looted_chest_C
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: looted_chest_C
+  value: 1
+--- !u!114 &-4729407979557172678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - life_elixir
+  replacesTreasureDraw: 1
+--- !u!114 &-4454399007570123909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set looted_chest_C
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: looted_chest_C
+  value: 1
+--- !u!114 &-2284151427560877843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag looted_chest_C=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: looted_chest_C
+  expected: 0
+--- !u!114 &-1960752242082834809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q9_chest_gas
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 24
+  elementId: q9_chest_gas
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_09
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_09
+  questNumber: 9
+  title: Race Against the Clock
+  description: 'A guide abandoned you in the dark of an underground maze: it was
+    a trap. Escape by reaching the stairs, or you will perish here.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 1
+  startZone: 21
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Abomination
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 
+  victoryNote: 
+  defeatNote: 
+  namedMonsters: []
+  allies: []
+  objectives: []
+  rules:
+  - ruleId: chest_1
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 7390667176998173654}
+    actions:
+    - {fileID: 2162352250184757962}
+    - {fileID: 1671929365079832520}
+  - ruleId: chest_2
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 1891375599971354641}
+    actions:
+    - {fileID: 5816714701951278855}
+    - {fileID: 6978271438468488645}
+  - ruleId: chest_C_armed
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -1960752242082834809}
+    - {fileID: -2284151427560877843}
+    - {fileID: 3361778846763794384}
+    actions:
+    - {fileID: 8769464505446694708}
+    - {fileID: 1174398541100327480}
+    - {fileID: -4729407979557172678}
+    - {fileID: -4454399007570123909}
+  - ruleId: chest_C_disarmed
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 5290342564426385805}
+    - {fileID: 6010177737702915689}
+    - {fileID: 6895918876420448195}
+    actions:
+    - {fileID: 8101779377645580239}
+    - {fileID: -4729407979557172678}
+    - {fileID: -4767935665045510918}
+  sharedGoldReward: 0
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &1174398541100327480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Damage 3
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:DamageActorAction
+  amount: 3
+--- !u!114 &1671929365079832520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 100
+  cards: []
+  artifactIds: []
+  replacesTreasureDraw: 1
+--- !u!114 &1891375599971354641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q9_chest_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 23
+  elementId: q9_chest_2
+--- !u!114 &2162352250184757962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: This chest contains 100 gold coins.
+--- !u!114 &3361778846763794384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag disarmed:q9_chest_gas=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: disarmed:q9_chest_gas
+  expected: 0
+--- !u!114 &5290342564426385805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q9_chest_gas
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 24
+  elementId: q9_chest_gas
+--- !u!114 &5816714701951278855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: This chest contains 100 gold coins.
+--- !u!114 &6010177737702915689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag looted_chest_C=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: looted_chest_C
+  expected: 0
+--- !u!114 &6895918876420448195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag disarmed:q9_chest_gas=True
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: disarmed:q9_chest_gas
+  expected: 1
+--- !u!114 &6978271438468488645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 100
+  cards: []
+  artifactIds: []
+  replacesTreasureDraw: 1
+--- !u!114 &7390667176998173654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q9_chest_1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 22
+  elementId: q9_chest_1
+--- !u!114 &8101779377645580239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note CNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: C
+  title: Note
+  text: 'Toxic gas trap: 3 body points lost if searched before it is disarmed. The
+    chest contains the Elixir of Life (artifact).'
+--- !u!114 &8769464505446694708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note CNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: C
+  title: Note
+  text: 'Toxic gas trap: 3 body points lost if searched before it is disarmed. The
+    chest contains the Elixir of Life (artifact).'

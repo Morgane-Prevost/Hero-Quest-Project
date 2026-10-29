@@ -59,7 +59,7 @@
     { "id": "goblin_8", "type": "Goblin", "x": 3, "y": 9, "facing": "E" },
     { "id": "goblin_9", "type": "Goblin", "x": 2, "y": 6, "facing": "S" },
     { "id": "orc_7", "type": "Orc", "x": 7, "y": 6, "facing": "S" },
-    { "id": "fimir_1", "type": "Fimir", "x": 8, "y": 7, "facing": "W" },
+    { "id": "fimir_1", "type": "Abomination", "x": 8, "y": 7, "facing": "W" },
     { "id": "orc_8", "type": "Orc", "x": 8, "y": 4, "facing": "S" },
     { "id": "orc_9", "type": "Orc", "x": 7, "y": 3, "facing": "S" },
     { "id": "orc_10", "type": "Orc", "x": 9, "y": 3, "facing": "W" },

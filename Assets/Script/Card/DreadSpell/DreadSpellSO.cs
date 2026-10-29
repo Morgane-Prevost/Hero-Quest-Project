@@ -4,7 +4,7 @@ using UnityEngine;
 // Anything that can lose body points (heroes and monsters).
 public interface IDamageable
 {
-    void TakeDamage(int amount);
+    void TakeDamage(int amount, Hero source = null);
 }
 
 // What a Terror spell is allowed to ask of a hero. Implemented by Hero.

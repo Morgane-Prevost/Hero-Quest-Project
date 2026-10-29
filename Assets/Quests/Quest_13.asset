@@ -1,0 +1,229 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9000345505362402008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q13_chest
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 32
+  elementId: q13_chest
+--- !u!114 &-8695499014726752003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: The first hero to search discovers the Mystic Sword (artifact).
+--- !u!114 &-7484359339837247675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: This chest contains 200 gold coins.
+--- !u!114 &-6593077259714099033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q13_altar
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 31
+  elementId: q13_altar
+--- !u!114 &-5233914734562802558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 200
+  cards: []
+  artifactIds: []
+  replacesTreasureDraw: 1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_13
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_13
+  questNumber: 13
+  title: The Quest for the Mystic Sword
+  description: The Sorcerer Lord is awake and threatens the kingdom. Find the Mystic
+    Sword, the only weapon able to hurt him, in an old ruined temple and bring it
+    back.
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Chaos Warrior
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 'Special rockfall rule: any hero who stops on a rockfall square rolls
+    1 red die and loses 1 body point on a 4, 5 or 6 (with a helmet: only on a 6).
+    Monsters are not affected and the passage is not blocked.'
+  victoryNote: 
+  defeatNote: 
+  namedMonsters: []
+  allies: []
+  objectives:
+  - id: get_sword
+    description: Find the Mystic Sword
+    optional: 0
+  rules:
+  - ruleId: rockfall
+    once: 0
+    oncePerActor: 0
+    conditions:
+    - {fileID: 4530279118336981384}
+    actions:
+    - {fileID: 3722959947175207887}
+  - ruleId: note_A
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -6593077259714099033}
+    actions:
+    - {fileID: -8695499014726752003}
+    - {fileID: 9056755762635508978}
+  - ruleId: sword_obj
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 5184106809338930078}
+    actions:
+    - {fileID: 3535505232278059427}
+  - ruleId: note_B
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -9000345505362402008}
+    actions:
+    - {fileID: -7484359339837247675}
+    - {fileID: -5233914734562802558}
+  sharedGoldReward: 0
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &3535505232278059427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective get_sword
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: get_sword
+--- !u!114 &3722959947175207887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Rockfall die
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RollDamageActorAction
+  damage: 1
+  threshold: 4
+  helmetThreshold: 6
+--- !u!114 &4530279118336981384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Rockfall squares
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:HeroOnTileCondition
+  tiles: []
+--- !u!114 &5184106809338930078
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q13_altar
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 31
+  elementId: q13_altar
+--- !u!114 &9056755762635508978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - mystic_sword
+  replacesTreasureDraw: 1

@@ -1,0 +1,447 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8689540581419596151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: 'This chest hides a poisoned needle: any hero who searches before it is disarmed
+    loses 1 body point. The chest is empty.'
+--- !u!114 &-8432612696926383151
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note Sir Ragnar found
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: 
+  title: Sir Ragnar found
+  text: An alarm sounds! Sir Ragnar is freed. All remaining monsters, doors and furniture
+    appear and every door is opened. The hero who opened the cell moves the knight
+    after his own turn (1 red die). Sir Ragnar does not attack, defends with 2 dice
+    and has only 2 body points.
+--- !u!114 &-7173563343262482556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag disarmed:q2_chest_trap=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: disarmed:q2_chest_trap
+  expected: 0
+--- !u!114 &-4802479070351151668
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q2_chest_trap
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 7
+  elementId: q2_chest_trap
+--- !u!114 &-4668958629081826657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q2_chest_trap
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 7
+  elementId: q2_chest_trap
+--- !u!114 &-4312992816415633891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag looted_chest_A=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: looted_chest_A
+  expected: 0
+--- !u!114 &-4105190445220093528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective rescue_ragnar
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: rescue_ragnar
+--- !u!114 &-3287205988900310918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Damage 1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:DamageActorAction
+  amount: 1
+--- !u!114 &-2712708088030990223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Door opened q2_cell_door
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:DoorOpenedCondition
+  doorId: q2_cell_door
+--- !u!114 &-1775085938889450186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set looted_chest_A
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: looted_chest_A
+  value: 1
+--- !u!114 &-327728509590871866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'On the stairs: ragnar'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ActorOnStairsCondition
+  actorId: ragnar
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_02
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_02
+  questNumber: 2
+  title: Rescuing Sir Ragnar
+  description: 'Sir Ragnar, a knight of the king, is being held prisoner by Ulag.
+    Find him and bring him back alive to the stairs: 240 gold coins to share, but
+    nothing if the knight dies during the escape.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 4900000, guid: 327ea9a172fa64440889b99e6c496e01, type: 3}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 06000000
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Orc
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 
+  victoryNote: 
+  defeatNote: 
+  namedMonsters: []
+  allies:
+  - id: ragnar
+    displayName: Sir Ragnar
+    template: {fileID: 0}
+    spawnCell: {x: 0, y: 0}
+  objectives:
+  - id: rescue_ragnar
+    description: Bring Sir Ragnar back alive to the stairs
+    optional: 0
+  rules:
+  - ruleId: ragnar_found
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -2712708088030990223}
+    actions:
+    - {fileID: -8432612696926383151}
+    - {fileID: 5342914026282960518}
+    - {fileID: 3588162065398220850}
+  - ruleId: ragnar_on_stairs
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -327728509590871866}
+    actions:
+    - {fileID: -4105190445220093528}
+  - ruleId: ragnar_dead
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 761437252166473722}
+    actions:
+    - {fileID: 3917472791681651718}
+    - {fileID: 6067290897053288954}
+  - ruleId: chest_A_armed
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -4668958629081826657}
+    - {fileID: -4312992816415633891}
+    - {fileID: -7173563343262482556}
+    actions:
+    - {fileID: -8689540581419596151}
+    - {fileID: -3287205988900310918}
+    - {fileID: 7782853561160869397}
+    - {fileID: 3288779032974675495}
+  - ruleId: chest_A_disarmed
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: -4802479070351151668}
+    - {fileID: 3087074601639309552}
+    - {fileID: 8889205660431320388}
+    actions:
+    - {fileID: 6135987996616931765}
+    - {fileID: 7782853561160869397}
+    - {fileID: -1775085938889450186}
+  - ruleId: note_B
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 236952884860921128}
+    actions:
+    - {fileID: 5050761462396248621}
+    - {fileID: 416424989367867239}
+  sharedGoldReward: 240
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: rescue_ragnar
+--- !u!114 &236952884860921128
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q2_chest_potion
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 8
+  elementId: q2_chest_potion
+--- !u!114 &416424989367867239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 60
+  cards: []
+  artifactIds: []
+  replacesTreasureDraw: 1
+--- !u!114 &761437252166473722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Ally died: ragnar'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllyDiedCondition
+  allyId: ragnar
+--- !u!114 &3087074601639309552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag looted_chest_A=False
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: looted_chest_A
+  expected: 0
+--- !u!114 &3288779032974675495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set looted_chest_A
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: looted_chest_A
+  value: 1
+--- !u!114 &3588162065398220850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Ally ragnar
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SpawnAllyAction
+  allyId: ragnar
+  controlledByActor: 1
+--- !u!114 &3917472791681651718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note Quest failed
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: 
+  title: Quest failed
+  text: 'Sir Ragnar is dead: the reward is lost.'
+--- !u!114 &5050761462396248621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: The first hero to search finds 60 gold coins and a healing potion (restores
+    up to 4 body points).
+--- !u!114 &5342914026282960518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Reveal everything
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RevealEverythingAction
+--- !u!114 &6067290897053288954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: End Defeat
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:EndQuestAction
+  result: 1
+--- !u!114 &6135987996616931765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: 'This chest hides a poisoned needle: any hero who searches before it is disarmed
+    loses 1 body point. The chest is empty.'
+--- !u!114 &7782853561160869397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search consumed
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ConsumeTreasureSearchAction
+--- !u!114 &8889205660431320388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag disarmed:q2_chest_trap=True
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: disarmed:q2_chest_trap
+  expected: 1

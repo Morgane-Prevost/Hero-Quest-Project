@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7381928246739233686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set chest_3
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: chest_3
+  value: 1
+--- !u!114 &-2689644801082476567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Picked up q4_chest_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ItemPickedUpCondition
+  itemId: q4_chest_2
+--- !u!114 &-1210416955358663922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set chest_1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: chest_1
+  value: 1
+--- !u!114 &-1132533990218245869
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Picked up q4_chest_1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ItemPickedUpCondition
+  itemId: q4_chest_1
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_04
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_04
+  questNumber: 4
+  title: Prince Magnus's Gold
+  description: 'Three of the king''s chests were stolen by a band of orcs led by
+    the Chaos Warrior Gulthor. Recover them: 240 gold coins to share.'
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 4900000, guid: d92a001fcfe01fc49b1d5aabec497a2c, type: 3}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Abomination
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 'Three sealed chests hold 250 gold coins meant for the prince and the
+    king: the heroes cannot keep them. A hero carries only one chest at a time and
+    then rolls only a single red die for movement.'
+  victoryNote: 
+  defeatNote: 
+  namedMonsters:
+  - elementId: q4_gulthor
+    displayName: Gulthor
+    movement: -1
+    attackDice: -1
+    defenseDice: -1
+    bodyPoints: -1
+    mindPoints: -1
+    dormant: 0
+    invulnerableUntilActed: 0
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: 
+    immuneToAllSpells: 0
+    spellImmunities: []
+    spellIds: []
+    castsSpellInsteadOfAttacking: 0
+    spellsOncePerQuest: 0
+  allies: []
+  objectives:
+  - id: recover_chests
+    description: Bring back the king's three chests
+    optional: 0
+  rules:
+  - ruleId: pick_chest_1
+    once: 0
+    oncePerActor: 0
+    conditions:
+    - {fileID: -1132533990218245869}
+    actions:
+    - {fileID: -1210416955358663922}
+    - {fileID: 8821228943692806526}
+  - ruleId: pick_chest_2
+    once: 0
+    oncePerActor: 0
+    conditions:
+    - {fileID: -2689644801082476567}
+    actions:
+    - {fileID: 422708531160594923}
+    - {fileID: 5602709961922449512}
+  - ruleId: pick_chest_3
+    once: 0
+    oncePerActor: 0
+    conditions:
+    - {fileID: 2835887323334766559}
+    actions:
+    - {fileID: -7381928246739233686}
+    - {fileID: 2945031097213477463}
+  - ruleId: all_chests
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 4182425135401707891}
+    actions:
+    - {fileID: 7668848346299318066}
+  sharedGoldReward: 240
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &422708531160594923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set chest_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: chest_2
+  value: 1
+--- !u!114 &2835887323334766559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Picked up q4_chest_3
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ItemPickedUpCondition
+  itemId: q4_chest_3
+--- !u!114 &2945031097213477463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Dice limit 1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:LimitMovementDiceAction
+  maxDice: 1
+--- !u!114 &4182425135401707891
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flags chest_1+chest_2+chest_3
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllFlagsCondition
+  flags:
+  - chest_1
+  - chest_2
+  - chest_3
+--- !u!114 &5602709961922449512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Dice limit 1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:LimitMovementDiceAction
+  maxDice: 1
+--- !u!114 &7668848346299318066
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective recover_chests
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: recover_chests
+--- !u!114 &8821228943692806526
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Dice limit 1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:LimitMovementDiceAction
+  maxDice: 1

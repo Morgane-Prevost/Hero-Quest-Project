@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7512074281059902002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Objective kill_lord
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:CompleteObjectiveAction
+  objectiveId: kill_lord
+--- !u!114 &-1940350435554998770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - incantation_ring
+  replacesTreasureDraw: 0
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 853d81eee5774684597f6be3e44fc016, type: 3}
+  m_Name: Quest_14
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.QuestData
+  questId: quest_14
+  questNumber: 14
+  title: Return to Barak Tor
+  description: Armed with the Mystic Sword, return to Barak Tor and defeat the Sorcerer
+    Lord before he unleashes his undead against the king.
+  thumbnail: {fileID: 0}
+  levelJson: {fileID: 0}
+  startMode: 0
+  startZone: 0
+  exitMode: 0
+  noTreasureZones: 
+  startEquipmentLocked: 0
+  unarmedAttackDice: 1
+  unarmedDefenseDice: 2
+  wanderingMonsterType: Mummy
+  wanderingMonsterNote: 
+  monsterModifiers: []
+  killBounties: []
+  introTitle: "Qu\xEAte"
+  introNote: 'The Sorcerer Lord''s tomb is empty. He is stronger than before: no
+    spell and no weapon other than the Mystic Sword can reach him.'
+  victoryNote: The king grants every surviving hero the title of Champion.
+  defeatNote: 
+  namedMonsters:
+  - elementId: q14_sorcerer
+    displayName: The Sorcerer Lord
+    movement: 10
+    attackDice: 5
+    defenseDice: 6
+    bodyPoints: 4
+    mindPoints: 6
+    dormant: 0
+    invulnerableUntilActed: 0
+    invulnerable: 0
+    vulnerableOnlyToArtifactId: mystic_sword
+    immuneToAllSpells: 1
+    spellImmunities: []
+    spellIds:
+    - invocation_morts_vivants
+    - horreur
+    - horreur
+    - boule_de_feu
+    - controle
+    - tornade
+    castsSpellInsteadOfAttacking: 0
+    spellsOncePerQuest: 0
+  allies: []
+  objectives:
+  - id: kill_lord
+    description: Defeat the Sorcerer Lord
+    optional: 0
+  rules:
+  - ruleId: lord_dead
+    once: 1
+    oncePerActor: 0
+    conditions:
+    - {fileID: 3472435772415110550}
+    actions:
+    - {fileID: 5097404357015309101}
+    - {fileID: -1940350435554998770}
+    - {fileID: -7512074281059902002}
+  sharedGoldReward: 0
+  goldRewardPerHero: 0
+  rewardRequiresObjectiveId: 
+--- !u!114 &3472435772415110550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q14_sorcerer'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q14_sorcerer
+  monsterType: 
+  count: 1
+--- !u!114 &5097404357015309101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note Victory over the Sorcerer Lord
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: 
+  title: Victory over the Sorcerer Lord
+  text: 'The Sorcerer Lord vanishes in a cloud of acrid smoke. When it clears, a
+    metal object rolls across the floor: the Ring of Incantation (artifact).'
