@@ -75,52 +75,71 @@ namespace HeroQuest.Quests.EditorTools
         // ═════════════ Q2 ═════════════
         static void Q2()
         {
-            const int zCell = 6, zChestTrap = 7, zChestPotion = 8;                // ADAPT
+            // ADAPT with "Log Element Zones"
+            const int zCell = 13;      // room of sir_ragnar (5,7), inferred from Q1/Q3 (left-middle room)
+            const int zChestB = 9;    // room of chest_b (19,10)  (? to verify)
+            // ids of quest_02.json
+            const string idCellDoor = "door_7";      // door (6,7) E, next to Sir Ragnar (5,7)
+            const string idChestB = "chest_b";
+
             Begin(2, "Rescuing Sir Ragnar", "Sir Ragnar, a knight of the king, is being held prisoner by Ulag. Find him and bring him back alive to the stairs: 240 gold coins to share, but nothing if the knight dies during the escape.");
             q.wanderingMonsterType = Orc;
             q.sharedGoldReward = 240; q.rewardRequiresObjectiveId = "rescue_ragnar";
             q.noTreasureZones.Add(zCell);
             Obj("rescue_ragnar", "Bring Sir Ragnar back alive to the stairs");
-            q.allies.Add(new AllyDef { id = "ragnar", displayName = "Sir Ragnar", template = FindAsset<HeroData>("Ragnar"), spawnCell = new Vector2Int(0, 0) });   // ADAPT: body 2, defense 2, attack 0, 1 red die
+            // If LevelBuilder already spawns the "npcs" entry (sir_ragnar) you can remove SpawnAlly below.
+            q.allies.Add(new AllyDef { id = "ragnar", displayName = "Sir Ragnar", template = FindAsset<HeroData>("Ragnar"), spawnCell = new Vector2Int(5, 7) });
 
-            R("ragnar_found", new[] { DoorOpened("q2_cell_door") },
+            R("ragnar_found", new[] { DoorOpened(idCellDoor) },
               new[] { Note("", "An alarm sounds! Sir Ragnar is freed. All remaining monsters, doors and furniture appear and every door is opened. The hero who opened the cell moves the knight after his own turn (1 red die). Sir Ragnar does not attack, defends with 2 dice and has only 2 body points.", "Sir Ragnar found"), Reveal(), SpawnAlly("ragnar") });
             R("ragnar_on_stairs", new[] { ActorOnStairs("ragnar") }, new[] { Complete("rescue_ragnar") });
             R("ragnar_dead", new[] { AllyDied("ragnar") }, new[] { Note("", "Sir Ragnar is dead: the reward is lost.", "Quest failed"), EndQuest(QuestResult.Defeat) });
 
-            TrappedChest("chest_A", zChestTrap, "q2_chest_trap", 1, "A", "This chest hides a poisoned needle: any hero who searches before it is disarmed loses 1 body point. The chest is empty.", Consume());
-            FirstSearch("note_B", zChestPotion, "q2_chest_potion", "B", "The first hero to search finds 60 gold coins and a healing potion (restores up to 4 body points).", Loot(gold: 60, cards: new[] { CardHeal4 }));
+            // Note A: pit_a (2,5)
+            var onPit = Add<HeroOnTileCondition>("Pit A");   // TODO: set the cell (2,5) in the inspector
+            R("note_A", new QuestCondition[] { onPit }, new QuestAction[] { Note("A", "A pit trap is hidden here. Normal pit trap rules apply.") });
+
+            FirstSearch("note_B", zChestB, idChestB, "B", "The first hero to search finds 60 gold coins and a healing potion (restores up to 4 body points).", Loot(gold: 60, cards: new[] { CardHeal4 }));
             End();
         }
 
         // ═════════════ Q3 ═════════════
         static void Q3()
         {
-            const int zArmory = 9, zBuffet = 10;                                  // ADAPT
+            const int zArmory = 1;     // weapons_rack_a (4,15): bottom-left room (same room as the Q5 stairs, zone 1)
+            const int zCupboard = 12;  // cupboard_b (1,6): left-middle room (? to verify)
+                                       // ids of quest_03.json
+            const string idRack = "weapons_rack_a", idCupboard = "cupboard_b", idUlag = "orc_ulag";
+
             Begin(3, "The Lair of the Orc Warlord", "Prince Magnus wants Ulag, the orc warlord who captured Sir Ragnar, dead. Reward: 180 gold coins to share. The treasures of his fortress belong to whoever finds them.");
             q.wanderingMonsterType = Orc;
             q.sharedGoldReward = 180;
             Obj("kill_ulag", "Kill Ulag");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q3_ulag", displayName = "Ulag", movement = 10, attackDice = 4, defenseDice = 5, bodyPoints = 2, mindPoints = 3 });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idUlag, displayName = "Ulag", movement = 10, attackDice = 4, defenseDice = 5, bodyPoints = 2, mindPoints = 3 });
 
-            FirstSearch("note_A", zArmory, "q3_armory", "A", "The orcs' armory. The first hero to search finds a staff here, to keep or to give to another hero (same as the equipment card).", Loot(cards: new[] { CardStaff }));
-            FirstSearch("note_B", zBuffet, "q3_buffet", "B", "The first hero to search finds 24 gold coins and a healing potion in the sideboard (restores up to 4 body points).", Loot(gold: 24, cards: new[] { CardHeal4 }));
-            R("ulag_dead", new[] { Killed("q3_ulag") }, new[] { Complete("kill_ulag") });
+            FirstSearch("note_A", zArmory, idRack, "A", "The orcs' armory. The first hero to search finds a staff here, to keep or to give to another hero (same as the equipment card).", Loot(cards: new[] { CardStaff }));
+            FirstSearch("note_B", zCupboard, idCupboard, "B", "The first hero to search finds 24 gold coins and a healing potion in the cupboard (restores up to 4 body points).", Loot(gold: 24, cards: new[] { CardHeal4 }));
+            R("ulag_dead", new[] { Killed(idUlag) }, new[] { Complete("kill_ulag") });
             End();
         }
 
         // ═════════════ Q4 ═════════════
         static void Q4()
         {
+            // ids of quest_04.json: the 3 chests are furniture chest_a1..a3 (Note A).
+            // NB: Gulthor's id in the JSON is "gargoyle_placeholder_removed" (type ChaosWarrior): rename it to "q4_gulthor" in the JSON if you want.
+            const string idGulthor = "gargoyle_placeholder_removed";
+            string[] chests = { "chest_a1", "chest_a2", "chest_a3" };
+
             Begin(4, "Prince Magnus's Gold", "Three of the king's chests were stolen by a band of orcs led by the Chaos Warrior Gulthor. Recover them: 240 gold coins to share.");
             q.wanderingMonsterType = Abomination;
             q.sharedGoldReward = 240;
             q.introNote = "Three sealed chests hold 250 gold coins meant for the prince and the king: the heroes cannot keep them. A hero carries only one chest at a time and then rolls only a single red die for movement.";
             Obj("recover_chests", "Bring back the king's three chests");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q4_gulthor", displayName = "Gulthor" });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idGulthor, displayName = "Gulthor" });
 
-            for (int i = 1; i <= 3; i++)
-                R("pick_chest_" + i, new[] { ItemPicked("q4_chest_" + i) }, new[] { SetFlag("chest_" + i), LimitDice(1) }, once: false);
+            for (int i = 0; i < 3; i++)
+                R("pick_chest_" + (i + 1), new[] { ItemPicked(chests[i]) }, new[] { SetFlag("chest_" + (i + 1)), LimitDice(1) }, once: false);
             R("all_chests", new[] { AllFlags("chest_1", "chest_2", "chest_3") }, new[] { Complete("recover_chests") });
             End();
         }
@@ -128,18 +147,28 @@ namespace HeroQuest.Quests.EditorTools
         // ═════════════ Q5 ═════════════
         static void Q5()
         {
-            const int zAlchemy = 11, zChest = 12, zTalisman = 13, zThrone = 14;   // ADAPT
+            const int zAlchemy = 8;    // workbench_a (7,10)  (? to verify)
+            const int zChestE = 7;     // chest_e (4,11)      (? to verify)
+            const int zTalisman = 11;  // table_d (12,9): central room
+            const int zGargoyle = 12;  // gargoyle_b (4,6): left-middle room (? to verify)
+                                       // ids of quest_05.json
+            const string idBench = "workbench_a", idChestE = "chest_e", idTable = "table_d", idGargoyle = "gargoyle_b";
+
             Begin(5, "Melar's Maze", "The enchanter Melar hid his Talisman of Knowledge in his laboratory, at the heart of a maze riddled with traps and monsters. Find it.");
             q.wanderingMonsterType = Zombie;
             Obj("get_talisman", "Find the Talisman of Knowledge");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q5_gargoyle", dormant = true, invulnerableUntilActed = true });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idGargoyle, dormant = true, invulnerableUntilActed = true });
 
-            FirstSearch("note_A", zAlchemy, "q5_bench", "A", "A half-full vial on the workbench: a healing potion (restores up to 2 body points).", Loot(cards: new[] { CardHeal2 }));
-            R("note_B", new[] { DoorOpened("q5_door_next") }, new[] { Note("B", "The gargoyle, a stone statue until now, comes to life! It cannot be hurt before it has moved or attacked a hero."), Activate("q5_gargoyle") });
-            TrappedChest("chest_C", zChest, "q5_chest_gas", 2, "C", "Toxic gas trap: 2 body points lost if searched before it is disarmed. The chest holds 144 gold coins, and there is no other treasure in the room.", Loot(gold: 144));
-            FirstSearch("note_D", zTalisman, "q5_shelf", "D", "The first hero to search discovers the Talisman of Knowledge (artifact).", Loot(artifacts: new[] { ArtTalisman }));
-            R("talisman_obj", new[] { Search(zTalisman, "q5_shelf") }, new[] { Complete("get_talisman") }, once: true);
-            R("note_E", new[] { Search(zThrone, "q5_throne") }, new[] { Note("E", "Searching the walls reveals nothing, but searching for treasure turns up Melar's key. As soon as it is touched it vanishes and the throne slides aside, revealing a secret door."), Reveal("q5_secret_door"), Consume() });
+            FirstSearch("note_A", zAlchemy, idBench, "A", "A half-full vial on the workbench: a healing potion (restores up to 2 body points).", Loot(cards: new[] { CardHeal2 }));
+            R("note_B", new[] { Entered(zGargoyle) }, new[] { Note("B", "The gargoyle, a stone statue until now, comes to life! It cannot be hurt before it has moved or attacked a hero."), Activate(idGargoyle) });
+
+            // Note C: trap_spear_1 (2,2)
+            var onSpear = Add<HeroOnTileCondition>("Spear trap C");   // TODO: set the cell (2,2) in the inspector
+            R("note_C", new QuestCondition[] { onSpear }, new QuestAction[] { Note("C", "Spear trap: the hero who triggers it loses 1 body point unless he rolls a shield (normal spear trap rules).") });
+
+            FirstSearch("note_D", zTalisman, idTable, "D", "The first hero to search discovers the Talisman of Knowledge (artifact).", Loot(artifacts: new[] { ArtTalisman }));
+            R("talisman_obj", new[] { Search(zTalisman, idTable) }, new[] { Complete("get_talisman") }, once: true);
+            R("note_E", new[] { Search(zChestE, idChestE) }, new[] { Note("E", "Searching the chest turns up Melar's key. As soon as it is touched it vanishes and a secret door opens."), Reveal("door_secret_1"), Consume() });
             End();
         }
 
