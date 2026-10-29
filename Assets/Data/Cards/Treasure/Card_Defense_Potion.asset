@@ -13,7 +13,11 @@ MonoBehaviour:
   m_Name: Card_Defense_Potion
   m_EditorClassIdentifier: Assembly-CSharp::DefensePotionSO
   displayName: Defense Potion
-  description: 
+  description: Among a whole collection of old bottles, you find a small vial containing
+    a clear liquid. You may drink it at any time. It will allow you to roll 2 extra
+    combat dice the next time you defend. Single use. Do not put this card back in
+    the deck.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
-  bonusDefenseDice: 2
+  artwork: {fileID: 2800000, guid: e949a8d304fecd743b6004c650a41813, type: 3}
+  goldCost: 0
+  extraDefenseDice: 2

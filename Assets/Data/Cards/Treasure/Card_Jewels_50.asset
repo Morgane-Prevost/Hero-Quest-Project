@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Card_Jewels_50
   m_EditorClassIdentifier: Assembly-CSharp::GoldCardSO
   displayName: Jewels
-  description: 
+  description: You find a small wooden box that looks simple and old. However, the
+    inside is lined with velvet and contains small jewels worth 50 gold coins. Record
+    this amount on your character sheet. Do not put this card back in the deck.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 2140f008af8642a43807fd912baa9ee4, type: 3}
+  goldCost: 0
   goldAmount: 50

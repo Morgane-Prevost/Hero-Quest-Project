@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Card_Strength_Potion
   m_EditorClassIdentifier: Assembly-CSharp::StrengthPotionSO
   displayName: Strength Potion
-  description: 
+  description: You find a small purple vial filled with a strange-smelling liquid.
+    You may drink it at any time. It will allow you to roll 2 extra combat dice the
+    next time you attack. Single use. Do not put this card back in the deck.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
-  bonusAttackDice: 2
+  artwork: {fileID: 2800000, guid: f2f0039841d969d418d178d9f244fa82, type: 3}
+  goldCost: 0
+  extraAttackDice: 2
