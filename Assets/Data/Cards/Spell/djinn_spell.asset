@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: djinn_spell
   m_EditorClassIdentifier: Assembly-CSharp::DjinnSpellSO
   displayName: Djinn Spell
-  description: 
+  description: 'This spell conjures up a genie who will do one of the following:
+    open any door on the board (revealing what lies beyond), or attack any monster
+    you can see with 5 combat dice.'
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: de68842b2e11f8641a6c1453b4352b42, type: 3}
+  goldCost: 0
   element: 0
   attackDice: 5

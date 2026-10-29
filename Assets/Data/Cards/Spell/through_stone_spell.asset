@@ -13,9 +13,13 @@ MonoBehaviour:
   m_Name: through_stone_spell
   m_EditorClassIdentifier: Assembly-CSharp::HeroEffectSpellSO
   displayName: Through Stone Spell
-  description: 
+  description: This spell may be cast on any one hero, including yourself. That hero
+    may move through solid walls on their next move, moving as many squares as rolled
+    on the movement dice. Warning! The dark shaded areas on the Quest maps are solid
+    rock. Ending a turn inside solid rock means death!
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 035f16467e129144986efda008bfe83c, type: 3}
+  goldCost: 0
   element: 3
   effect: 2
   value: 0

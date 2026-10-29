@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: courage_spell
   m_EditorClassIdentifier: Assembly-CSharp::HeroEffectSpellSO
   displayName: Courage Spell
-  description: 
+  description: This spell may be cast on any one hero, including yourself. The next
+    time that hero attacks, they roll 2 extra combat dice. The spell ends when there
+    are no more monsters visible to that hero.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 3edad92462cad06438eb391d0e3c10e9, type: 3}
+  goldCost: 0
   element: 1
   effect: 3
   value: 2

@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: rock_skin_spell
   m_EditorClassIdentifier: Assembly-CSharp::HeroEffectSpellSO
   displayName: Rock Skin Spell
-  description: 
+  description: This spell may be cast on any one hero, including yourself. That hero
+    rolls 1 extra combat die when defending. The spell lasts until the hero loses
+    1 Body point.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 95defb3a0dd93ca4e97c4c863e3ec724, type: 3}
+  goldCost: 0
   element: 3
   effect: 4
   value: 1

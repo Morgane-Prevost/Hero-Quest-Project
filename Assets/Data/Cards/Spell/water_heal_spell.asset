@@ -13,8 +13,11 @@ MonoBehaviour:
   m_Name: water_heal_spell
   m_EditorClassIdentifier: Assembly-CSharp::HealSpellSO
   displayName: Water Heal Spell
-  description: 
+  description: This spell may be cast on any one hero, including yourself. It contacts
+    the hero with purifying water, restoring up to 4 lost Body points (never exceeding
+    their starting total).
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 00c2b876d7d085341aba493a617c7400, type: 3}
+  goldCost: 0
   element: 2
   amount: 4
