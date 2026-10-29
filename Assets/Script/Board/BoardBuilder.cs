@@ -31,6 +31,11 @@ namespace HeroQuest.Board
         public Material floorBaseMaterial;
         public List<FloorStyleBinding> floorStyleBindings = new List<FloorStyleBinding>();
 
+        public enum PrefabColorMode { None, Tint, ReplaceMaterial }
+
+        [Tooltip("None = prefab tel quel. Tint = garde la texture du prefab + couleur du style généré. ReplaceMaterial = remplace par le matériau généré.")]
+        public PrefabColorMode prefabColorMode = PrefabColorMode.Tint;
+
         [Header("Board Elements Layer")]
         public string boardLayerName = "Board"; // if missing: Default
 
@@ -46,6 +51,8 @@ namespace HeroQuest.Board
         CellView[,] cells;
         readonly Dictionary<string, Material[]> styleMats = new Dictionary<string, Material[]>();
         readonly Dictionary<string, FloorStyleBinding> bindings = new Dictionary<string, FloorStyleBinding>();
+
+        readonly Dictionary<string, Color> styleColors = new Dictionary<string, Color>();
         readonly List<UnityEngine.Object> owned = new List<UnityEngine.Object>();
         string fallbackStyleId;
         int layer;
@@ -160,7 +167,7 @@ namespace HeroQuest.Board
             if (t != null) { t.name = RootName + "_old"; SafeDestroy(t.gameObject); }
             DestroyOwned();
             cells = null;
-            styleMats.Clear(); bindings.Clear();
+            styleMats.Clear(); bindings.Clear(); styleColors.Clear();
             Model = null; Data = null;
         }
 
@@ -221,14 +228,17 @@ namespace HeroQuest.Board
                 FloorStyleBinding bind; bindings.TryGetValue(s.id, out bind);
 
                 bool hasPrefab = bind != null && Any(bind.tilePrefabs);
-                if (hasPrefab && s.id != fallbackStyleId) continue; // no unnecessary materials
+                bool keepBase = prefabColorMode != PrefabColorMode.None;
+                bool forceProcedural = hasPrefab && keepBase;
+
+                if (hasPrefab && s.id != fallbackStyleId && !keepBase) continue;
 
                 var list = new List<Material>();
-                if (bind != null && Any(bind.materials))
+                if (!forceProcedural && bind != null && Any(bind.materials))
                 {
-                    foreach (var m in bind.materials) if (m != null) list.Add(m);   // artist materials (not destroyed)
+                    foreach (var m in bind.materials) if (m != null) list.Add(m);
                 }
-                else if (bind != null && Any(bind.textures))
+                else if (!forceProcedural && bind != null && Any(bind.textures))
                 {
                     int i = 0;
                     foreach (var t in bind.textures) if (t != null) list.Add(MakeFloorMaterial(t, "Floor_" + s.id + "_t" + (i++)));
@@ -240,6 +250,7 @@ namespace HeroQuest.Board
                     for (int v = 0; v < n; v++)
                     {
                         var tex = FloorStyleFactory.BuildTexture(s, v); owned.Add(tex);
+                        if (hasPrefab && v == 0) styleColors[s.id] = StyleTint(s, tex as Texture2D);
                         list.Add(MakeFloorMaterial(tex, "Floor_" + s.id + "_v" + v));
                     }
                 }
@@ -250,6 +261,61 @@ namespace HeroQuest.Board
                 if (!known.Contains(id)) Debug.LogWarning("[Board] floorStyleBindings: styleId '" + id + "' missing from JSON (ignored).");
             if (stillProcedural.Count > 0)
                 Debug.Log("[Board] Styles still procedural (placeholders): " + string.Join(", ", stillProcedural.ToArray()));
+        }
+
+        static Color AverageColor(Texture2D tex)
+        {
+            if (tex == null) return Color.white;
+            try
+            {
+                var px = tex.GetPixels32();
+                if (px.Length == 0) return Color.white;
+                int step = Mathf.Max(1, px.Length / 1024);
+                float r = 0, g = 0, b = 0; int n = 0;
+                for (int i = 0; i < px.Length; i += step) { r += px[i].r; g += px[i].g; b += px[i].b; n++; }
+                return new Color(r / n / 255f, g / n / 255f, b / n / 255f, 1f);
+            }
+            catch { return Color.white; } // texture non lisible
+        }
+
+        static Color StyleTint(FloorStyleData s, Texture2D tex)
+        {
+            // Texture externe : la couleur réelle est dans l'image
+            if (!string.IsNullOrEmpty(s.texturePath) && tex != null) return AverageColor(tex);
+
+            Color a = FloorStyleFactory.ParseColor(s.colorA, new Color(0.61f, 0.56f, 0.48f));
+            Color b = FloorStyleFactory.ParseColor(s.colorB, new Color(0.54f, 0.49f, 0.41f));
+            return Color.Lerp(a, b, 0.5f);
+        }
+
+        void ApplyBaseLook(GameObject go, string styleId, int x, int y)
+        {
+            if (prefabColorMode == PrefabColorMode.None) return;
+
+            if (prefabColorMode == PrefabColorMode.ReplaceMaterial)
+            {
+                var mats = GetMats(styleId);
+                var m = mats[Hash(x, y, 2) % mats.Length];
+                foreach (var r in go.GetComponentsInChildren<Renderer>())
+                {
+                    var arr = r.sharedMaterials;
+                    for (int i = 0; i < arr.Length; i++) arr[i] = m;
+                    r.sharedMaterials = arr;
+                }
+            }
+            else // Tint
+            {
+                Color c;
+                if (string.IsNullOrEmpty(styleId) || !styleColors.TryGetValue(styleId, out c)) return;
+                var mpb = new MaterialPropertyBlock();
+                foreach (var r in go.GetComponentsInChildren<Renderer>())
+                {
+                    r.GetPropertyBlock(mpb);
+                    mpb.SetColor("_BaseColor", c); // URP / HDRP
+                    mpb.SetColor("_Color", c);     // Built-in
+                    r.SetPropertyBlock(mpb);
+                }
+            }
         }
 
         string ResolveStyleId(int zone)
@@ -298,6 +364,7 @@ namespace HeroQuest.Board
                         go.transform.localPosition = CellToLocal(x, y);
                         go.transform.localRotation = rot;
                         SetLayerRecursive(go, layer);
+                        ApplyBaseLook(go, styleId, x, y);
                         mr = go.GetComponentInChildren<Renderer>();
                         if (floorColliders && go.GetComponentInChildren<Collider>() == null)
                         {
