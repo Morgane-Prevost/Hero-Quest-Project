@@ -18,7 +18,7 @@ MonoBehaviour:
   description: An ancient malefic sorcerer awakened from his tomb in Barak Tor. Immune
     to all magic and ordinary attacks, only the legendary Spirit Blade can harm him
   tags: []
-  monsterName: The Witch Lord
+  monsterName: Witch Lord
   healthPoints: 4
   mindPoints: 6
   attackDices: 5
