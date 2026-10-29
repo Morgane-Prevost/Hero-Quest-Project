@@ -1,22 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-5717508703512379959
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
-  m_Name: Note ANote
-  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
-  noteLetter: A
-  title: Note
-  text: Your equipment is in this sideboard. The hero who searches finds it; each
-    hero must then enter the room to recover his own and get his spells back.
---- !u!114 &-4673274427751988984
+--- !u!114 &-8550517334646737785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -29,7 +13,7 @@ MonoBehaviour:
   m_Name: Give equipment back
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RestoreEquipmentAction
   recipient: 0
---- !u!114 &-3952842185038375455
+--- !u!114 &-5903084022741161738
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -39,11 +23,49 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Search q6_buffet
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  m_Name: Set equipment_found
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: equipment_found
+  value: 1
+--- !u!114 &-5114822431709100838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Give equipment back
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RestoreEquipmentAction
+  recipient: 0
+--- !u!114 &-4827163575737447343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search consumed
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ConsumeTreasureSearchAction
+--- !u!114 &-4671766857819493251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Entered room 16
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
   zone: 16
-  elementId: q6_buffet
---- !u!114 &-3118975173574486693
+--- !u!114 &-1854537068095700659
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,52 +80,6 @@ MonoBehaviour:
   noteLetter: B
   title: Note
   text: 'These stairs lead out of the dungeon: any hero who reaches them has escaped.'
---- !u!114 &-2332442495195605818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Loot
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
-  recipient: 2
-  heroType: 3
-  gold: 0
-  cards: []
-  artifactIds:
-  - wizard_cloak
-  replacesTreasureDraw: 0
---- !u!114 &-2143104338691531301
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Give equipment back
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RestoreEquipmentAction
-  recipient: 0
---- !u!114 &-1786964694731120117
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Flag equipment_found=True
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
-  flag: equipment_found
-  expected: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,7 +98,7 @@ MonoBehaviour:
   description: 'Grak, Ulag''s son, has captured you to take his revenge. You have
     picked the lock of your cell: find your equipment and escape through the stairs.'
   thumbnail: {fileID: 0}
-  levelJson: {fileID: 0}
+  levelJson: {fileID: 4900000, guid: d9fc8a8d8da737042a62c983e0c79c48, type: 3}
   startMode: 1
   startZone: 15
   exitMode: 1
@@ -167,52 +143,38 @@ MonoBehaviour:
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: -3952842185038375455}
+    - {fileID: 3835666967194007429}
     actions:
-    - {fileID: -5717508703512379959}
-    - {fileID: 804146611628851557}
-    - {fileID: -2143104338691531301}
-    - {fileID: 5010806022947031477}
+    - {fileID: 2428876547057123564}
+    - {fileID: -5903084022741161738}
+    - {fileID: -5114822431709100838}
+    - {fileID: -4827163575737447343}
   - ruleId: recover_equipment
     once: 0
     oncePerActor: 1
     conditions:
-    - {fileID: 7958210229908175659}
-    - {fileID: -1786964694731120117}
+    - {fileID: -4671766857819493251}
+    - {fileID: 5295586486020895992}
     actions:
-    - {fileID: -4673274427751988984}
+    - {fileID: -8550517334646737785}
   - ruleId: note_B
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 3339949085274436023}
+    - {fileID: 1236246668564410721}
     actions:
-    - {fileID: -3118975173574486693}
+    - {fileID: -1854537068095700659}
   - ruleId: grak_cloak
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 7847293742690741835}
+    - {fileID: 7625785422219823966}
     actions:
-    - {fileID: -2332442495195605818}
+    - {fileID: 5837708447213076947}
   sharedGoldReward: 0
   goldRewardPerHero: 0
   rewardRequiresObjectiveId: 
---- !u!114 &804146611628851557
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Set equipment_found
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
-  flag: equipment_found
-  value: 1
---- !u!114 &3339949085274436023
+--- !u!114 &1236246668564410721
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -224,7 +186,23 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: Hero escaped
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:HeroEscapedCondition
---- !u!114 &5010806022947031477
+--- !u!114 &2428876547057123564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note ANote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: A
+  title: Note
+  text: Your equipment is in this sideboard. The hero who searches finds it; each
+    hero must then enter the room to recover his own and get his spells back.
+--- !u!114 &3835666967194007429
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -234,9 +212,44 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Search consumed
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:ConsumeTreasureSearchAction
---- !u!114 &7847293742690741835
+  m_Name: Search q6_buffet
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 16
+  elementId: q6_buffet
+--- !u!114 &5295586486020895992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flag equipment_found=True
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:FlagCondition
+  flag: equipment_found
+  expected: 1
+--- !u!114 &5837708447213076947
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 2
+  heroType: 3
+  gold: 0
+  cards: []
+  artifactIds:
+  - wizard_cloak
+  replacesTreasureDraw: 0
+--- !u!114 &7625785422219823966
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,16 +264,3 @@ MonoBehaviour:
   elementId: q6_grak
   monsterType: 
   count: 1
---- !u!114 &7958210229908175659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Entered room 16
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
-  zone: 16
