@@ -21,7 +21,7 @@ namespace HeroQuest.Board
     /// Builds the contents of a level on top of the grid map: walls, doors, stairs, obstacles,
     /// furniture/chests, monsters, traps. Also handles revelation (Heroes screen vs Zargon screen).
     /// </summary>
-    public class LevelBuilder : MonoBehaviour
+    public class LevelBuilder : MonoBehaviour, ISpellDoorTarget
     {
         [Header("References")]
         public BoardBuilder board;

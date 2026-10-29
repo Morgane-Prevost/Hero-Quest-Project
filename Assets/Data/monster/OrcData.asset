@@ -14,9 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 2024370957134170556, guid: 2f180c88084c79a49a2d534e8e8a01aa, type: 3}
   texture: {fileID: 2800000, guid: b4ab9a3b3292b0c40b2f4d54caceeec5, type: 3}
+  id: 
+  description: Orcs are related to goblins, but they are larger and much stronger.
+    They make up the vast majority of Zargon's troops. Those who are allied with
+    Zargon are particularly ferocious and should not be underestimated.
+  tags: []
   monsterName: Orc
   healthPoints: 1
   mindPoints: 2
   attackDices: 3
   defenseDices: 2
-  movementDices: 8
+  movementCells: 8

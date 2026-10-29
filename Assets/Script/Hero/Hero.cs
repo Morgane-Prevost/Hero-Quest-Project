@@ -15,7 +15,7 @@ public enum HeroType
     Wizard = 3
 }
 
-public class Hero : MonoBehaviour, IPotionTarget
+public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTarget, IRustTarget
 {
     #region Hero Properties
     // Hero properties
@@ -23,6 +23,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     HeroType heroType { get; set; }
     public int bodyPoints { get; set; }
     public int mindPoints { get; set; }
+    public HeroData Data { get; private set; }
 
     public int currentBodyPoints { get; private set; }
     public int attackDices { get; set; }
@@ -37,6 +38,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     GridPawn gridPawn;
 
     private List<CardSO> inventory = new List<CardSO>();
+    public IReadOnlyList<CardSO> Inventory => inventory;
     private bool hasAToolBag = false;
 
     #endregion
@@ -54,6 +56,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public void Initialize(HeroData heroData, string name, Vector2Int cell)
     {
         heroName = name;
+        Data = heroData;
         heroType = heroData.type;
         Id = heroType.ToString().ToLowerInvariant();   // "barbarian", "elf", "dwarf", "wizard"
         bodyPoints = heroData.bodyPoints;
@@ -65,7 +68,7 @@ public class Hero : MonoBehaviour, IPotionTarget
 
         // Needs to be modified to create and add the weapon and armor cards before assigning them to the hero. For now, we will just assign the references from the HeroData.
         weapon = heroData.weapon;
-        armors = heroData.armor ?? new List<ArmorData>();
+        armors = new List<ArmorData>(heroData.armor);
 
         gold = heroData.gold;
 
@@ -167,6 +170,14 @@ public class Hero : MonoBehaviour, IPotionTarget
             {
                 finalMovement -= armor.movementPenalty;
             }
+        }
+
+        // Swift wind: next movement rolls twice as many red dice, then the effect ends
+        int dice = movementDices;
+        if (HasEffect(HeroEffect.SwiftWind))
+        {
+            dice *= GetEffectValue(HeroEffect.SwiftWind);
+            EndEffect(HeroEffect.SwiftWind);
         }
 
         // Roll the movement dice and display where the hero can move on the board
@@ -598,7 +609,7 @@ public class Hero : MonoBehaviour, IPotionTarget
     public int MaxBodyPoints => bodyPoints + SumStatBonus(a => a.bodyPointsBonus);
     public int MaxMindPoints => mindPoints + SumStatBonus(a => a.mindPointsBonus);
     // Combat must use this instead of defenseDices (then add the potion bonus)
-    public int EffectiveDefenseDice => defenseDices + SumStatBonus(a => a.defenseDiceBonus);
+    public int EffectiveDefenseDice => HasEffect(HeroEffect.Asleep) ? 0 : defenseDices + SumStatBonus(a => a.defenseDiceBonus);
 
     private int SumStatBonus(System.Func<StatBonusArtifactSO, int> pick)
     {
@@ -608,5 +619,66 @@ public class Hero : MonoBehaviour, IPotionTarget
                 total += pick(bonus);
         return total;
     }
+    #endregion
+
+    #region Spell effects
+    // Temporary effects given by spells. Read and ended by movement / combat code.
+    private readonly Dictionary<HeroEffect, int> spellEffects = new Dictionary<HeroEffect, int>();
+
+    public void AddEffect(HeroEffect effect, int value) => spellEffects[effect] = value;
+    public bool HasEffect(HeroEffect effect) => spellEffects.ContainsKey(effect);
+    public int GetEffectValue(HeroEffect effect) => spellEffects.TryGetValue(effect, out int v) ? v : 0;
+    public void EndEffect(HeroEffect effect) => spellEffects.Remove(effect);
+
+    // Asleep or controlled: the hero can neither move nor attack on his own turn (card text).
+    public bool CanMoveOrAttack => !HasEffect(HeroEffect.Asleep) && !HasEffect(HeroEffect.Controlled);
+
+    // Horror: only one attack die. Combat must use this instead of attackDices (card "Combat: artifact hooks").
+    public int EffectiveAttackDice => HasEffect(HeroEffect.Horror) ? Mathf.Min(attackDices, GetEffectValue(HeroEffect.Horror)) : attackDices;
+
+    // Body points never go below 0 (rulebook p.20). Rock skin ends when the hero loses a point.
+    public void TakeDamage(int amount)
+    {
+        if (amount <= 0) return;
+        currentBodyPoints = Mathf.Max(0, currentBodyPoints - amount);
+        EndEffect(HeroEffect.RockSkin);
+    }
+
+    // One red die per mind point, a 6 breaks the spell (card text).
+    public bool TryBreakEffect(HeroEffect effect, IRandomPicker picker)
+    {
+        if (!HasEffect(effect)) return true;
+        for (int i = 0; i < MaxMindPoints; i++)
+        {
+            if (picker.Pick(6) + 1 == 6)
+            {
+                EndEffect(effect);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public bool IsEquipped(CardSO item)
+    => item != null && (object.ReferenceEquals(item, weapon) || (item is ArmorData armor && armors.Contains(armor)));
+
+    // Rust: the item is gone for good (not put back in the inventory). Artifacts are never destroyed.
+    public bool DestroyEquipment(CardSO item)
+    {
+        if (!IsEquipped(item) || item is IArtifact) return false;
+
+        if (object.ReferenceEquals(item, weapon))
+        {
+            weapon = null;
+            attackDices = 0;   // same as unequipWeapon (see question AH)
+            return true;
+        }
+
+        ArmorData piece = (ArmorData)item;
+        armors.Remove(piece);
+        defenseDices -= piece.defenseDice;
+        return true;
+    }
+
     #endregion
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour
+public class Monster : MonoBehaviour, ISpellMonsterTarget, IDamageable
 {
     public string monsterName;
 
@@ -31,6 +31,11 @@ public class Monster : MonoBehaviour
     public bool hasMoved;
     public bool hasActed;
 
+    private bool skipNextTurn;
+    public bool IsAsleep {  get; private set; }
+
+    public int DefenseDice => IsAsleep ? 0 : defenseDices;   // a sleeping monster cannot defend
+
     private GridPawn pawn;
 
     // Identity and families (from MonsterData). Tags are used by combat/spell rules, e.g. "undead".
@@ -56,8 +61,8 @@ public class Monster : MonoBehaviour
     }
 
     public bool IsDead => healthPoints <= 0;
-    public bool CanMove => !hasMoved;
-    public bool CanAct => !hasActed;
+    public bool CanMove => !hasMoved && !IsAsleep;
+    public bool CanAct => !hasActed && !IsAsleep;
 
     public event Action<Monster> Died;
 
@@ -79,6 +84,14 @@ public class Monster : MonoBehaviour
     {
         hasMoved = false;
         hasActed = false;
+
+        if (skipNextTurn)   // tornado: the monster passes this turn
+        {
+            hasMoved = true;
+            hasActed = true;
+            skipNextTurn = false;
+        }
+
     }
 
     // Quest hooks
@@ -100,5 +113,26 @@ public class Monster : MonoBehaviour
         if (source != null) LastAttacker = source;
         healthPoints = Mathf.Max(0, healthPoints - amount);
         if (IsDead) Died?.Invoke(this);
+    }
+
+
+    // NEW SPELL METHODS
+
+    public void SkipNextTurn() => skipNextTurn = true;
+    public void FallAsleep() => IsAsleep = true;
+
+    // One red die per mind point, a 6 breaks the spell (card text).
+    public bool TryBreakSleep(IRandomPicker picker)
+    {
+        if (!IsAsleep) return true;
+        for (int i = 0; i < mindPoints; i++)
+        {
+            if (picker.Pick(6) + 1 == 6)
+            {
+                IsAsleep = false;
+                return true;
+            }
+        }
+        return false;
     }
 }
