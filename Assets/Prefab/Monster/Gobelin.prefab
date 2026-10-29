@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1925891053741536572}
   - component: {fileID: 6543410850022384022}
   - component: {fileID: 3200178381611382252}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Gobelin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 511000714463036299}
   - component: {fileID: 5642122934269938011}
   - component: {fileID: 6960012324917964759}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}

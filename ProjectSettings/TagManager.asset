@@ -11,10 +11,10 @@ TagManager:
   - ZargonView
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Character
+  - Monster
+  - Obstacle
+  - HighLight
   - 
   - 
   - 

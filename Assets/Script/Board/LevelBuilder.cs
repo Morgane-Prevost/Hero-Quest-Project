@@ -34,7 +34,7 @@ namespace HeroQuest.Board
     /// furniture/chests, monsters, traps. Also handles visibility (heroes screen vs Zargon screen),
     /// door/chest opening, trap states and unused rooms.
     /// </summary>
-    public class LevelBuilder : MonoBehaviour
+    public class LevelBuilder : MonoBehaviour, ISpellDoorTarget
     {
         [Header("References")]
         public BoardBuilder board;
@@ -52,6 +52,7 @@ namespace HeroQuest.Board
         public float wallThickness = 0.12f;
         public bool wallColliders = false;
         [Tooltip("Used by the default wall (cube) only.")]
+        public bool wallColliders = true;
         public Material wallMaterial;
         [Tooltip("Imported wall prefab (any size/pivot: fitted through its Bounds). Textured face = +Z.")]
         public GameObject wallPrefab;
@@ -440,6 +441,13 @@ namespace HeroQuest.Board
                 SetLayerRecursive(root, boardLayer);
                 foreach (var c in root.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
                 walls[e] = root;
+                w.name = "Wall_" + e;
+                w.transform.localPosition = pos;
+                w.transform.localRotation = e.horizontal ? Quaternion.identity : Quaternion.Euler(0f, 90f, 0f);
+                SetLayerRecursive(w, boardLayer);
+                w.layer = LayerMask.NameToLayer("Obstacle");
+                foreach (var c in w.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
+                walls[e] = w;
             }
         }
 

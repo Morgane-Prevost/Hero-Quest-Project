@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Barbarian
   m_EditorClassIdentifier: Assembly-CSharp::HeroData
   prefab: {fileID: 4745067874343417215, guid: 7375a3d8a679694469f5ade3507eb311, type: 3}
-  texture: {fileID: 2800000, guid: 93c09f55c3a299048a2aa5aecc8055d1, type: 3}
+  texture: {fileID: 2800000, guid: e4e41548dc7b8144ca502f83659b16eb, type: 3}
+  cardTexture: {fileID: 2800000, guid: d164b2d1b24868c4a9efdecd10a85811, type: 3}
   name: Barbarian
   type: 0
   bodyPoints: 8
@@ -21,6 +22,6 @@ MonoBehaviour:
   attackDices: 3
   defenseDices: 2
   movementDices: 2
-  weapon: {fileID: 11400000, guid: 45b1af438e394cc42b4a558a7314f76a, type: 2}
+  weapon: {fileID: 11400000, guid: a3d406a2e0583ed45ae491aea8d54630, type: 2}
   armor: []
   gold: 0

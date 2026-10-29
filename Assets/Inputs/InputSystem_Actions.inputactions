@@ -45,16 +45,6 @@
                     "interactions": "",
                     "initialStateCheck": true,
                     "priority": 0
-                },
-                {
-                    "name": "Switch",
-                    "type": "Button",
-                    "id": "5a109dc2-b69c-4c9c-9fcf-d43f5038c9ad",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false,
-                    "priority": 0
                 }
             ],
             "bindings": [
@@ -101,15 +91,33 @@
                     "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
-                },
+                }
+            ]
+        },
+        {
+            "name": "MainInput",
+            "id": "078a9489-d62a-4de3-b399-a7b82e08d470",
+            "actions": [
+                {
+                    "name": "LeftClick",
+                    "type": "Button",
+                    "id": "8613bd62-88da-4d21-901c-0891db90a414",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false,
+                    "priority": 0
+                }
+            ],
+            "bindings": [
                 {
                     "name": "",
-                    "id": "74d84598-ff3e-41a3-8608-efd3ede51abc",
-                    "path": "<Keyboard>/f",
+                    "id": "85b18a1b-f870-4eab-85a5-487f82bd7b2c",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Switch",
+                    "action": "LeftClick",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

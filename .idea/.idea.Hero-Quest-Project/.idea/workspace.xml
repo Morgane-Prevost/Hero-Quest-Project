@@ -10,7 +10,12 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="08bd4d44-4170-4959-a684-d9ec85683297" name="Changes" comment="" />
+    <list default="true" id="08bd4d44-4170-4959-a684-d9ec85683297" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Hero-Quest-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Hero-Quest-Project/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Monster/Monster.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterData.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Script/Monster/MonsterManager.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,7 +133,7 @@
     "cidr.known.project.marker": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
-    "git-widget-placeholder": "Monsters-Prefab",
+    "git-widget-placeholder": "Turn-by-turn",
     "ignore.virus.scanning.warn.message": "true",
     "junie.onboarding.icon.badge.shown": "true",
     "node.js.detected.package.eslint": "true",
@@ -185,6 +190,9 @@
       <updated>1792617672225</updated>
       <workItem from="1792617675439" duration="40000" />
       <workItem from="1792737186199" duration="7688000" />
+      <workItem from="1793135762890" duration="5376000" />
+      <workItem from="1793152093910" duration="104000" />
+      <workItem from="1793173592110" duration="4679000" />
     </task>
     <servers />
   </component>
