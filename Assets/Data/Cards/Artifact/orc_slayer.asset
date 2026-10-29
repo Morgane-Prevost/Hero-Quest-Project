@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: orc_slayer
   m_EditorClassIdentifier: Assembly-CSharp::ArtifactWeaponData
   displayName: Orc Slayer
-  description: 
+  description: 'Weapon: This short sword gives you 2 attack dice and allows you to
+    attack twice if targeting an Orc. Cannot be used by the Wizard.'
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 8d0bb65b40f899c4ba0af016ac0e383c, type: 3}
+  goldCost: 0
   equipement:
     type: 1
     cost: 0
@@ -35,3 +37,5 @@ MonoBehaviour:
   bonusAgainstTag: orc
   bonusAttackDice: 0
   bonusAttacks: 1
+  canRerollOneDie: 0
+  canIgnoreTargetDefense: 0

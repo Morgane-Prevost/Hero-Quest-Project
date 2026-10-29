@@ -13,7 +13,10 @@ MonoBehaviour:
   m_Name: Card_Gold_15
   m_EditorClassIdentifier: Assembly-CSharp::GoldCardSO
   displayName: Gold
-  description: 
+  description: In the midst of a pile of old rags, capes and soiled blankets, you
+    find 15 gold coins. Record this amount on your character sheet. Do not put this
+    card back in the deck.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: c3a9be7d55c62f349bc5189f391366cd, type: 3}
+  goldCost: 0
   goldAmount: 15

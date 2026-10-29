@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: tornado_spell
   m_EditorClassIdentifier: Assembly-CSharp::SkipTurnSpellSO
   displayName: Tornado Spell
-  description: 
+  description: This spell creates a small whirlwind that envelops any one monster
+    of your choice. That monster will miss its next turn.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 8e0d5e7eadddf504a926f523233024fb, type: 3}
+  goldCost: 0
   element: 0

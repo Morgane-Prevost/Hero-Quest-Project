@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: swift_wind_spell
   m_EditorClassIdentifier: Assembly-CSharp::HeroEffectSpellSO
   displayName: Swift Wind Spell
-  description: 
+  description: This spell may be cast on any one hero, including yourself. It enables
+    that hero to roll twice as many red dice as normal on their next move.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 77ed85fb9bd47bb41b775ef72fbe6579, type: 3}
+  goldCost: 0
   element: 0
   effect: 0
   value: 2

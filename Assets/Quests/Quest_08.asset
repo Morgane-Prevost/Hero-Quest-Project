@@ -1,53 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-7313713684628535816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Search q8_chest
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
-  zone: 20
-  elementId: q8_chest
---- !u!114 &-5622991582187453056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 'Killed: q8_balur'
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
-  elementId: q8_balur
-  monsterType: 
-  count: 1
---- !u!114 &-4566950903181033948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Loot
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
-  recipient: 0
-  heroType: 0
-  gold: 150
-  cards: []
-  artifactIds:
-  - magic_wand
-  replacesTreasureDraw: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67,7 +19,7 @@ MonoBehaviour:
     helps them: no fire spell can affect him. Go and defeat him in his lair: 100
     gold coins each.'
   thumbnail: {fileID: 0}
-  levelJson: {fileID: 0}
+  levelJson: {fileID: 4900000, guid: 664875e7d84108d4b90a3fcd3f3bba71, type: 3}
   startMode: 0
   startZone: 0
   exitMode: 0
@@ -120,21 +72,55 @@ MonoBehaviour:
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: -5622991582187453056}
+    - {fileID: 1448039077466776081}
     actions:
-    - {fileID: 7742243623934149123}
+    - {fileID: 9054331558280228912}
   - ruleId: chest
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: -7313713684628535816}
+    - {fileID: 7210024414275514291}
     actions:
-    - {fileID: 7529710501687988773}
-    - {fileID: -4566950903181033948}
+    - {fileID: 2690370927111912367}
+    - {fileID: 1783118957699167486}
   sharedGoldReward: 0
   goldRewardPerHero: 100
   rewardRequiresObjectiveId: 
---- !u!114 &7529710501687988773
+--- !u!114 &1448039077466776081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: 'Killed: q8_balur'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q8_balur
+  monsterType: 
+  count: 1
+--- !u!114 &1783118957699167486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 150
+  cards: []
+  artifactIds:
+  - magic_wand
+  replacesTreasureDraw: 1
+--- !u!114 &2690370927111912367
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,7 +135,21 @@ MonoBehaviour:
   noteLetter: 
   title: Note
   text: The chest contains 150 gold coins and the Magic Wand (artifact).
---- !u!114 &7742243623934149123
+--- !u!114 &7210024414275514291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Search q8_chest
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
+  zone: 20
+  elementId: q8_chest
+--- !u!114 &9054331558280228912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

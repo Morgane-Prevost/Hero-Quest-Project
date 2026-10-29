@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: dread_lightning
   m_EditorClassIdentifier: Assembly-CSharp::DreadDamageSpellSO
   displayName: Lightning
-  description: 
+  description: This spell may be cast horizontally, vertically, or diagonally. The
+    lightning bolt travels in a straight line until it hits a wall or closed door.
+    It inflicts 2 Body points of damage to all heroes and monsters in its path.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   area: 2
   damage: 2
   resistDice: 0

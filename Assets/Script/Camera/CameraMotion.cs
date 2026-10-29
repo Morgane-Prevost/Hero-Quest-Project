@@ -40,25 +40,34 @@ public class CameraMotion : MonoBehaviour
     private void Awake()
     {
         cam = GetComponent<Camera>();
-        startFOV = cam.fieldOfView;
-        targetFOV = startFOV;
+        if (cam != null)
+        {
+            startFOV = cam.fieldOfView;
+            targetFOV = startFOV;
+        }
 
-        cameraMap = inputActions.FindActionMap("Camera");
-        panAction = cameraMap.FindAction("RightClick");
-        rotateAction = cameraMap.FindAction("MiddleClick");
-        mouseDeltaAction = cameraMap.FindAction("MouseDelta");
-        scrollAction = cameraMap.FindAction("Scroll");
+        if (inputActions != null)
+        {
+            cameraMap = inputActions.FindActionMap("Camera");
+            if (cameraMap != null)
+            {
+                panAction = cameraMap.FindAction("RightClick");
+                rotateAction = cameraMap.FindAction("MiddleClick");
+                mouseDeltaAction = cameraMap.FindAction("MouseDelta");
+                scrollAction = cameraMap.FindAction("Scroll");
 
-        cameraMap.Enable();
+                cameraMap.Enable();
+            }
+        }
 
-        if (camPositions.Length > 0)
+        if (camPositions != null && camPositions.Length > 0 && camPositions[0] != null)
         {
             transform.position = camPositions[0].position;
             transform.rotation = camPositions[0].rotation;
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         if (TurnManager.Instance != null)
         {
@@ -66,7 +75,7 @@ public class CameraMotion : MonoBehaviour
         }
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if (TurnManager.Instance != null)
         {
@@ -76,13 +85,15 @@ public class CameraMotion : MonoBehaviour
 
     private void OnHeroTurnStarted(Hero hero)
     {
+        if (camPositions == null || camPositions.Length == 0) return;
+
         GoToPosition(turnCount % camPositions.Length);
         turnCount++;
     }
 
     public void GoToPosition(int index)
     {
-        if (camPositions.Length == 0)
+        if (camPositions == null || camPositions.Length == 0 || index < 0 || index >= camPositions.Length)
             return;
 
         camIndex = index;
@@ -90,18 +101,22 @@ public class CameraMotion : MonoBehaviour
         targetFOV = startFOV;
     }
 
-    // Update is called once per frame
     private void Update()
     {
+        if (mouseDeltaAction == null || scrollAction == null) return;
+
         Vector2 delta = mouseDeltaAction.ReadValue<Vector2>();
         float scroll = scrollAction.ReadValue<Vector2>().y;
 
-        if (panAction.IsPressed() || rotateAction.IsPressed() || scroll != 0)
+        bool isPanning = panAction != null && panAction.IsPressed();
+        bool isRotating = rotateAction != null && rotateAction.IsPressed();
+
+        if (isPanning || isRotating || scroll != 0)
         {
             isTransitioning = false;
         }
 
-        if (panAction.IsPressed())
+        if (isPanning)
         {
             Vector3 forward = transform.forward;
             forward.y = 0;
@@ -115,7 +130,7 @@ public class CameraMotion : MonoBehaviour
             transform.position += move * panSpeed;
         }
 
-        if (rotateAction.IsPressed())
+        if (isRotating)
         {
             float pitch = Mathf.DeltaAngle(0f, transform.eulerAngles.x);
 
@@ -131,9 +146,12 @@ public class CameraMotion : MonoBehaviour
             targetFOV = Mathf.Clamp(targetFOV, minFOV, maxFOV);
         }
 
-        cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, zoomSmooth * Time.deltaTime);
+        if (cam != null)
+        {
+            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, zoomSmooth * Time.deltaTime);
+        }
 
-        if (isTransitioning)
+        if (isTransitioning && camPositions != null && camPositions.Length > camIndex && camPositions[camIndex] != null)
         {
             Transform target = camPositions[camIndex];
 

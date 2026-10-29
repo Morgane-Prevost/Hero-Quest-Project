@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: magic_wand
   m_EditorClassIdentifier: Assembly-CSharp::SpellCastingArtifactSO
   displayName: Magic Wand
-  description: 
+  description: This wand allows the hero to cast two different spells during their
+    turn instead of one.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 36b582e19c06f964d8892fceac315fb1, type: 3}
+  goldCost: 0
   info:
     id: magic_wand
     usage: 0

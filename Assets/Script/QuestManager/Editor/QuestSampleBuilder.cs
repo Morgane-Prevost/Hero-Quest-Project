@@ -75,52 +75,71 @@ namespace HeroQuest.Quests.EditorTools
         // ═════════════ Q2 ═════════════
         static void Q2()
         {
-            const int zCell = 6, zChestTrap = 7, zChestPotion = 8;                // ADAPT
+            // ADAPT with "Log Element Zones"
+            const int zCell = 13;      // room of sir_ragnar (5,7), inferred from Q1/Q3 (left-middle room)
+            const int zChestB = 9;    // room of chest_b (19,10)  (? to verify)
+            // ids of quest_02.json
+            const string idCellDoor = "door_7";      // door (6,7) E, next to Sir Ragnar (5,7)
+            const string idChestB = "chest_b";
+
             Begin(2, "Rescuing Sir Ragnar", "Sir Ragnar, a knight of the king, is being held prisoner by Ulag. Find him and bring him back alive to the stairs: 240 gold coins to share, but nothing if the knight dies during the escape.");
             q.wanderingMonsterType = Orc;
             q.sharedGoldReward = 240; q.rewardRequiresObjectiveId = "rescue_ragnar";
             q.noTreasureZones.Add(zCell);
             Obj("rescue_ragnar", "Bring Sir Ragnar back alive to the stairs");
-            q.allies.Add(new AllyDef { id = "ragnar", displayName = "Sir Ragnar", template = FindAsset<HeroData>("Ragnar"), spawnCell = new Vector2Int(0, 0) });   // ADAPT: body 2, defense 2, attack 0, 1 red die
+            // If LevelBuilder already spawns the "npcs" entry (sir_ragnar) you can remove SpawnAlly below.
+            q.allies.Add(new AllyDef { id = "ragnar", displayName = "Sir Ragnar", template = FindAsset<HeroData>("Ragnar"), spawnCell = new Vector2Int(5, 7) });
 
-            R("ragnar_found", new[] { DoorOpened("q2_cell_door") },
+            R("ragnar_found", new[] { DoorOpened(idCellDoor) },
               new[] { Note("", "An alarm sounds! Sir Ragnar is freed. All remaining monsters, doors and furniture appear and every door is opened. The hero who opened the cell moves the knight after his own turn (1 red die). Sir Ragnar does not attack, defends with 2 dice and has only 2 body points.", "Sir Ragnar found"), Reveal(), SpawnAlly("ragnar") });
             R("ragnar_on_stairs", new[] { ActorOnStairs("ragnar") }, new[] { Complete("rescue_ragnar") });
             R("ragnar_dead", new[] { AllyDied("ragnar") }, new[] { Note("", "Sir Ragnar is dead: the reward is lost.", "Quest failed"), EndQuest(QuestResult.Defeat) });
 
-            TrappedChest("chest_A", zChestTrap, "q2_chest_trap", 1, "A", "This chest hides a poisoned needle: any hero who searches before it is disarmed loses 1 body point. The chest is empty.", Consume());
-            FirstSearch("note_B", zChestPotion, "q2_chest_potion", "B", "The first hero to search finds 60 gold coins and a healing potion (restores up to 4 body points).", Loot(gold: 60, cards: new[] { CardHeal4 }));
+            // Note A: pit_a (2,5)
+            var onPit = Add<HeroOnTileCondition>("Pit A");   // TODO: set the cell (2,5) in the inspector
+            R("note_A", new QuestCondition[] { onPit }, new QuestAction[] { Note("A", "A pit trap is hidden here. Normal pit trap rules apply.") });
+
+            FirstSearch("note_B", zChestB, idChestB, "B", "The first hero to search finds 60 gold coins and a healing potion (restores up to 4 body points).", Loot(gold: 60, cards: new[] { CardHeal4 }));
             End();
         }
 
         // ═════════════ Q3 ═════════════
         static void Q3()
         {
-            const int zArmory = 9, zBuffet = 10;                                  // ADAPT
+            const int zArmory = 1;     // weapons_rack_a (4,15): bottom-left room (same room as the Q5 stairs, zone 1)
+            const int zCupboard = 12;  // cupboard_b (1,6): left-middle room (? to verify)
+                                       // ids of quest_03.json
+            const string idRack = "weapons_rack_a", idCupboard = "cupboard_b", idUlag = "orc_ulag";
+
             Begin(3, "The Lair of the Orc Warlord", "Prince Magnus wants Ulag, the orc warlord who captured Sir Ragnar, dead. Reward: 180 gold coins to share. The treasures of his fortress belong to whoever finds them.");
             q.wanderingMonsterType = Orc;
             q.sharedGoldReward = 180;
             Obj("kill_ulag", "Kill Ulag");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q3_ulag", displayName = "Ulag", movement = 10, attackDice = 4, defenseDice = 5, bodyPoints = 2, mindPoints = 3 });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idUlag, displayName = "Ulag", movement = 10, attackDice = 4, defenseDice = 5, bodyPoints = 2, mindPoints = 3 });
 
-            FirstSearch("note_A", zArmory, "q3_armory", "A", "The orcs' armory. The first hero to search finds a staff here, to keep or to give to another hero (same as the equipment card).", Loot(cards: new[] { CardStaff }));
-            FirstSearch("note_B", zBuffet, "q3_buffet", "B", "The first hero to search finds 24 gold coins and a healing potion in the sideboard (restores up to 4 body points).", Loot(gold: 24, cards: new[] { CardHeal4 }));
-            R("ulag_dead", new[] { Killed("q3_ulag") }, new[] { Complete("kill_ulag") });
+            FirstSearch("note_A", zArmory, idRack, "A", "The orcs' armory. The first hero to search finds a staff here, to keep or to give to another hero (same as the equipment card).", Loot(cards: new[] { CardStaff }));
+            FirstSearch("note_B", zCupboard, idCupboard, "B", "The first hero to search finds 24 gold coins and a healing potion in the cupboard (restores up to 4 body points).", Loot(gold: 24, cards: new[] { CardHeal4 }));
+            R("ulag_dead", new[] { Killed(idUlag) }, new[] { Complete("kill_ulag") });
             End();
         }
 
         // ═════════════ Q4 ═════════════
         static void Q4()
         {
+            // ids of quest_04.json: the 3 chests are furniture chest_a1..a3 (Note A).
+            // NB: Gulthor's id in the JSON is "gargoyle_placeholder_removed" (type ChaosWarrior): rename it to "q4_gulthor" in the JSON if you want.
+            const string idGulthor = "gargoyle_placeholder_removed";
+            string[] chests = { "chest_a1", "chest_a2", "chest_a3" };
+
             Begin(4, "Prince Magnus's Gold", "Three of the king's chests were stolen by a band of orcs led by the Chaos Warrior Gulthor. Recover them: 240 gold coins to share.");
             q.wanderingMonsterType = Abomination;
             q.sharedGoldReward = 240;
             q.introNote = "Three sealed chests hold 250 gold coins meant for the prince and the king: the heroes cannot keep them. A hero carries only one chest at a time and then rolls only a single red die for movement.";
             Obj("recover_chests", "Bring back the king's three chests");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q4_gulthor", displayName = "Gulthor" });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idGulthor, displayName = "Gulthor" });
 
-            for (int i = 1; i <= 3; i++)
-                R("pick_chest_" + i, new[] { ItemPicked("q4_chest_" + i) }, new[] { SetFlag("chest_" + i), LimitDice(1) }, once: false);
+            for (int i = 0; i < 3; i++)
+                R("pick_chest_" + (i + 1), new[] { ItemPicked(chests[i]) }, new[] { SetFlag("chest_" + (i + 1)), LimitDice(1) }, once: false);
             R("all_chests", new[] { AllFlags("chest_1", "chest_2", "chest_3") }, new[] { Complete("recover_chests") });
             End();
         }
@@ -128,18 +147,28 @@ namespace HeroQuest.Quests.EditorTools
         // ═════════════ Q5 ═════════════
         static void Q5()
         {
-            const int zAlchemy = 11, zChest = 12, zTalisman = 13, zThrone = 14;   // ADAPT
+            const int zAlchemy = 8;    // workbench_a (7,10)  (? to verify)
+            const int zChestE = 7;     // chest_e (4,11)      (? to verify)
+            const int zTalisman = 11;  // table_d (12,9): central room
+            const int zGargoyle = 12;  // gargoyle_b (4,6): left-middle room (? to verify)
+                                       // ids of quest_05.json
+            const string idBench = "workbench_a", idChestE = "chest_e", idTable = "table_d", idGargoyle = "gargoyle_b";
+
             Begin(5, "Melar's Maze", "The enchanter Melar hid his Talisman of Knowledge in his laboratory, at the heart of a maze riddled with traps and monsters. Find it.");
             q.wanderingMonsterType = Zombie;
             Obj("get_talisman", "Find the Talisman of Knowledge");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q5_gargoyle", dormant = true, invulnerableUntilActed = true });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idGargoyle, dormant = true, invulnerableUntilActed = true });
 
-            FirstSearch("note_A", zAlchemy, "q5_bench", "A", "A half-full vial on the workbench: a healing potion (restores up to 2 body points).", Loot(cards: new[] { CardHeal2 }));
-            R("note_B", new[] { DoorOpened("q5_door_next") }, new[] { Note("B", "The gargoyle, a stone statue until now, comes to life! It cannot be hurt before it has moved or attacked a hero."), Activate("q5_gargoyle") });
-            TrappedChest("chest_C", zChest, "q5_chest_gas", 2, "C", "Toxic gas trap: 2 body points lost if searched before it is disarmed. The chest holds 144 gold coins, and there is no other treasure in the room.", Loot(gold: 144));
-            FirstSearch("note_D", zTalisman, "q5_shelf", "D", "The first hero to search discovers the Talisman of Knowledge (artifact).", Loot(artifacts: new[] { ArtTalisman }));
-            R("talisman_obj", new[] { Search(zTalisman, "q5_shelf") }, new[] { Complete("get_talisman") }, once: true);
-            R("note_E", new[] { Search(zThrone, "q5_throne") }, new[] { Note("E", "Searching the walls reveals nothing, but searching for treasure turns up Melar's key. As soon as it is touched it vanishes and the throne slides aside, revealing a secret door."), Reveal("q5_secret_door"), Consume() });
+            FirstSearch("note_A", zAlchemy, idBench, "A", "A half-full vial on the workbench: a healing potion (restores up to 2 body points).", Loot(cards: new[] { CardHeal2 }));
+            R("note_B", new[] { Entered(zGargoyle) }, new[] { Note("B", "The gargoyle, a stone statue until now, comes to life! It cannot be hurt before it has moved or attacked a hero."), Activate(idGargoyle) });
+
+            // Note C: trap_spear_1 (2,2)
+            var onSpear = Add<HeroOnTileCondition>("Spear trap C");   // TODO: set the cell (2,2) in the inspector
+            R("note_C", new QuestCondition[] { onSpear }, new QuestAction[] { Note("C", "Spear trap: the hero who triggers it loses 1 body point unless he rolls a shield (normal spear trap rules).") });
+
+            FirstSearch("note_D", zTalisman, idTable, "D", "The first hero to search discovers the Talisman of Knowledge (artifact).", Loot(artifacts: new[] { ArtTalisman }));
+            R("talisman_obj", new[] { Search(zTalisman, idTable) }, new[] { Complete("get_talisman") }, once: true);
+            R("note_E", new[] { Search(zChestE, idChestE) }, new[] { Note("E", "Searching the chest turns up Melar's key. As soon as it is touched it vanishes and a secret door opens."), Reveal("door_secret_1"), Consume() });
             End();
         }
 
@@ -147,6 +176,10 @@ namespace HeroQuest.Quests.EditorTools
         static void Q6()
         {
             const int zCell = 15, zBuffet = 16;                                   // ADAPT
+                                                                                  // ids of quest_06.json
+            const string idBuffet = "cupboard_1",                                 // TO CONFIRM: cupboard (1,17) or weaponsrack_1 (4,15)
+                         idGrak = "orc_Grak";
+
             Begin(6, "The Orc Warlord's Offspring", "Grak, Ulag's son, has captured you to take his revenge. You have picked the lock of your cell: find your equipment and escape through the stairs.");
             q.startMode = HeroStartMode.InRoom; q.startZone = zCell;
             q.exitMode = ExitMode.EachHeroEscapesViaStairs;
@@ -157,15 +190,22 @@ namespace HeroQuest.Quests.EditorTools
             q.introNote = "You start in the cell, where searching is not allowed. Your equipment has been confiscated: without it you cannot use it or cast spells. With no weapon or armor you roll 1 die to attack and 2 to defend.";
             q.namedMonsters.Add(new NamedMonsterDef
             {
-                elementId = "q6_grak", displayName = "Grak", movement = 8, attackDice = 4, defenseDice = 4, bodyPoints = 3, mindPoints = 3,
-                castsSpellInsteadOfAttacking = true, spellIds = new List<string> { "horreur", "sommeil", "tornade" }
+                elementId = idGrak,
+                displayName = "Grak",
+                movement = 8,
+                attackDice = 4,
+                defenseDice = 4,
+                bodyPoints = 3,
+                mindPoints = 3,
+                castsSpellInsteadOfAttacking = true,
+                spellIds = new List<string> { "horreur", "sommeil", "tornade" }
             });
 
-            R("equipment_found", new[] { Search(zBuffet, "q6_buffet") },
+            R("equipment_found", new[] { Search(zBuffet, idBuffet) },
               new[] { Note("A", "Your equipment is in this sideboard. The hero who searches finds it; each hero must then enter the room to recover his own and get his spells back."), SetFlag("equipment_found"), RestoreEquipment(), Consume() });
             R("recover_equipment", new[] { Entered(zBuffet), Flag("equipment_found") }, new[] { RestoreEquipment() }, once: false, perActor: true);
             R("note_B", new[] { HeroEscaped() }, new[] { Note("B", "These stairs lead out of the dungeon: any hero who reaches them has escaped.") });
-            R("grak_cloak", new[] { Killed("q6_grak") }, new[] { Loot(artifacts: new[] { ArtWizardCloak }, consume: false, to: RecipientType.SpecificHeroType, heroType: HeroType.Wizard) });
+            R("grak_cloak", new[] { Killed(idGrak) }, new[] { Loot(artifacts: new[] { ArtWizardCloak }, consume: false, to: RecipientType.SpecificHeroType, heroType: HeroType.Wizard) });
             End();
         }
 
@@ -173,18 +213,23 @@ namespace HeroQuest.Quests.EditorTools
         static void Q7()
         {
             const int zArmory = 17, zNeedleChest = 18, zWardoz = 19;              // ADAPT
+                                                                                  // ids of quest_07.json
+            const string idArmory = "weaponsrack_1", idNeedleChest = "trapped_chest_1",
+                         idWardozChest = "chest_1",                               // TO CONFIRM: chest (14,1) = Wardoz's desk
+                         idWardoz = "zombie_Wardoz";
+
             Begin(7, "The Missing Enchanter", "Wardoz, the king's enchanter, has vanished: murdered, or seduced by Chaos magic? Uncover the truth and return to the stairs: 100 gold coins each.");
             q.wanderingMonsterType = Mummy;
             q.goldRewardPerHero = 100;
             q.introNote = "The Chaos Warriors in this quest are made of stone: they defend with 1 extra die.";
             q.monsterModifiers.Add(new MonsterModifier { monsterType = ChaosWarrior, defenseDiceBonus = 1 });
             Obj("find_wardoz", "Find out what became of Wardoz");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q7_wardoz", displayName = "Wardoz" });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idWardoz, displayName = "Wardoz" });
 
-            FirstSearch("note_B", zArmory, "q7_armory", "B", "An armory: the first hero to search finds Borin's Armor (artifact) here.", Loot(artifacts: new[] { ArtBorinArmor }));
-            TrappedChest("chest_C", zNeedleChest, "q7_chest_needle", 2, "C", "Poisoned needle: 2 body points lost if searched before it is disarmed. The chest holds a vial of unknown purple liquid (do not reveal its nature): once drunk, the hero turns into a statue for 5 of his turns, motionless and invulnerable.", Loot(cards: new[] { CardStonePotion }));
-            R("wardoz_dead", new[] { Killed("q7_wardoz") }, new[] { SetFlag("wardoz_dead"), Complete("find_wardoz") });
-            R("note_D", new[] { Search(zWardoz, "q7_wardoz_chest"), Flag("wardoz_dead") }, new[] { Note("D", "Wardoz, turned into a zombie by Chaos magic, is destroyed. The first hero to search finds 144 gold coins and papers on his desk proving what happened to him."), Loot(gold: 144) });
+            FirstSearch("note_B", zArmory, idArmory, "B", "An armory: the first hero to search finds Borin's Armor (artifact) here.", Loot(artifacts: new[] { ArtBorinArmor }));
+            TrappedChest("chest_C", zNeedleChest, idNeedleChest, 2, "C", "Poisoned needle: 2 body points lost if searched before it is disarmed. The chest holds a vial of unknown purple liquid (do not reveal its nature): once drunk, the hero turns into a statue for 5 of his turns, motionless and invulnerable.", Loot(cards: new[] { CardStonePotion }));
+            R("wardoz_dead", new[] { Killed(idWardoz) }, new[] { SetFlag("wardoz_dead"), Complete("find_wardoz") });
+            R("note_D", new[] { Search(zWardoz, idWardozChest), Flag("wardoz_dead") }, new[] { Note("D", "Wardoz, turned into a zombie by Chaos magic, is destroyed. The first hero to search finds 144 gold coins and papers on his desk proving what happened to him."), Loot(gold: 144) });
             End();
         }
 
@@ -192,6 +237,9 @@ namespace HeroQuest.Quests.EditorTools
         static void Q8()
         {
             const int zChest = 20;                                                // ADAPT
+                                                                                  // ids of quest_08.json
+            const string idChest = "chest_1", idBalur = "chaoswarlock_Balur";
+
             Begin(8, "The Fire Mage", "The orcs of the Black Mountain use fire magic. Balur, the fire mage, helps them: no fire spell can affect him. Go and defeat him in his lair: 100 gold coins each.");
             q.wanderingMonsterType = Abomination;
             q.goldRewardPerHero = 100;
@@ -199,12 +247,19 @@ namespace HeroQuest.Quests.EditorTools
             Obj("kill_balur", "Defeat Balur");
             q.namedMonsters.Add(new NamedMonsterDef
             {
-                elementId = "q8_balur", displayName = "Balur", movement = 8, attackDice = 2, defenseDice = 5, bodyPoints = 3, mindPoints = 7,
-                spellsOncePerQuest = true, spellImmunities = new List<string> { "fire" },
+                elementId = idBalur,
+                displayName = "Balur",
+                movement = 8,
+                attackDice = 2,
+                defenseDice = 5,
+                bodyPoints = 3,
+                mindPoints = 7,
+                spellsOncePerQuest = true,
+                spellImmunities = new List<string> { "fire" },
                 spellIds = new List<string> { "boule_de_feu", "tempete_de_feu", "tornade", "invocation_orcs", "horreur", "teleportation" }
             });
-            R("balur_dead", new[] { Killed("q8_balur") }, new[] { Complete("kill_balur") });
-            FirstSearch("chest", zChest, "q8_chest", "", "The chest contains 150 gold coins and the Magic Wand (artifact).", Loot(gold: 150, artifacts: new[] { ArtWand }));
+            R("balur_dead", new[] { Killed(idBalur) }, new[] { Complete("kill_balur") });
+            FirstSearch("chest", zChest, idChest, "", "The chest contains 150 gold coins and the Magic Wand (artifact).", Loot(gold: 150, artifacts: new[] { ArtWand }));
             End();
         }
 
@@ -212,12 +267,15 @@ namespace HeroQuest.Quests.EditorTools
         static void Q9()
         {
             const int zStart = 21, zChest1 = 22, zChest2 = 23, zGasChest = 24;    // ADAPT
+                                                                                  // ids of quest_09.json
+            const string idChest1 = "chest_b1", idChest2 = "chest_b2", idGasChest = "trapped_chest_1";
+
             Begin(9, "Race Against the Clock", "A guide abandoned you in the dark of an underground maze: it was a trap. Escape by reaching the stairs, or you will perish here.");
             q.startMode = HeroStartMode.InRoom; q.startZone = zStart;
             q.wanderingMonsterType = Abomination;
-            FirstSearch("chest_1", zChest1, "q9_chest_1", "B", "This chest contains 100 gold coins.", Loot(gold: 100));
-            FirstSearch("chest_2", zChest2, "q9_chest_2", "B", "This chest contains 100 gold coins.", Loot(gold: 100));
-            TrappedChest("chest_C", zGasChest, "q9_chest_gas", 3, "C", "Toxic gas trap: 3 body points lost if searched before it is disarmed. The chest contains the Elixir of Life (artifact).", Loot(artifacts: new[] { ArtElixir }));
+            FirstSearch("chest_1", zChest1, idChest1, "B", "This chest contains 100 gold coins.", Loot(gold: 100));
+            FirstSearch("chest_2", zChest2, idChest2, "B", "This chest contains 100 gold coins.", Loot(gold: 100));
+            TrappedChest("chest_C", zGasChest, idGasChest, 3, "C", "Toxic gas trap: 3 body points lost if searched before it is disarmed. The chest contains the Elixir of Life (artifact).", Loot(artifacts: new[] { ArtElixir }));
             End();
         }
 
@@ -225,18 +283,30 @@ namespace HeroQuest.Quests.EditorTools
         static void Q10()
         {
             const int zRing = 25, zMine = 26;                                     // ADAPT
+                                                                                  // ids of quest_10.json (DreadWarrior = Chaos Warrior)
+            const string idWarrior1 = "dreadwarrior_2", idWarrior2 = "dreadwarrior_3";   // TO CONFIRM: the two warriors at (22,7) and (24,6)
+
             Begin(10, "The Mysterious Castle", "The mage Ollar built a magic castle above a gold mine, guarded by monsters frozen in time. Find the entrance to the mine.");
             q.wanderingMonsterNote = "Ollar's ghost appears, cackles like a madman, then disappears. Nothing else happens.";
             q.introNote = "The doors are magic: a hero who walks through one stops immediately, rolls 2 red dice and is teleported to the square bearing that total (if occupied: see the quest book). Only one door passage per turn. A total of 2 or 12 sends him back to the stairs. The quest ends when all monsters are dead or all heroes have returned to the stairs.";
 
+            // Targets = the door cells noted in quest_10.json ("teleport to if 2d6=N")
             var tp = Add<TeleportByDiceAction>("Teleport 2d6");
             tp.table.Add(new TeleportByDiceAction.Entry { roll = 2, toStairs = true });
             tp.table.Add(new TeleportByDiceAction.Entry { roll = 12, toStairs = true });
-            // TODO: add the 9 other entries (roll 3..11 -> cell) in the asset's inspector.
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 3, cell = new Vector2Int(9, 16) });   // door_3   (rename 'cell' if the field is named differently)
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 4, cell = new Vector2Int(4, 12) });   // door_4
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 5, cell = new Vector2Int(6, 7) });   // door_5
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 6, cell = new Vector2Int(9, 3) });   // door_6
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 7, cell = new Vector2Int(15, 9) });   // door_7
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 8, cell = new Vector2Int(16, 16) });  // door_8
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 9, cell = new Vector2Int(17, 2) });   // door_9
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 10, cell = new Vector2Int(22, 5) });   // door_10
+            tp.table.Add(new TeleportByDiceAction.Entry { roll = 11, cell = new Vector2Int(22, 14) });  // door_11
             R("teleport_doors", new[] { DoorCrossed() }, new[] { tp }, once: false);
 
-            R("warrior_1", new[] { Killed("q10_warrior_1") }, new[] { SetFlag("warrior_1") });
-            R("warrior_2", new[] { Killed("q10_warrior_2") }, new[] { SetFlag("warrior_2") });
+            R("warrior_1", new[] { Killed(idWarrior1) }, new[] { SetFlag("warrior_1") });
+            R("warrior_2", new[] { Killed(idWarrior2) }, new[] { SetFlag("warrior_2") });
             R("note_A", new[] { Search(zRing, ""), AllFlags("warrior_1", "warrior_2") }, new[] { Note("A", "Both Chaos Warriors are defeated: one of them was carrying the Ring of Return (artifact)."), Loot(artifacts: new[] { ArtReturnRing }) });
             R("note_B", new[] { Entered(zMine) }, new[] { Note("B", "Entrance to the mine: 5000 gold coins can be taken from here. The carrier can neither attack nor defend; if he drops the gold, he is sent back into the mine. At the end, Zargon reveals that the gold is fake.") });
             R("all_dead", new[] { AllMonstersDead() }, new[] { EndQuest(QuestResult.Victory) });
@@ -247,6 +317,10 @@ namespace HeroQuest.Quests.EditorTools
         static void Q11()
         {
             const int zArmory = 27, zGargoyle = 28;                               // ADAPT
+                                                                                  // ids of quest_11.json
+            const string idArmory = "weaponrack_a", idTrapChest = "trapped_chest_1",
+                         idGargoyle = "gargoyle_1", idSwordWarrior = "DreadWarrior_Boss";
+
             Begin(11, "The Fortress of Terror", "Orcs and goblins allied with Zargon are plundering the east. Storm their fortress and kill every monster. Each hero is paid for his victims: 10 gold per goblin, 20 per orc, 30 per abomination, 50 per Chaos Warrior.");
             q.wanderingMonsterType = Abomination;
             q.killBounties.Add(new KillBounty { monsterType = Goblin, gold = 10 });
@@ -254,13 +328,13 @@ namespace HeroQuest.Quests.EditorTools
             q.killBounties.Add(new KillBounty { monsterType = Abomination, gold = 30 });
             q.killBounties.Add(new KillBounty { monsterType = ChaosWarrior, gold = 50 });
             Obj("kill_all", "Kill every monster in the fortress");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q11_gargoyle", dormant = true, invulnerableUntilActed = true });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idGargoyle, dormant = true, invulnerableUntilActed = true });
             R("all_dead", new[] { AllMonstersDead() }, new[] { Complete("kill_all") });
 
-            FirstSearch("note_A", zArmory, "q11_armory", "A", "An armory: the first hero to search finds a shield here (same as the equipment card). The other weapons are unusable.", Loot(cards: new[] { CardShield }));
-            R("note_B_trap", new[] { Search(zGargoyle, "q11_chest"), Flag("disarmed:q11_chest", false), Flag("gargoyle_awake", false) },
-              new[] { Note("B", "The chest is trapped: the stone gargoyle comes to life and attacks immediately. It cannot be hurt before it has moved or attacked a hero."), Activate("q11_gargoyle"), SetFlag("gargoyle_awake") });
-            R("note_C", new[] { Killed("q11_warrior_sword") }, new[] { Note("C", "This Chaos Warrior carried a magic sword: the hero who killed him may take the Orc's Bane (artifact)."), Loot(artifacts: new[] { ArtOrcBane }, consume: false) });
+            FirstSearch("note_A", zArmory, idArmory, "A", "An armory: the first hero to search finds a shield here (same as the equipment card). The other weapons are unusable.", Loot(cards: new[] { CardShield }));
+            R("note_B_trap", new[] { Search(zGargoyle, idTrapChest), Flag("disarmed:" + idTrapChest, false), Flag("gargoyle_awake", false) },
+              new[] { Note("B", "The chest is trapped: the stone gargoyle comes to life and attacks immediately. It cannot be hurt before it has moved or attacked a hero."), Activate(idGargoyle), SetFlag("gargoyle_awake") });
+            R("note_C", new[] { Killed(idSwordWarrior) }, new[] { Note("C", "This Chaos Warrior carried a magic sword: the hero who killed him may take the Orc's Bane (artifact)."), Loot(artifacts: new[] { ArtOrcBane }, consume: false) });
             End();
         }
 
@@ -268,25 +342,35 @@ namespace HeroQuest.Quests.EditorTools
         static void Q12()
         {
             const int zTomb = 29, zLibrary = 30;                                  // ADAPT
+                                                                                  // ids of quest_12.json
+            const string idZombieStar = "zombie_3",                               // TO CONFIRM: zombie (11,9) in the table room
+                         idSorcerer = "witch_lord_boss",
+                         idLibrary = "cupboard_2";                                // TO CONFIRM: cupboard (6,1) in the secret-door room
+
             Begin(12, "Barak Tor — The Lair of the Sorcerer Lord", "The king needs the Star of the West to unite the kingdom before war breaks out. It lies in Barak Tor, where the Sorcerer Lord sleeps. Reward: 200 gold coins to share.");
             q.wanderingMonsterType = Skeleton;
             q.sharedGoldReward = 200; q.rewardRequiresObjectiveId = "get_star";
             q.introNote = "Some doors are false and will not open. The trapped rockfall near the exit only triggers after the last hero has passed and permanently cuts off the way back to the stairs.";
             Obj("get_star", "Retrieve the Star of the West");
-            q.namedMonsters.Add(new NamedMonsterDef { elementId = "q12_zombie" });
+            q.namedMonsters.Add(new NamedMonsterDef { elementId = idZombieStar });
             q.namedMonsters.Add(new NamedMonsterDef
             {
-                elementId = "q12_sorcerer", displayName = "The Sorcerer Lord", movement = 1, attackDice = 2, dormant = true,
-                vulnerableOnlyToArtifactId = ArtMysticSword, immuneToAllSpells = true,
+                elementId = idSorcerer,
+                displayName = "The Sorcerer Lord",
+                movement = 1,
+                attackDice = 2,
+                dormant = true,
+                vulnerableOnlyToArtifactId = ArtMysticSword,
+                immuneToAllSpells = true,
                 spellIds = new List<string> { "invocation_morts_vivants", "horreur", "controle", "boule_de_feu" }
             });
 
-            R("note_B", new[] { Killed("q12_zombie") }, new[] { Note("B", "The Star of the West was in this zombie's hand."), Complete("get_star") });
-            R("note_D", new[] { Entered(zTomb) }, new[] { Note("D", "You have broken the magic seal holding the Sorcerer Lord. He is awake: flee, for only the Mystic Sword can hurt him."), Reveal("q12_sorcerer"), Activate("q12_sorcerer") });
-            FirstSearch("note_E", zLibrary, "q12_library", "E", "Behind the bookcase: the Enchanter's Staff (artifact).", Loot(artifacts: new[] { ArtEnchanterStaff }));
+            R("note_B", new[] { Killed(idZombieStar) }, new[] { Note("B", "The Star of the West was in this zombie's hand."), Complete("get_star") });
+            R("note_D", new[] { Entered(zTomb) }, new[] { Note("D", "You have broken the magic seal holding the Sorcerer Lord. He is awake: flee, for only the Mystic Sword can hurt him."), Reveal(idSorcerer), Activate(idSorcerer) });
+            FirstSearch("note_E", zLibrary, idLibrary, "E", "Behind the bookcase: the Enchanter's Staff (artifact).", Loot(artifacts: new[] { ArtEnchanterStaff }));
 
             var rock = Add<AllHeroesVisitedTileCondition>("Last hero has passed");
-            rock.tile = new Vector2Int(0, 0);                                     // TODO: rockfall cell
+            rock.tile = new Vector2Int(0, 18);                                    // rockfall_1 of quest_12.json
             var seal = Add<SealPassageAction>("Rockfall");                        // TODO: cells to block
             R("note_C", new QuestCondition[] { rock }, new QuestAction[] { Note("C", "The rockfall collapses behind the last hero: the way back is blocked forever."), seal });
             End();
@@ -296,24 +380,34 @@ namespace HeroQuest.Quests.EditorTools
         static void Q13()
         {
             const int zSword = 31, zChest = 32;                                   // ADAPT
+                                                                                  // ids of quest_13.json (the altar has no element in the json -> empty id)
+            const string idAltar = "", idChest = "chest_1";
+
             Begin(13, "The Quest for the Mystic Sword", "The Sorcerer Lord is awake and threatens the kingdom. Find the Mystic Sword, the only weapon able to hurt him, in an old ruined temple and bring it back.");
             q.wanderingMonsterType = ChaosWarrior;
             q.introNote = "Special rockfall rule: any hero who stops on a rockfall square rolls 1 red die and loses 1 body point on a 4, 5 or 6 (with a helmet: only on a 6). Monsters are not affected and the passage is not blocked.";
             Obj("get_sword", "Find the Mystic Sword");
 
-            var tiles = Add<HeroOnTileCondition>("Rockfall squares");             // TODO: fill the rockfall cells
+            // rockfall_1..6 of quest_13.json
+            var tiles = Add<HeroOnTileCondition>("Rockfall squares");
+            tiles.tiles = new List<Vector2Int> {                                  // rename 'tiles' if the field is named differently
+        new Vector2Int(0, 9), new Vector2Int(9, 7), new Vector2Int(12, 4),
+        new Vector2Int(13, 2), new Vector2Int(19, 9), new Vector2Int(19, 1) };
             var roll = Add<RollDamageActorAction>("Rockfall die"); roll.damage = 1; roll.threshold = 4; roll.helmetThreshold = 6;
             R("rockfall", new QuestCondition[] { tiles }, new QuestAction[] { roll }, once: false);
 
-            FirstSearch("note_A", zSword, "q13_altar", "A", "The first hero to search discovers the Mystic Sword (artifact).", Loot(artifacts: new[] { ArtMysticSword }));
-            R("sword_obj", new[] { Search(zSword, "q13_altar") }, new[] { Complete("get_sword") });
-            FirstSearch("note_B", zChest, "q13_chest", "B", "This chest contains 200 gold coins.", Loot(gold: 200));
+            FirstSearch("note_A", zSword, idAltar, "A", "The first hero to search discovers the Mystic Sword (artifact).", Loot(artifacts: new[] { ArtMysticSword }));
+            R("sword_obj", new[] { Search(zSword, idAltar) }, new[] { Complete("get_sword") });
+            FirstSearch("note_B", zChest, idChest, "B", "This chest contains 200 gold coins.", Loot(gold: 200));
             End();
         }
 
         // ═════════════ Q14 ═════════════
         static void Q14()
         {
+            // ids of quest_14.json
+            const string idSorcerer = "witch_lord_boss";
+
             Begin(14, "Return to Barak Tor", "Armed with the Mystic Sword, return to Barak Tor and defeat the Sorcerer Lord before he unleashes his undead against the king.");
             q.wanderingMonsterType = Mummy;
             q.introNote = "The Sorcerer Lord's tomb is empty. He is stronger than before: no spell and no weapon other than the Mystic Sword can reach him.";
@@ -321,11 +415,18 @@ namespace HeroQuest.Quests.EditorTools
             Obj("kill_lord", "Defeat the Sorcerer Lord");
             q.namedMonsters.Add(new NamedMonsterDef
             {
-                elementId = "q14_sorcerer", displayName = "The Sorcerer Lord", movement = 10, attackDice = 5, defenseDice = 6, bodyPoints = 4, mindPoints = 6,
-                vulnerableOnlyToArtifactId = ArtMysticSword, immuneToAllSpells = true,
+                elementId = idSorcerer,
+                displayName = "The Sorcerer Lord",
+                movement = 10,
+                attackDice = 5,
+                defenseDice = 6,
+                bodyPoints = 4,
+                mindPoints = 6,
+                vulnerableOnlyToArtifactId = ArtMysticSword,
+                immuneToAllSpells = true,
                 spellIds = new List<string> { "invocation_morts_vivants", "horreur", "horreur", "boule_de_feu", "controle", "tornade" }
             });
-            R("lord_dead", new[] { Killed("q14_sorcerer") },
+            R("lord_dead", new[] { Killed(idSorcerer) },
               new[] { Note("", "The Sorcerer Lord vanishes in a cloud of acrid smoke. When it clears, a metal object rolls across the floor: the Ring of Incantation (artifact).", "Victory over the Sorcerer Lord"), Loot(artifacts: new[] { ArtIncantationRing }, consume: false), Complete("kill_lord") });
             End();
         }

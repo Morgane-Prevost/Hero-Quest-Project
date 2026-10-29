@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: dread_rust
   m_EditorClassIdentifier: Assembly-CSharp::RustSpellSO
   displayName: Dread Rust
-  description: 
+  description: This spell causes any sword or helmet to rust so badly that it can
+    never be used again. Does not work on artifacts.
   icon: {fileID: 0}
   artwork: {fileID: 0}
+  goldCost: 0
   destroyable:
   - {fileID: 11400000, guid: 45b1af438e394cc42b4a558a7314f76a, type: 2}
   - {fileID: 11400000, guid: b68d312616fc44f4d92434b5c1f37fc1, type: 2}

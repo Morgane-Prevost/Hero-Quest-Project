@@ -13,9 +13,12 @@ MonoBehaviour:
   m_Name: ring_incantation
   m_EditorClassIdentifier: Assembly-CSharp::SpellCastingArtifactSO
   displayName: Ring Incantation
-  description: 
+  description: This ring allows a hero to cast the same spell twice (not at the same
+    time). At the start of a quest, the hero must state which of their spells is
+    stored in the ring.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: 1333d4b57f709794ab1d2813f5b4279a, type: 3}
+  goldCost: 0
   info:
     id: ring_incantation
     usage: 0

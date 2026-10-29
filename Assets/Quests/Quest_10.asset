@@ -1,6 +1,44 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8349567820135188269
+--- !u!114 &-8785323029784072647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: All monsters dead
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllMonstersDeadCondition
+--- !u!114 &-8559458366406025341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Door crossed
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:DoorCrossedCondition
+--- !u!114 &-4655916340391786832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Set warrior_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: warrior_2
+  value: 1
+--- !u!114 &-3182974930014386234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,7 +58,7 @@ MonoBehaviour:
   - roll: 12
     toStairs: 1
     cell: {x: 0, y: 0}
---- !u!114 &-7209194727602108380
+--- !u!114 &-1697894495649013808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -30,10 +68,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Entered room 26
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
-  zone: 26
---- !u!114 &-3810279906811289812
+  m_Name: 'Killed: q10_warrior_2'
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
+  elementId: q10_warrior_2
+  monsterType: 
+  count: 1
+--- !u!114 &-1154272694415363020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
+  m_Name: Note BNote
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
+  noteLetter: B
+  title: Note
+  text: 'Entrance to the mine: 5000 gold coins can be taken from here. The carrier
+    can neither attack nor defend; if he drops the gold, he is sent back into the
+    mine. At the end, Zargon reveals that the gold is fake.'
+--- !u!114 &-30330949674247309
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,25 +100,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: Flags warrior_1+warrior_2
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllFlagsCondition
-  flags:
-  - warrior_1
-  - warrior_2
---- !u!114 &-3687706186611067121
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Set warrior_1
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
-  flag: warrior_1
-  value: 1
+  m_Name: Loot
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
+  recipient: 0
+  heroType: 0
+  gold: 0
+  cards: []
+  artifactIds:
+  - return_ring
+  replacesTreasureDraw: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,7 +127,7 @@ MonoBehaviour:
   description: The mage Ollar built a magic castle above a gold mine, guarded by
     monsters frozen in time. Find the entrance to the mine.
   thumbnail: {fileID: 0}
-  levelJson: {fileID: 0}
+  levelJson: {fileID: 4900000, guid: 3ed1e4d5e8044444d83122bc74010930, type: 3}
   startMode: 0
   startZone: 0
   exitMode: 0
@@ -109,50 +156,78 @@ MonoBehaviour:
     once: 0
     oncePerActor: 0
     conditions:
-    - {fileID: 6331419971011770292}
+    - {fileID: -8559458366406025341}
     actions:
-    - {fileID: -8349567820135188269}
+    - {fileID: -3182974930014386234}
   - ruleId: warrior_1
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 5941451764490021646}
+    - {fileID: 7740179216538358058}
     actions:
-    - {fileID: -3687706186611067121}
+    - {fileID: 9014493295505206126}
   - ruleId: warrior_2
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 6407271838760965073}
+    - {fileID: -1697894495649013808}
     actions:
-    - {fileID: 3567602747215618205}
+    - {fileID: -4655916340391786832}
   - ruleId: note_A
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 1747401303881174638}
-    - {fileID: -3810279906811289812}
+    - {fileID: 3181471907321358223}
+    - {fileID: 1791961427244967822}
     actions:
-    - {fileID: 178401929626149847}
-    - {fileID: 4342327576197715378}
+    - {fileID: 2763913239278497600}
+    - {fileID: -30330949674247309}
   - ruleId: note_B
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: -7209194727602108380}
+    - {fileID: 572686667833059149}
     actions:
-    - {fileID: 9098600546810778007}
+    - {fileID: -1154272694415363020}
   - ruleId: all_dead
     once: 1
     oncePerActor: 0
     conditions:
-    - {fileID: 9137582096579810039}
+    - {fileID: -8785323029784072647}
     actions:
-    - {fileID: 7322315685492999119}
+    - {fileID: 8560209698999561101}
   sharedGoldReward: 0
   goldRewardPerHero: 0
   rewardRequiresObjectiveId: 
---- !u!114 &178401929626149847
+--- !u!114 &572686667833059149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Entered room 26
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:RoomEnteredCondition
+  zone: 26
+--- !u!114 &1791961427244967822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Flags warrior_1+warrior_2
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllFlagsCondition
+  flags:
+  - warrior_1
+  - warrior_2
+--- !u!114 &2763913239278497600
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -168,7 +243,7 @@ MonoBehaviour:
   title: Note
   text: 'Both Chaos Warriors are defeated: one of them was carrying the Ring of Return
     (artifact).'
---- !u!114 &1747401303881174638
+--- !u!114 &3181471907321358223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,40 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:TreasureSearchedCondition
   zone: 25
   elementId: 
---- !u!114 &3567602747215618205
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Set warrior_2
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
-  flag: warrior_2
-  value: 1
---- !u!114 &4342327576197715378
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Loot
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:GrantLootAction
-  recipient: 0
-  heroType: 0
-  gold: 0
-  cards: []
-  artifactIds:
-  - return_ring
-  replacesTreasureDraw: 1
---- !u!114 &5941451764490021646
+--- !u!114 &7740179216538358058
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,34 +272,7 @@ MonoBehaviour:
   elementId: q10_warrior_1
   monsterType: 
   count: 1
---- !u!114 &6331419971011770292
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Door crossed
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:DoorCrossedCondition
---- !u!114 &6407271838760965073
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: 'Killed: q10_warrior_2'
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:MonsterKilledCondition
-  elementId: q10_warrior_2
-  monsterType: 
-  count: 1
---- !u!114 &7322315685492999119
+--- !u!114 &8560209698999561101
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,24 +285,7 @@ MonoBehaviour:
   m_Name: End Victory
   m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:EndQuestAction
   result: 0
---- !u!114 &9098600546810778007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c157f649933404448162fd5b082c11c, type: 3}
-  m_Name: Note BNote
-  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Quests.ShowNoteAction
-  noteLetter: B
-  title: Note
-  text: 'Entrance to the mine: 5000 gold coins can be taken from here. The carrier
-    can neither attack nor defend; if he drops the gold, he is sent back into the
-    mine. At the end, Zargon reveals that the gold is fake.'
---- !u!114 &9137582096579810039
+--- !u!114 &9014493295505206126
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,5 +295,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 0}
-  m_Name: All monsters dead
-  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:AllMonstersDeadCondition
+  m_Name: Set warrior_1
+  m_EditorClassIdentifier: Assembly-CSharp:HeroQuest.Quests:SetFlagAction
+  flag: warrior_1
+  value: 1

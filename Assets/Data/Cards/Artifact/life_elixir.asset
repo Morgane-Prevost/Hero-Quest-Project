@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: life_elixir
   m_EditorClassIdentifier: Assembly-CSharp::LifeElixirSO
   displayName: Life Elixir
-  description: 
+  description: The pearlescent liquid in this small vial can revive a slain hero,
+    restoring all of their Body and Mind points. Single use only.
   icon: {fileID: 0}
-  artwork: {fileID: 0}
+  artwork: {fileID: 2800000, guid: baeee2f6aef3e9141a6c45fdd5c4b82f, type: 3}
+  goldCost: 0
   info:
     id: life_elixir
     usage: 2
