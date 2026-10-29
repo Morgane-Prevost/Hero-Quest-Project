@@ -95,7 +95,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
     public event Action<Hero> Died;
 
     // Body points are lost here (traps, quest effects, and whoever applies the monsters' damage).
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, Hero source = null)
     {
         if (amount <= 0 || IsDead) return;
         currentBodyPoints = Mathf.Max(0, currentBodyPoints - amount);
