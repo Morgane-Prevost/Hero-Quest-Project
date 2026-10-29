@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 6166059658367970769, guid: 04904e796d503f545957e5268c16cc6d, type: 3}
   texture: {fileID: 2800000, guid: ba0f8c8c7241bbd4a8f005da540c45af, type: 3}
-  id: 
+  id: zombie
   description: Like skeletons, zombies are corpses brought to life by magic, but
     unlike skeletons, some still have decaying flesh and muscles. Slow and clumsy,
     they are always accompanied by the foul stench of the grave.
-  tags: []
+  tags:
+  - undead
   monsterName: Zombie
   healthPoints: 1
   mindPoints: 0

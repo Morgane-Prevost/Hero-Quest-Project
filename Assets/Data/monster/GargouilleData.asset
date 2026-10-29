@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 6993769548090507828, guid: 9ca41532b31f1e7458bb6486e77c8f8c, type: 3}
   texture: {fileID: 2800000, guid: dd1e9abf0d7b8414d945e664ef2aff6b, type: 3}
-  id: 
+  id: gargoyle
   description: These vile creatures are also created by the magic of Terror. They
     are essentially statues of monsters that have been brought to life through magical
     rituals. Their stone skin makes them very difficult to injure.

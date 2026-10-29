@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::MonsterData
   prefab: {fileID: 3709772821990805072, guid: 92fa42386f5082d45b728b1be676d572, type: 3}
   texture: {fileID: 2800000, guid: ed8b1c1c33e1d594a8e914aaf3f88fc6, type: 3}
-  id: 
+  id: goblin
   description: Goblins are small, swift creatures with green skin. Despite their
     small size, they should not be taken lightly.
-  tags: []
+  tags:
+  - goblin
   monsterName: Goblin
   healthPoints: 1
   mindPoints: 1

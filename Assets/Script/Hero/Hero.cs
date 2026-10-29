@@ -1,4 +1,5 @@
 using HeroQuest.Board;
+using HeroQuest.Quests;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,6 +58,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
         heroName = name;
         Data = heroData;
         heroType = heroData.type;
+        Id = heroType.ToString().ToLowerInvariant();   // "barbarian", "elf", "dwarf", "wizard"
         bodyPoints = heroData.bodyPoints;
         currentBodyPoints = bodyPoints;
         mindPoints = heroData.mindPoints;
@@ -74,6 +76,84 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
         gridPawn = GetComponent<GridPawn>();
         gridPawn.PlaceAt(cell);
     }
+
+    #region Quest hooks
+    // Used by the quest system (HeroQuestWorldBridge / QuestManager). Nothing here depends on a specific quest.
+    public string Id { get; set; }                       // "barbarian", "elf", "dwarf", "wizard" (allies: chosen by the quest)
+    public HeroType Type => heroType;
+    public bool IsAlly { get; set; }                     // escorted NPC (Sir Ragnar): not counted as a hero
+    public string ControllerId { get; set; }             // ally: id of the hero who moves it
+    public bool HasEscaped { get; private set; }
+    public bool IsDead => currentBodyPoints <= 0;
+    public bool CanCastSpells { get; private set; } = true;
+    public int MovementDiceCap { get; set; } = -1;       // -1 = no limit (carrying a chest: 1)
+    public GridPawn Pawn => gridPawn;
+    public bool HasCell => gridPawn != null && gridPawn.HasCell;
+    public Vector2Int Cell => HasCell ? gridPawn.Cell : new Vector2Int(-1, -1);
+    public bool WearsHelmet => armors != null && armors.Exists(a => a != null && a.armorType == ArmorType.Helmet);
+
+    public event Action<Hero> Died;
+
+    // Body points are lost here (traps, quest effects, and whoever applies the monsters' damage).
+    public void TakeDamage(int amount, Hero source = null)
+    {
+        if (amount <= 0 || IsDead) return;
+        currentBodyPoints = Mathf.Max(0, currentBodyPoints - amount);
+        if (IsDead) Died?.Invoke(this);
+    }
+
+    public void MarkEscaped() { HasEscaped = true; }
+
+    // Start of a new quest: full body points, back on the board, no leftovers from the previous quest.
+    public void ResetForNewQuest()
+    {
+        QuestRestoreEquipment();
+        HasEscaped = false;
+        MovementDiceCap = -1;
+        currentBodyPoints = MaxBodyPoints;
+        gameObject.SetActive(true);
+    }
+
+    private static WeaponData bareHands;
+    private WeaponData stashedWeapon;
+    private List<ArmorData> stashedArmors;
+    private int stashedAttackDices, stashedDefenseDices;
+    private bool equipmentLocked;
+
+    // Quest 6: all equipment confiscated. Bare hands = 1 attack die / 2 defense dice, no spells.
+    public void QuestLockEquipment(int attackDice, int defenseDice)
+    {
+        if (equipmentLocked) return;
+        equipmentLocked = true;
+        stashedWeapon = weapon; stashedArmors = armors;
+        stashedAttackDices = attackDices; stashedDefenseDices = defenseDices;
+
+        if (bareHands == null)
+        {
+            bareHands = ScriptableObject.CreateInstance<WeaponData>();
+            bareHands.displayName = "Bare hands";
+            bareHands.useWithWizard = true;
+            bareHands.useWithShield = true;     // no flag set = adjacent, orthogonal attack
+        }
+        bareHands.attackDice = attackDice;
+        weapon = bareHands;
+        armors = new List<ArmorData>();
+        attackDices = attackDice;
+        defenseDices = defenseDice;
+        CanCastSpells = false;
+    }
+
+    public void QuestRestoreEquipment()
+    {
+        if (!equipmentLocked) return;
+        equipmentLocked = false;
+        weapon = stashedWeapon;
+        armors = stashedArmors ?? new List<ArmorData>();
+        attackDices = stashedAttackDices;
+        defenseDices = stashedDefenseDices;
+        CanCastSpells = true;
+    }
+    #endregion
 
     private void Start()
     {
@@ -101,7 +181,8 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
         }
 
         // Roll the movement dice and display where the hero can move on the board
-        for (int i = 0; i < dice; i++)
+        int diceToRoll = MovementDiceCap >= 0 ? Mathf.Min(movementDices, MovementDiceCap) : movementDices;
+        for (int i = 0; i < diceToRoll; i++)
         {
             finalMovement += ActionManager.Instance.RollRedDice();
         }
@@ -268,17 +349,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
 
     public void LookForTreasureAction()
     {
-        if (canLookForTreasure())
-        {
-            // Look for treasure in the room
-            // If treasure is found draw a treasure card
-            // If it draws a trap card apply it 
-            // Else give the treasure to the hero
-        }
-        else
-        {
-            // Display a message that the hero cannot look for treasure
-        }
+        HeroQuestWorldBridge.Instance?.SearchTreasure(this);
     }
 
     public void LookForSecretDoorAction()
@@ -303,7 +374,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
             }
             else
             {
-                //Disarms the trap
+                //QuestManager.Instance.NotifyTrapDisarmed(id, Id);
             }
         }
         else if (hasAToolBag)
@@ -314,20 +385,13 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
             }
             else
             {
-                //Disarms the trap
+                //QuestManager.Instance.NotifyTrapDisarmed(id, Id);
             }
         }
         else
         {
             // Display a message that the hero cannot disarm the trap
         }
-    }
-
-    private bool canLookForTreasure()
-    {
-        //Check the list if the room is in the list && if there is monster in the room
-        //return false else return true
-        return true;
     }
 
     private List<GameObject> GetVisibleTargets(List<GameObject> targets)
@@ -360,10 +424,12 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
 
     private void Attack(GameObject target)
     {
-        int damage = ActionManager.Instance.Fight(this, target.GetComponent<Monster>(), true);
+        Monster monster = target.GetComponent<Monster>();
+        int damage = ActionManager.Instance.Fight(this, monster, true);
+        if (!monster.CanBeHitBy(weapon)) damage = 0;   // Sorcerer Lord: only the Mystic Sword hurts him
         if (damage > 0)
         {
-            target.GetComponent<Monster>().TakeDamage(damage);
+            monster.TakeDamage(damage, this);
         }
         else
         {
