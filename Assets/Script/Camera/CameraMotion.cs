@@ -7,8 +7,8 @@ public class CameraMotion : MonoBehaviour
     [SerializeField] private InputActionAsset inputActions;
 
     [Header("Motion")]
-    [SerializeField] private float panSpeed = 0.01f;
-    [SerializeField] private float rotateSpeed = 0.2f;
+    [SerializeField] private float panSpeed = 0.04f;
+    [SerializeField] private float rotateSpeed = 0.4f;
     [SerializeField] private float minPitch = 0f;
     [SerializeField] private float maxPitch = 80f;
 
