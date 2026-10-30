@@ -1,131 +1,87 @@
+using HeroQuest.Quests;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using HeroQuest.Quests;
-using System.Text;
 
 public class QuestPanel : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Button toggleButton;
-    [SerializeField] private TMP_Text toggleButtonText;
-    [SerializeField] private GameObject questBox;
-
-    [Header("Text UI")]
+    [SerializeField] private GameObject box;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text hudTitleText;
+    [SerializeField] private Button okButton;
 
-    [Header("Other")]
-    [SerializeField] private ListPanel listPanel;
-    [SerializeField] private InventoryPanel inventoryPanel;
+    private bool subscribed = false;
+    private bool alreadyShown = false;
 
     private void Awake()
     {
-        if (toggleButton != null)
-            toggleButton.onClick.AddListener(OnToggle);
+        box.SetActive(false);
+        okButton.onClick.AddListener(Close);
+    }
 
-        if (questBox != null)
-            questBox.SetActive(false);
-
-        if (toggleButtonText != null)
-            toggleButtonText.text = "+";
+    private void Start()
+    {
+        Subscribe();
     }
 
     private void OnEnable()
     {
-        if (QuestManager.Instance != null)
-        {
-            QuestManager.Instance.OnQuestStarted += SetQuest;
-
-            if (QuestManager.Instance.Context != null && QuestManager.Instance.Context.Quest != null)
-            {
-                SetQuest(QuestManager.Instance.Context.Quest);
-            }
-        }
+        Subscribe();
     }
 
     private void OnDisable()
     {
-        if (QuestManager.Instance != null)
+        Unsubscribe();
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+
+    private void Subscribe()
+    {
+        if (subscribed) return;
+        if (QuestManager.Instance == null) return;
+
+        QuestManager.Instance.OnQuestStarted += SetQuest;
+        subscribed = true;
+
+        if (QuestManager.Instance.Context != null)
         {
-            QuestManager.Instance.OnQuestStarted -= SetQuest;
+            SetQuest(QuestManager.Instance.Context.Quest);
         }
     }
 
-    public void SetQuest(QuestData quest)
+    private void Unsubscribe()
+    {
+        if (!subscribed) return;
+        if (QuestManager.Instance != null) QuestManager.Instance.OnQuestStarted -= SetQuest;
+        subscribed = false;
+    }
+
+    private void SetQuest(QuestData quest)
     {
         if (quest == null) return;
 
-        // 1. Titre fixe en haut du panneau
-        if (titleText != null)
+        if (hudTitleText != null)
         {
-            titleText.text = "Quest in progress"; // Ou laisse vide cette ligne si c'est déjà écrit dans Unity
+            hudTitleText.text = "Quest " + quest.questNumber + " : " + quest.title;
         }
 
-        // 2. Contenu textuel dans la description
-        if (descriptionText != null)
-        {
-            StringBuilder sb = new StringBuilder();
+        if (alreadyShown) return;
 
-            // Titre spécifique de la quête (ex: "The Trial")
-            if (!string.IsNullOrEmpty(quest.title))
-            {
-                sb.AppendLine($"<b><size=115%>{quest.title}</size></b>");
-                sb.AppendLine();
-            }
+        alreadyShown = true;
 
-            // Description principale
-            if (!string.IsNullOrEmpty(quest.description))
-            {
-                sb.AppendLine(quest.description);
-                sb.AppendLine();
-            }
-
-            // Note d'introduction
-            if (!string.IsNullOrEmpty(quest.introNote))
-            {
-                string header = string.IsNullOrEmpty(quest.introTitle) ? "Quête" : quest.introTitle;
-                sb.AppendLine($"<b>{header} :</b> {quest.introNote}");
-                sb.AppendLine();
-            }
-
-            // Objectifs
-            if (quest.objectives != null && quest.objectives.Count > 0)
-            {
-                sb.AppendLine("<b>Objectifs :</b>");
-                foreach (var obj in quest.objectives)
-                {
-                    string optionalTag = obj.optional ? " (Optionnel)" : "";
-                    sb.AppendLine($"• {obj.description}{optionalTag}");
-                }
-            }
-
-            descriptionText.text = sb.ToString();
-        }
-    }
-
-    private void OnToggle()
-    {
-        if (questBox == null) return;
-
-        bool isOpen = !questBox.activeSelf;
-        questBox.SetActive(isOpen);
-
-        if (isOpen)
-        {
-            if (toggleButtonText != null) toggleButtonText.text = "-";
-            if (listPanel != null) listPanel.ClearSelection();
-            if (inventoryPanel != null) inventoryPanel.Close();
-        }
-        else
-        {
-            if (toggleButtonText != null) toggleButtonText.text = "+";
-        }
+        titleText.text = "Quest " + quest.questNumber + " : " + quest.title;
+        descriptionText.text = quest.description;
+        box.SetActive(true);
     }
 
     public void Close()
     {
-        if (questBox != null) questBox.SetActive(false);
-        if (toggleButtonText != null) toggleButtonText.text = "+";
+        box.SetActive(false);
     }
 }

@@ -11,7 +11,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text subtitleText;
-    [SerializeField] private QuestPanel questPanel;
+    //[SerializeField] private QuestPanel questPanel;
     [SerializeField] private ListPanel listPanel;
     [SerializeField] private ShopPanel shopPanel;
 
@@ -72,7 +72,7 @@ public class InventoryPanel : MonoBehaviour
             return;
         }
 
-        if (questPanel != null) questPanel.Close();
+        //if (questPanel != null) questPanel.Close();
         if (listPanel != null) listPanel.ClearSelection();
         if (shopPanel != null) shopPanel.Close();
 
@@ -162,7 +162,8 @@ public class InventoryPanel : MonoBehaviour
     {
         if (card is WeaponData weaponCard)
         {
-            return (hero.weapon == weaponCard) ? "Unequip" : "Equip";
+            if (hero.weapon == weaponCard) return "";
+            return "Equip";
         }
 
         if (card is ArmorData armorCard)
@@ -186,14 +187,17 @@ public class InventoryPanel : MonoBehaviour
 
         if (card is WeaponData weaponCard)
         {
-            if (hero.weapon == weaponCard)
+            WeaponData oldWeapon = hero.weapon;
+
+            hero.unequipWeapon();
+
+            if (hero.canEquipWeapon(weaponCard))
             {
-                hero.unequipWeapon();
+                hero.equipWeapon(weaponCard);
             }
             else
             {
-                if (hero.weapon != null) hero.unequipWeapon();
-                hero.equipWeapon(weaponCard);
+                hero.equipWeapon(oldWeapon);
             }
         }
         else if (card is ArmorData armorCard)

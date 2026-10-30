@@ -29,4 +29,5 @@ public class DjinnSpellSO : SpellCardSO
         int damage = Mathf.Max(0, skulls - blocked);
         if (damage > 0) target.TakeDamage(damage);
     }
+    public override SpellTargets Targets => SpellTargets.Monster | SpellTargets.Door;
 }

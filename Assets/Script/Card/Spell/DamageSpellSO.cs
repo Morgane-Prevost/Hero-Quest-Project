@@ -20,4 +20,6 @@ public class DamageSpellSO : SpellCardSO
         int finalDamage = Mathf.Max(0, damage - resisted);
         if (finalDamage > 0) target.TakeDamage(finalDamage);
     }
+
+    public override SpellTargets Targets => SpellTargets.Monster;
 }
