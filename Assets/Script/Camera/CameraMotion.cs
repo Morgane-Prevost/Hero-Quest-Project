@@ -37,6 +37,8 @@ public class CameraMotion : MonoBehaviour
     private int camIndex = 0;
     private bool isTransitioning;
 
+    private bool subscribed;
+
     private void Awake()
     {
         cam = GetComponent<Camera>();
@@ -66,23 +68,22 @@ public class CameraMotion : MonoBehaviour
             transform.rotation = camPositions[0].rotation;
         }
     }
-
-    private void OnEnable()
+    private void Subscribe()
     {
-        if (TurnManager.Instance != null)
-        {
-            TurnManager.Instance.HeroTurnStarted += OnHeroTurnStarted;
-        }
+        if (subscribed || TurnManager.Instance == null) return;
+        TurnManager.Instance.HeroTurnStarted += OnHeroTurnStarted;
+        subscribed = true;
     }
+
+    private void Start() { Subscribe(); }
+    private void OnEnable() { Subscribe(); }
 
     private void OnDisable()
     {
-        if (TurnManager.Instance != null)
-        {
-            TurnManager.Instance.HeroTurnStarted -= OnHeroTurnStarted;
-        }
+        if (!subscribed || TurnManager.Instance == null) return;
+        TurnManager.Instance.HeroTurnStarted -= OnHeroTurnStarted;
+        subscribed = false;
     }
-
     private void OnHeroTurnStarted(Hero hero)
     {
         if (camPositions == null || camPositions.Length == 0) return;

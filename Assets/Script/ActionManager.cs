@@ -15,6 +15,9 @@ public class ActionManager : MonoBehaviour
     //return damage inflicted
 
     public static ActionManager Instance { get; private set; }
+    public event System.Action<string> Rolled;
+
+
     public InputActionReference leftClick;
     private IRandomPicker picker;
     public void Initialize(IRandomPicker picker) => this.picker = picker;
@@ -96,20 +99,17 @@ public class ActionManager : MonoBehaviour
     public WhiteDiceFaces RollWhiteDice()
     {
         int result = picker.Pick(6) + 1;
-
-        if (result <= 3)
-        {
-            return WhiteDiceFaces.Skull;
-        }
-        else if (result == 4 || result == 5)
-        {
-            return WhiteDiceFaces.WhiteShield;
-        }
-        else
-        {
-            return WhiteDiceFaces.BlackShield;
-        }
+        WhiteDiceFaces face = result <= 3 ? WhiteDiceFaces.Skull
+                            : result <= 5 ? WhiteDiceFaces.WhiteShield
+                            : WhiteDiceFaces.BlackShield;
+        Rolled?.Invoke("Combat die: " + face);
+        return face;
     }
 
-    public int RollRedDice() => picker.Pick(6) + 1;
+    public int RollRedDice()
+    {
+        int result = picker.Pick(6) + 1;
+        Rolled?.Invoke("Red die: " + result);
+        return result;
+    }
 }
