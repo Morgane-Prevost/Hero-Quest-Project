@@ -11,13 +11,9 @@ public enum WhiteDiceFaces
 
 public class ActionManager : MonoBehaviour
 {
-    [Header("Dice textures")]
-    [SerializeField] private Texture[] redDiceTextures;   // 6 textures : faces 1 à 6
-    [SerializeField] private Texture skullTexture;
-    [SerializeField] private Texture whiteShieldTexture;
-    [SerializeField] private Texture blackShieldTexture;
+    //Takes a hero and a monster to do the fight and a bool is here to see who is attacking and who is defending
+    //return damage inflicted
 
-    public DiceRollAnimator diceAnimator;
     public static ActionManager Instance { get; private set; }
     public event System.Action<string> Rolled;
 
@@ -58,7 +54,7 @@ public class ActionManager : MonoBehaviour
         {
             for (int i = 0; i < hero.attackDices; i++)
             {
-                WhiteDiceFaces result = RollWhiteDice(diceAnimator);
+                WhiteDiceFaces result = RollWhiteDice();
 
                 if (result == WhiteDiceFaces.Skull)
                 {
@@ -67,7 +63,7 @@ public class ActionManager : MonoBehaviour
             }
             for (int i = 0; i < monster.defenseDices; i++)
             {
-                WhiteDiceFaces result = RollWhiteDice(diceAnimator);
+                WhiteDiceFaces result = RollWhiteDice();
 
                 if (result == WhiteDiceFaces.BlackShield)
                 {
@@ -80,7 +76,7 @@ public class ActionManager : MonoBehaviour
         {
             for (int i = 0; i < monster.attackDices; i++)
             {
-                WhiteDiceFaces result = RollWhiteDice(diceAnimator);
+                WhiteDiceFaces result = RollWhiteDice();
 
                 if (result == WhiteDiceFaces.Skull)
                 {
@@ -89,7 +85,7 @@ public class ActionManager : MonoBehaviour
             }
             for (int i = 0; i < hero.defenseDices; i++)
             {
-                WhiteDiceFaces result = RollWhiteDice(diceAnimator);
+                WhiteDiceFaces result = RollWhiteDice();
 
                 if (result == WhiteDiceFaces.WhiteShield)
                 {
@@ -100,38 +96,20 @@ public class ActionManager : MonoBehaviour
         }
     }
 
-    public WhiteDiceFaces RollWhiteDice(DiceRollAnimator animator = null)
+    public WhiteDiceFaces RollWhiteDice()
     {
         int result = picker.Pick(6) + 1;
         WhiteDiceFaces face = result <= 3 ? WhiteDiceFaces.Skull
                             : result <= 5 ? WhiteDiceFaces.WhiteShield
                             : WhiteDiceFaces.BlackShield;
-
-        if (animator != null)
-        {
-            var allFaces = new[] { skullTexture, whiteShieldTexture, blackShieldTexture };
-            animator.Play(allFaces, GetWhiteTexture(face));
-        }
-
         Rolled?.Invoke("Combat die: " + face);
         return face;
     }
 
-    public int RollRedDice(DiceRollAnimator animator = null)
+    public int RollRedDice()
     {
         int result = picker.Pick(6) + 1;
-
-        if (animator != null)
-            animator.Play(redDiceTextures, redDiceTextures[result - 1]);
-
         Rolled?.Invoke("Red die: " + result);
         return result;
     }
-
-    private Texture GetWhiteTexture(WhiteDiceFaces face) => face switch
-    {
-        WhiteDiceFaces.Skull => skullTexture,
-        WhiteDiceFaces.WhiteShield => whiteShieldTexture,
-        _ => blackShieldTexture
-    };
 }
