@@ -18,7 +18,7 @@ public class MovementSystem : MonoBehaviour
 {
     [SerializeField] private BoardBuilder board;
     [SerializeField] private LayerMask obstacleMask;   // walls + closed doors only
-    [SerializeField] private float rayHeight = 1f;
+    private float rayHeight = 1f;
 
     private static readonly Vector2Int[] Directions =
     {
