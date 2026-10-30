@@ -184,7 +184,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
         int diceToRoll = MovementDiceCap >= 0 ? Mathf.Min(dice, MovementDiceCap) : dice;
         for (int i = 0; i < diceToRoll; i++)
         {
-            finalMovement += ActionManager.Instance.RollRedDice();
+            finalMovement += ActionManager.Instance.RollRedDice(ActionManager.Instance.diceAnimator);
         }
 
         StartCoroutine(MoveRoutine(gridPawn, finalMovement));
