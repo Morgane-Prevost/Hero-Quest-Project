@@ -217,21 +217,27 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
 
         foreach (GameObject target in visibleTargets)
         {
-            target.layer = LayerMask.NameToLayer("HighLight");
+            if (target != null) target.layer = LayerMask.NameToLayer("HighLight");
         }
 
         if (weapon.canVisionAttack)
         {
             if (!weapon.canCloseRangeAttack)
             {
+                List<GameObject> toRemove = new List<GameObject>();
                 foreach (GameObject target in visibleTargets)
                 {
                     if (IsMonsterCloseRanged(visibleTargets) && !IsTargetDiagonal(target))
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
-                        visibleTargets.Remove(target);
+                        toRemove.Add(target);
                     }
                 }
+                foreach (GameObject target in toRemove)
+                {
+                    if (target != null) target.layer = LayerMask.NameToLayer("Monster");
+                    visibleTargets.Remove(target);
+                }
+
                 GameObject selectedTarget = null;
                 yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
                 Debug.Log("Selected target: " + (selectedTarget != null ? selectedTarget.name : "None"));
@@ -239,7 +245,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                 {
                     foreach (GameObject target in visibleTargets)
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
+                        if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                     }
                     yield break; // cancelled or no target
                 }
@@ -247,7 +253,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                 Attack(selectedTarget);
                 foreach (GameObject target in visibleTargets)
                 {
-                    target.layer = LayerMask.NameToLayer("Monster");
+                    if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                 }
                 yield break;
             }
@@ -259,7 +265,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                 {
                     foreach (GameObject target in visibleTargets)
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
+                        if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                     }
                     yield break; // cancelled or no target
                 }
@@ -268,7 +274,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                     Attack(selectedTarget);
                     foreach (GameObject target in visibleTargets)
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
+                        if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                     }
                     yield break;
                 }
@@ -277,7 +283,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                     Attack(selectedTarget);
                     foreach (GameObject target in visibleTargets)
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
+                        if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                     }
                     weapon = null;
                     yield break;
@@ -288,20 +294,26 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
         {
             if (!weapon.canDiagoAttack)
             {
+                List<GameObject> toRemove = new List<GameObject>();
                 foreach (GameObject target in visibleTargets)
                 {
                     if (IsMonsterCloseRanged(visibleTargets) && IsTargetDiagonal(target))
                     {
-                        visibleTargets.Remove(target);
+                        toRemove.Add(target);
                     }
                 }
+                foreach (GameObject target in toRemove)
+                {
+                    visibleTargets.Remove(target);
+                }
+
                 GameObject selectedTarget = null;
                 yield return CellPicker.Instance.SelectTarget(visibleTargets, t => selectedTarget = t);
                 if (selectedTarget == null)
                 {
                     foreach (GameObject target in visibleTargets)
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
+                        if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                     }
                     yield break; // cancelled or no target
                 }
@@ -309,7 +321,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                 Attack(selectedTarget);
                 foreach (GameObject target in visibleTargets)
                 {
-                    target.layer = LayerMask.NameToLayer("Monster");
+                    if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                 }
                 yield break;
             }
@@ -321,7 +333,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                 {
                     foreach (GameObject target in visibleTargets)
                     {
-                        target.layer = LayerMask.NameToLayer("Monster");
+                        if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                     }
                     yield break; // cancelled or no target
                 }
@@ -329,13 +341,12 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
                 Attack(selectedTarget);
                 foreach (GameObject target in visibleTargets)
                 {
-                    target.layer = LayerMask.NameToLayer("Monster");
+                    if (target != null) target.layer = LayerMask.NameToLayer("Monster");
                 }
                 yield break;
             }
         }
     }
-    
     public void SpellAction()
     {
         // Look at every enemy in the field of view that can be attacked
