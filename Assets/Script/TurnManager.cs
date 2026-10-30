@@ -66,9 +66,11 @@ public class TurnManager : MonoBehaviour
     public bool IsBusy => busy;
 
     // What the UI should enable.
-    public bool CanMove => Phase == TurnPhase.HeroTurn && !busy && !HasMoved && (CurrentHero == null || CurrentHero.CanMoveOrAttack);
-    public bool CanAct => Phase == TurnPhase.HeroTurn && !busy && !HasActed;
-    public bool CanEndTurn => Phase == TurnPhase.HeroTurn && !busy;
+    public bool Locked { get; set; }   // set by modal screens (spell choice): no input until released
+
+    public bool CanMove => !Locked && Phase == TurnPhase.HeroTurn && !busy && !HasMoved && (CurrentHero == null || CurrentHero.CanMoveOrAttack);
+    public bool CanAct => !Locked && Phase == TurnPhase.HeroTurn && !busy && !HasActed;
+    public bool CanEndTurn => !Locked && Phase == TurnPhase.HeroTurn && !busy;
 
     public event Action<int> RoundStarted;
     public event Action<Hero> HeroTurnStarted;
