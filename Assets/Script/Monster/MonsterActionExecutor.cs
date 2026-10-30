@@ -53,8 +53,9 @@ public class MonsterActionExecutor : MonoBehaviour
         foreach (Monster monster in snapshot)
         {
             if (monster == null || monster.IsDead) continue;
-            if (monster.isDormant) continue;      // statue of a quest: does nothing until it is activated
-
+            if (!monster.revealedToHeroes) continue;   // not on the board yet
+            if (monster.isDormant) continue;
+            
             monster.StartTurn();
             List<MonsterAction> plan = MonsterPlanner.PlanTurn(monster, grid, targetScore);
 
