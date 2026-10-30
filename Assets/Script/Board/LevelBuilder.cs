@@ -448,7 +448,7 @@ namespace HeroQuest.Board
                     }
                 }
 
-                SetLayerRecursive(root, boardLayer);
+                SetLayerRecursive(root, 8);
                 foreach (var c in root.GetComponentsInChildren<Collider>()) c.enabled = wallColliders;
                 walls[e] = root;
             }

@@ -87,6 +87,53 @@ public class TurnManager : MonoBehaviour
         Instance = this; // no DontDestroyOnLoad: this object references scene objects
     }
 
+
+    private void Start()
+    {
+        if (HeroQuestWorldBridge.Instance != null)
+            HeroQuestWorldBridge.Instance.HeroTurnEndRequested += OnTurnEndRequested;
+
+        QuestManager quests = QuestManager.Instance;
+        if (quests == null) return;
+        quests.OnQuestStarted += OnQuestStarted;
+        quests.OnQuestEnded += OnQuestEnded;
+
+        // The quest may already be running if it was started before this Start()
+        if (quests.IsRunning && Phase == TurnPhase.NotStarted) StartQuest(PlayableHeroes());
+    }
+    private void OnDestroy()
+    {
+        if (HeroQuestWorldBridge.Instance != null)
+            HeroQuestWorldBridge.Instance.HeroTurnEndRequested -= OnTurnEndRequested;
+        if (QuestManager.Instance != null)
+        {
+            QuestManager.Instance.OnQuestStarted -= OnQuestStarted;
+            QuestManager.Instance.OnQuestEnded -= OnQuestEnded;
+        }
+    }
+
+    private void OnQuestStarted(HeroQuest.Quests.QuestData quest)
+    {
+        if (Phase == TurnPhase.NotStarted || Phase == TurnPhase.QuestEnded) StartQuest(PlayableHeroes());
+    }
+
+    private void OnQuestEnded(HeroQuest.Quests.QuestResult result, HeroQuest.Quests.QuestData quest)
+        => EndQuest(result == HeroQuest.Quests.QuestResult.Victory);
+
+    private void OnTurnEndRequested(Hero hero)
+    {
+        if (Phase == TurnPhase.HeroTurn && hero == CurrentHero) EndHeroTurn();
+    }
+
+    private static List<Hero> PlayableHeroes()
+    {
+        var list = new List<Hero>();
+        if (HeroManager.Instance == null) return list;
+        foreach (Hero h in HeroManager.Instance.Heroes)
+            if (h != null && !h.IsAlly) list.Add(h);
+        return list;
+    }
+
     // ───────── Quest ─────────
 
     // order = heroes in play order (the hero to Zargon's left first). Null = every Hero found in the scene.
@@ -222,18 +269,17 @@ public class TurnManager : MonoBehaviour
             busy = true;
             waitingForActionResult = true;
         }
+        else HasActed = true;
 
-        switch (action)
-        {
-            case HeroActionType.Attack: hero.AttackAction(); break;
-            case HeroActionType.CastSpell: hero.SpellAction(); break;
-            case HeroActionType.SearchTreasure: hero.LookForTreasureAction(); break;
-            case HeroActionType.SearchSecretDoors: hero.LookForSecretDoorAction(); break;
-            case HeroActionType.SearchTraps: hero.LookForTrapAction(); break;
-            case HeroActionType.DisarmTrap: hero.DisarmTrapAction(); break;
-        }
-
-        if (!heroReportsActionResult) HasActed = true;
+            switch (action)
+            {
+                case HeroActionType.Attack: hero.AttackAction(); break;
+                case HeroActionType.CastSpell: hero.SpellAction(); break;
+                case HeroActionType.SearchTreasure: hero.LookForTreasureAction(); break;
+                case HeroActionType.SearchSecretDoors: hero.LookForSecretDoorAction(); break;
+                case HeroActionType.SearchTraps: hero.LookForTrapAction(); break;
+                case HeroActionType.DisarmTrap: hero.DisarmTrapAction(); break;
+            }
         Log(hero.heroName + " action: " + action);
         return true;
     }
