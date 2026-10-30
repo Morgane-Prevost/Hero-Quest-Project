@@ -54,8 +54,12 @@ public class SpellCastUI : MonoBehaviour
         foreach (SpellCardSO spell in offered)
         {
             Button b = Instantiate(spellButtonPrefab, listRoot);
+            bool castable = Castable(spell);
+            b.interactable = castable;
+
             TMP_Text label = b.GetComponentInChildren<TMP_Text>();
-            if (label != null) label.text = spell.displayName;
+            if (label != null) label.text = castable ? spell.displayName : spell.displayName + Reason(spell);
+
             SpellCardSO chosen = spell;
             b.onClick.AddListener(() => OnSpellChosen(chosen));
             spawned.Add(b.gameObject);
@@ -63,14 +67,13 @@ public class SpellCastUI : MonoBehaviour
         panel.SetActive(true);
     }
 
-    // Spells that can really be cast now (door targets and unwired effects are left out, see the PR notes)
-    private List<SpellCardSO> Offered()
-    {
-        var list = new List<SpellCardSO>();
-        foreach (SpellCardSO s in SpellManager.Instance.GetAvailableSpells(caster))
-            if (s.EffectImplemented && (s.Targets & SpellTargets.Door) == 0) list.Add(s);
-        return list;
-    }
+    // Every spell the hero still has; the ones that cannot work yet are shown greyed out
+    private List<SpellCardSO> Offered() => SpellManager.Instance.GetAvailableSpells(caster);
+
+    private static bool Castable(SpellCardSO s) => s.EffectImplemented && (s.Targets & SpellTargets.Door) == 0;
+
+    private static string Reason(SpellCardSO s)
+        => !s.EffectImplemented ? " (effect not wired yet)" : " (needs a door choice: not available yet)";
 
     private void OnSpellChosen(SpellCardSO spell)
     {
