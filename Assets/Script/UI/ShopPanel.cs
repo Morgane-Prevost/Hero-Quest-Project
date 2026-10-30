@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using TMPro;
 
@@ -21,7 +22,8 @@ public class ShopPanel : MonoBehaviour
     [SerializeField] private GameObject gameUI;
 
     [Header("Shop")]
-    [SerializeField] private List<CardSO> shopCards;
+    [FormerlySerializedAs("shopCards")]
+    [SerializeField] private List<CardSO> allCards;
 
     [Header("Colors")]
     [SerializeField] private Color normalColor = new Color(0f, 0f, 0f, 0f);
@@ -29,6 +31,7 @@ public class ShopPanel : MonoBehaviour
 
     private Hero buyer;
     private List<Button> slots = new List<Button>();
+    private List<CardSO> shopCards = new List<CardSO>();
     private int selectedIndex = -1;
 
     private void Awake()
@@ -40,7 +43,13 @@ public class ShopPanel : MonoBehaviour
         if (buyButton != null) buyButton.onClick.AddListener(OnBuyClicked);
         if (messageText != null) messageText.text = "";
 
+        FillShop();
         BuildSlots();
+    }
+
+    private void FillShop()
+    {
+        shopCards = new List<CardSO>(allCards);
     }
 
     public void ToggleShop()

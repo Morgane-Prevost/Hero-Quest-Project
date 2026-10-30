@@ -1570,12 +1570,22 @@ MonoBehaviour:
   buyButtonText: {fileID: 2546075280863210938}
   inventoryPanel: {fileID: 0}
   gameUI: {fileID: 0}
-  shopCards:
+  allCards:
+  - {fileID: 11400000, guid: 838bca56293dcf14691a9dc86c278536, type: 2}
+  - {fileID: 11400000, guid: 0b2193fa9de0a1c42834717a08e40160, type: 2}
+  - {fileID: 11400000, guid: 85ade09f033461149b98cfd5cfee0f4e, type: 2}
+  - {fileID: 11400000, guid: 5c8ae42aa0903f442a87a20965e58860, type: 2}
+  - {fileID: 11400000, guid: d410f86e90e7a0d4dbc5192ca7f65f7c, type: 2}
+  - {fileID: 11400000, guid: 9be7976b222c8b6438af63fd5de21dec, type: 2}
+  - {fileID: 11400000, guid: 85498a2a7181c3e469944b7b9464f7e3, type: 2}
+  - {fileID: 11400000, guid: 6f4fa98667041364cbfd25e3fd492963, type: 2}
+  - {fileID: 11400000, guid: 45b1af438e394cc42b4a558a7314f76a, type: 2}
+  - {fileID: 11400000, guid: a3d406a2e0583ed45ae491aea8d54630, type: 2}
+  - {fileID: 11400000, guid: 49a6c85829846ad4388348cd14e23ba0, type: 2}
+  - {fileID: 11400000, guid: 860a890e924122346b118617d5d61549, type: 2}
+  - {fileID: 11400000, guid: a6d2442609ba5e44394d498e9bea8e59, type: 2}
   - {fileID: 11400000, guid: b68d312616fc44f4d92434b5c1f37fc1, type: 2}
   - {fileID: 11400000, guid: f075773e43a4ba74fb138f5b2121c7e7, type: 2}
-  - {fileID: 11400000, guid: 860a890e924122346b118617d5d61549, type: 2}
-  - {fileID: 11400000, guid: 5c8ae42aa0903f442a87a20965e58860, type: 2}
-  - {fileID: 11400000, guid: 9be7976b222c8b6438af63fd5de21dec, type: 2}
-  - {fileID: 11400000, guid: 85ade09f033461149b98cfd5cfee0f4e, type: 2}
+  - {fileID: 11400000, guid: 8fd3519e3ef40744e9f8085cd2811354, type: 2}
   normalColor: {r: 0, g: 0, b: 0, a: 0}
   selectedColor: {r: 0.94, g: 0.62, b: 0.15, a: 1}
