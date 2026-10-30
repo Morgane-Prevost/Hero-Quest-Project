@@ -24191,7 +24191,7 @@ MonoBehaviour:
     openPrefab: {fileID: 0}
     fit: 0
     height: 0
-  - type: workbench
+  - type: alchemistbench
     prefab: {fileID: 6245678271568680432, guid: 54ea478a4e1dc264e8ffd1111113eb66, type: 3}
     openPrefab: {fileID: 0}
     fit: 0
@@ -24243,6 +24243,11 @@ MonoBehaviour:
     height: 0
   - type: rubble
     prefab: {fileID: 1909189840600740, guid: 9d1fa0cf37cf33d4b9a0472545d3776a, type: 3}
+    openPrefab: {fileID: 0}
+    fit: 0
+    height: 0
+  - type: workbench
+    prefab: {fileID: 6245678271568680432, guid: 54ea478a4e1dc264e8ffd1111113eb66, type: 3}
     openPrefab: {fileID: 0}
     fit: 0
     height: 0
@@ -77116,6 +77121,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Camera
       objectReference: {fileID: 0}
+    - target: {fileID: 8929207383971699084, guid: c40fe63fe74ad844b8df024f99a87e2e, type: 3}
+      propertyPath: panSpeed
+      value: 0.04
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -119515,7 +119524,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc69373ec1a349f4a90ad814843d311c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::QuestBootstrap
-  quest: {fileID: 11400000, guid: f503e5d67552e1f418172391f7875c51, type: 2}
+  quest: {fileID: 11400000, guid: c91e7ff0f5ad2154c9e6287f9c681975, type: 2}
 --- !u!4 &1464827536
 Transform:
   m_ObjectHideFlags: 0

@@ -29,7 +29,7 @@ public class DemoHud : MonoBehaviour
         TurnManager turn = TurnManager.Instance;
         if (turn == null || turn.Phase == TurnPhase.NotStarted) return;
 
-        float width = 480f;
+        float width = 400f;
         float height = 140f;
 
         Rect area = new Rect(Screen.width - width - 20f, (Screen.height - height) / 2f - 50f, width, height);
