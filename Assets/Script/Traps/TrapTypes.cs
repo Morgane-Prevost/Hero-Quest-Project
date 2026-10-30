@@ -95,32 +95,33 @@ namespace HeroQuest.Traps
     /// <summary>Texts read by Zargon, taken from the rulebook. Replace here to localize.</summary>
     public static class TrapMessages
     {
-        public const string MonsterInSight = "Impossible de chercher des pièges : un monstre est en vue.";
-        public const string HeroNotPlaced = "Le héros n'est pas placé sur le plateau.";
-        public const string PitDiscovered = "Le sol semble instable à cet endroit.";
-        public const string RockfallDiscovered = "Le plafond semble instable à cet endroit.";
-        public const string SpearDiscovered = "Cette case semble suspecte.";
-        public const string FurnitureDiscovered = "Ce coffre ou ce meuble a l'air dangereux.";
-        public const string PitTriggered = "Vous venez de tomber dans une oubliette !";
-        public const string RockfallTriggered = "Vous venez de déclencher un piège à éboulement ! Le plafond s'effondre !";
-        public const string SpearTriggered = "Une lance surgit du mur, du sol ou du plafond !";
-        public const string SpearHit = "Elle vous touche.";
-        public const string SpearAvoided = "Vous l'évitez.";
-        public const string Disarmed = "Le piège est désarmé.";
-        public const string JumpSuccess = "Vous sautez par-dessus le piège.";
-        public const string JumpFailed = "Le saut échoue : vous tombez dans le piège !";
-        public const string Entombed = "Plus aucune case libre autour de vous : vous êtes prisonnier de l'éboulement.";
-        public const string NoTrapHere = "Il n'y a aucun piège sur cette case.";
-        public const string TrapNotKnown = "L'emplacement de ce piège n'est pas connu.";
-        public const string CannotDisarmTriggered = "Un piège déjà déclenché ne peut plus être désarmé.";
-        public const string ToolkitRequired = "Une trousse à outils est nécessaire (sauf pour le nain).";
-        public const string DisarmNextTurn = "Un piège découvert ne peut être désarmé qu'à un tour suivant.";
-        public const string CannotJumpRockfall = "Impossible de sauter par-dessus un éboulement.";
-        public const string NotEnoughMovement = "Il faut au moins 2 points de déplacement pour sauter.";
-        public const string NoLanding = "Aucune case libre où atterrir.";
-        public const string RockfallBlocked = "Cette case est obstruée par l'éboulement.";
-        public const string NoPendingDecision = "Aucune sortie d'éboulement en attente pour ce héros.";
-        public const string InvalidExit = "Case de sortie invalide.";
+        public const string MonsterInSight = "Cannot search for traps: a monster is in sight.";
+        public const string HeroNotPlaced = "The hero is not placed on the board.";
+        public const string PitDiscovered = "The floor looks unstable here.";
+        public const string RockfallDiscovered = "The ceiling looks unstable here.";
+        public const string SpearDiscovered = "This square looks suspicious.";
+        public const string FurnitureDiscovered = "This chest or furniture looks dangerous.";
+        public const string PitTriggered = "You have fallen into a pit trap!";
+        public const string RockfallTriggered = "You have triggered a falling block trap! The ceiling collapses!";
+        public const string SpearTriggered = "A spear thrusts out from the wall, floor, or ceiling!";
+        public const string SpearHit = "It hits you.";
+        public const string SpearAvoided = "You avoid it.";
+        public const string Disarmed = "The trap is disarmed.";
+        public const string JumpSuccess = "You jump over the trap.";
+        public const string JumpFailed = "The jump fails: you fall into the trap!";
+        public const string Entombed = "No open squares around you: you are trapped by the cave-in.";
+        public const string NoTrapHere = "There is no trap on this square.";
+        public const string TrapNotKnown = "The location of this trap is unknown.";
+        public const string CannotDisarmTriggered = "A trap that has already been triggered cannot be disarmed.";
+        public const string ToolkitRequired = "A tool kit is required (except for the dwarf).";
+        public const string DisarmNextTurn = "A discovered trap can only be disarmed on a subsequent turn.";
+        public const string CannotJumpRockfall = "Cannot jump over a falling block.";
+        public const string NotEnoughMovement = "At least 2 movement points are required to jump.";
+        public const string NoLanding = "No open square to land on.";
+        public const string RockfallBlocked = "This square is blocked by the falling block.";
+        public const string NoPendingDecision = "No pending cave-in exit decision for this hero.";
+        public const string InvalidExit = "Invalid exit square.";
+
 
         public static string Discovered(TrapKind kind)
         {
