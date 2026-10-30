@@ -1,6 +1,7 @@
 using System.Collections;
-using UnityEngine;
 using HeroQuest.Quests;
+using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class QuestLauncher : MonoBehaviour
 {
@@ -28,4 +29,19 @@ public class QuestLauncher : MonoBehaviour
 
         QuestManager.Instance.StartQuest(quest);
     }
+
+    //private void Update()
+    //{
+    //    if (Keyboard.current == null) return;
+
+    //    if (Keyboard.current.vKey.wasPressedThisFrame)
+    //    {
+    //        QuestManager.Instance.ForceEnd(QuestResult.Victory);
+    //    }
+
+    //    if (Keyboard.current.lKey.wasPressedThisFrame)
+    //    {
+    //        QuestManager.Instance.ForceEnd(QuestResult.Defeat);
+    //    }
+    //}
 }

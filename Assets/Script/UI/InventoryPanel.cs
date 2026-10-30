@@ -11,7 +11,7 @@ public class InventoryPanel : MonoBehaviour
     [SerializeField] private Button closeButton;
     [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text subtitleText;
-    [SerializeField] private QuestPanel questPanel;
+    //[SerializeField] private QuestPanel questPanel;
     [SerializeField] private ListPanel listPanel;
     [SerializeField] private ShopPanel shopPanel;
 
@@ -72,7 +72,7 @@ public class InventoryPanel : MonoBehaviour
             return;
         }
 
-        if (questPanel != null) questPanel.Close();
+        //if (questPanel != null) questPanel.Close();
         if (listPanel != null) listPanel.ClearSelection();
         if (shopPanel != null) shopPanel.Close();
 

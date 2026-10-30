@@ -1,29 +1,24 @@
+using HeroQuest.Quests;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
-using HeroQuest.Quests;
 
 public class QuestPanel : MonoBehaviour
 {
     [Header("References")]
-    [SerializeField] private Button toggleButton;
-    [SerializeField] private TMP_Text toggleButtonText;
-    [SerializeField] private GameObject questBox;
+    [SerializeField] private GameObject box;
+    [SerializeField] private TMP_Text titleText;
     [SerializeField] private TMP_Text descriptionText;
+    [SerializeField] private TMP_Text hudTitleText;
+    [SerializeField] private Button okButton;
 
-    [Header("HideUI")]
-    [SerializeField] private GameObject[] uiToHide;
-
-    [Header("Other")]
-    [SerializeField] private ListPanel listPanel;
-    [SerializeField] private InventoryPanel inventoryPanel;
-
-    private bool subscribed;
+    private bool subscribed = false;
+    private bool alreadyShown = false;
 
     private void Awake()
     {
-        if (box != null) box.SetActive(false);
-        if (okButton != null) okButton.onClick.AddListener(Close);
+        box.SetActive(false);
+        okButton.onClick.AddListener(Close);
     }
 
     private void Start()
@@ -54,7 +49,7 @@ public class QuestPanel : MonoBehaviour
         QuestManager.Instance.OnQuestStarted += SetQuest;
         subscribed = true;
 
-        if (QuestManager.Instance.Context != null && QuestManager.Instance.Context.Quest != null)
+        if (QuestManager.Instance.Context != null)
         {
             SetQuest(QuestManager.Instance.Context.Quest);
         }
@@ -70,80 +65,23 @@ public class QuestPanel : MonoBehaviour
     private void SetQuest(QuestData quest)
     {
         if (quest == null) return;
+
+        if (hudTitleText != null)
+        {
+            hudTitleText.text = "Quest " + quest.questNumber + " : " + quest.title;
+        }
+
         if (alreadyShown) return;
 
         alreadyShown = true;
 
-        if (titleText != null)
-        {
-            titleText.text = string.IsNullOrEmpty(quest.title)
-                ? $"Quête {quest.questNumber}"
-                : $"Quête {quest.questNumber} : {quest.title}";
-        }
-
-        if (descriptionText != null)
-        {
-            StringBuilder sb = new StringBuilder();
-
-            if (!string.IsNullOrEmpty(quest.description))
-            {
-                sb.AppendLine(quest.description);
-                sb.AppendLine();
-            }
-
-            if (!string.IsNullOrEmpty(quest.introNote))
-            {
-                string header = string.IsNullOrEmpty(quest.introTitle) ? "Note" : quest.introTitle;
-                sb.AppendLine($"<b>{header} :</b> {quest.introNote}");
-                sb.AppendLine();
-            }
-
-            if (quest.objectives != null && quest.objectives.Count > 0)
-            {
-                sb.AppendLine("<b>Objectifs :</b>");
-                foreach (var obj in quest.objectives)
-                {
-                    string optionalTag = obj.optional ? " (Optionnel)" : "";
-                    sb.AppendLine($"• {obj.description}{optionalTag}");
-                }
-            }
-
-            descriptionText.text = sb.ToString();
-        }
-
-        SetOtherUIVisible(false);
-
-        if (box != null) box.SetActive(true);
+        titleText.text = "Quest " + quest.questNumber + " : " + quest.title;
+        descriptionText.text = quest.description;
+        box.SetActive(true);
     }
 
     public void Close()
     {
-        if (box != null) box.SetActive(false);
-
-        SetOtherUIVisible(true);
-    }
-
-    private void SetOtherUIVisible(bool visible)
-    {
-        if (uiToHide != null && uiToHide.Length > 0)
-        {
-            foreach (var element in uiToHide)
-            {
-                if (element != null && element != gameObject)
-                {
-                    element.SetActive(visible);
-                }
-            }
-        }
-        else if (transform.parent != null)
-        {
-            foreach (Transform child in transform.parent)
-            {
-                if (child.gameObject != gameObject && child.gameObject != box)
-                {
-                    child.gameObject.SetActive(visible);
-                }
-            }
-        }
+        box.SetActive(false);
     }
 }
