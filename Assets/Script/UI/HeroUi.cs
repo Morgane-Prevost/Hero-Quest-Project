@@ -7,6 +7,7 @@ public class HeroUi : MonoBehaviour
     [SerializeField] private PortraitPanel portraitPanel;
     [SerializeField] private CardViewer cardViewer;
     [SerializeField] private InventoryPanel inventoryPanel;
+    [SerializeField] private ShopPanel shopPanel;
 
     private void Start()
     {
@@ -44,5 +45,6 @@ public class HeroUi : MonoBehaviour
         if (portraitPanel != null) portraitPanel.SetHero(heroData);
         if (cardViewer != null) cardViewer.SetHero(heroData);
         if (inventoryPanel != null) inventoryPanel.SetHero(hero);
+        if (shopPanel != null) shopPanel.SetBuyer(hero);
     }
 }
