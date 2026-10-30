@@ -19,21 +19,23 @@ public class Monster : MonoBehaviour, ISpellMonsterTarget, IDamageable
     public List<string> spellIds = new List<string>();          // read by the future spell system
     public bool castsSpellInsteadOfAttacking;
     public bool spellsOncePerQuest;
-    public bool revealedToHeroes = false;
+    [UnityEngine.Serialization.FormerlySerializedAs("revealedToHeroes")]
+    [SerializeField] private bool revealed = false;
 
-    [SerializeField] private bool _revealedToHeroes = false;
     public bool revealedToHeroes
     {
-        get => _revealedToHeroes;
-        set
-        {
-            if (_revealedToHeroes != value)
-            {
-                _revealedToHeroes = value;
-                UpdateVisuals();
-            }
-        }
+        get => revealed;
+        set { revealed = value; ApplyVisibility(); }
     }
+
+    private void ApplyVisibility()
+    {
+        foreach (Renderer r in GetComponentsInChildren<Renderer>(true))
+            r.enabled = revealed;
+    }
+
+// Lets you tick the box in the Inspector during Play to test.
+    private void OnValidate() { if (Application.isPlaying) ApplyVisibility(); } 
     public Hero LastAttacker { get; private set; }
 
     public int healthPoints;

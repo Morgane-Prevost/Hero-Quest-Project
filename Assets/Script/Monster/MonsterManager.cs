@@ -125,7 +125,7 @@ public class MonsterManager : MonoBehaviour
         monster.elementId = elementId;
         monster.revealedToHeroes = false;
         Debug.Log("[Monster] Spawned " + elementId + " (" + data.monsterName + ") at " + cell);
-        MonsterSpawned?.Invoke(monster);
+        monster.revealedToHeroes = true;   
         return monster;
     }
 
