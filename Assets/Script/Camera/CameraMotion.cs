@@ -8,20 +8,19 @@ public class CameraMotion : MonoBehaviour
 
     [Header("Motion")]
     [SerializeField] private float panSpeed = 0.04f;
-    [SerializeField] private float rotateSpeed = 0.4f;
+    [SerializeField] private float rotateSpeed = 0.2f;
     [SerializeField] private float minPitch = 0f;
     [SerializeField] private float maxPitch = 80f;
 
     [Header("Zoom")]
-    [SerializeField] private float zoomStep = 5f;
-    [SerializeField] private float zoomSmooth = 8f;
-    [SerializeField] private float minFOV = 20f;
-    [SerializeField] private float maxFOV = 70f;
+    [SerializeField] private float zoomSpeed = 2f;
+    [SerializeField] private float minHeight = 4f;
+    [SerializeField] private float maxHeight = 25f;
 
-    [Header("Positions")]
-    [SerializeField] private Transform[] camPositions;
-    [SerializeField] private float camMoveSpeed = 3f;
-    [SerializeField] private float camRotateSpeed = 3f;
+    [Header("Focus")]
+    [SerializeField] private Transform startPosition;
+    [SerializeField] private float focusDistance = 25f;
+    [SerializeField] private float smoothSpeed = 8f;
 
     private InputActionMap cameraMap;
     private InputAction panAction;
@@ -32,9 +31,10 @@ public class CameraMotion : MonoBehaviour
     private Camera cam;
     private float targetFOV;
     private float startFOV;
-    private int turnCount;
 
-    private int camIndex = 0;
+    private Quaternion focusRotation;
+    private Vector3 targetPosition;
+    private Quaternion targetRotation;
     private bool isTransitioning;
 
     private bool subscribed;
@@ -62,11 +62,15 @@ public class CameraMotion : MonoBehaviour
             }
         }
 
-        if (camPositions != null && camPositions.Length > 0 && camPositions[0] != null)
+        if (startPosition != null)
         {
-            transform.position = camPositions[0].position;
-            transform.rotation = camPositions[0].rotation;
+            transform.position = startPosition.position;
+            transform.rotation = startPosition.rotation;
         }
+
+        focusRotation = transform.rotation;
+        targetPosition = transform.position;
+        targetRotation = transform.rotation;
     }
     private void Subscribe()
     {
@@ -86,20 +90,18 @@ public class CameraMotion : MonoBehaviour
     }
     private void OnHeroTurnStarted(Hero hero)
     {
-        if (camPositions == null || camPositions.Length == 0) return;
-
-        GoToPosition(turnCount % camPositions.Length);
-        turnCount++;
+        FocusOnHero(hero);
     }
 
-    public void GoToPosition(int index)
+    public void FocusOnHero(Hero hero)
     {
-        if (camPositions == null || camPositions.Length == 0 || index < 0 || index >= camPositions.Length)
-            return;
+        if (hero  == null) return;
 
-        camIndex = index;
-        isTransitioning = true;
+        targetRotation = focusRotation;
+        targetPosition = hero.transform.position - (focusRotation * Vector3.forward) * focusDistance;
+
         targetFOV = startFOV;
+        isTransitioning = true;
     }
 
     private void Update()
@@ -119,50 +121,49 @@ public class CameraMotion : MonoBehaviour
 
         if (isPanning)
         {
-            Vector3 forward = transform.forward;
+            Vector3 forward = targetRotation * Vector3.forward;
             forward.y = 0;
             forward.Normalize();
 
-            Vector3 right = transform.right;
+            Vector3 right = targetRotation * Vector3.right;
             right.y = 0;
             right.Normalize();
 
-            Vector3 move = right * -delta.x + forward * -delta.y;
-            transform.position += move * panSpeed;
+            Vector3 move = (right * -delta.x) + (forward * -delta.y);
+            targetPosition += move * panSpeed;
         }
 
         if (isRotating)
         {
-            float pitch = Mathf.DeltaAngle(0f, transform.eulerAngles.x);
+            Vector3 currentEuler = targetRotation.eulerAngles;
 
+            float pitch = Mathf.DeltaAngle(0f, currentEuler.x);
             pitch += -delta.y * rotateSpeed;
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-            transform.eulerAngles = new Vector3(pitch, transform.eulerAngles.y, transform.eulerAngles.z);
+            float yaw = currentEuler.y + (delta.x * rotateSpeed);
+
+            targetRotation = Quaternion.Euler(pitch, yaw, 0f);
         }
 
         if (scroll != 0)
         {
-            targetFOV -= Mathf.Sign(scroll) * zoomStep;
-            targetFOV = Mathf.Clamp(targetFOV, minFOV, maxFOV);
-        }
+            Vector3 zoomDirection = targetRotation * Vector3.forward;
+            Vector3 nextPos = targetPosition + (zoomDirection * (Mathf.Sign(scroll) * zoomSpeed));
 
-        if (cam != null)
-        {
-            cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetFOV, zoomSmooth * Time.deltaTime);
-        }
-
-        if (isTransitioning && camPositions != null && camPositions.Length > camIndex && camPositions[camIndex] != null)
-        {
-            Transform target = camPositions[camIndex];
-
-            transform.position = Vector3.Lerp(transform.position, target.position, camMoveSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, camRotateSpeed * Time.deltaTime);
-
-            if (Vector3.Distance(transform.position, target.position) < 0.05f)
+            if (nextPos.y >= minHeight && nextPos.y <= maxHeight)
             {
-                isTransitioning = false;
+                targetPosition = nextPos;
             }
+        }
+
+        float t = smoothSpeed * Time.deltaTime;
+        transform.position = Vector3.Lerp(transform.position, targetPosition, t);
+        transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, t);
+
+        if (isTransitioning && Vector3.Distance(transform.position, targetPosition) < 0.05f)
+        {
+            isTransitioning = false;
         }
     }
 }
