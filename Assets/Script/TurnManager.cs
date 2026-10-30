@@ -271,6 +271,7 @@ public class TurnManager : MonoBehaviour
             busy = true;
             waitingForActionResult = true;
         }
+        else if (action != HeroActionType.CastSpell) HasActed = true;
         else HasActed = true;
 
             switch (action)
@@ -326,6 +327,9 @@ public class TurnManager : MonoBehaviour
         }
         return true;
     }
+
+    // Called by the spell menu once a spell is really cast
+    public void MarkActionUsed() { HasActed = true; }
 
     // ───────── Zargon turn ─────────
 

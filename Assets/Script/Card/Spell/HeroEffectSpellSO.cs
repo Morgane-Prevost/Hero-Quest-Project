@@ -22,4 +22,8 @@ public class HeroEffectSpellSO : SpellCardSO
     public int value;
 
     public override void CastOnHero(ISpellHeroTarget target, IRandomPicker picker) => target.AddEffect(effect, value);
+
+    public override SpellTargets Targets => SpellTargets.Hero;
+
+    public override bool EffectImplemented => effect == HeroEffect.SwiftWind;
 }

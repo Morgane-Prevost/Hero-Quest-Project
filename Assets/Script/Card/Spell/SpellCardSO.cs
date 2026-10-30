@@ -2,6 +2,8 @@ using UnityEngine;
 
 public enum SpellElement { Air, Fire, Water, Earth }
 
+[System.Flags] public enum SpellTargets { None = 0, Hero = 1, Monster = 2, Door = 4 }
+
 // What a spell is allowed to ask af a hero. Implemented by Hero (Heal already exists there)
 public interface ISpellHeroTarget
 {
@@ -45,4 +47,9 @@ public class SpellCardSO : CardSO
 
     public virtual bool CastOnDoor(ISpellDoorTarget target, string doorId)
         => throw new System.InvalidOperationException($"{displayName} cannot target a door");
+
+    // What the cast menu needs to know about the spell
+    public virtual SpellTargets Targets => SpellTargets.None;
+    // False while the systems that read the effect (movement, combat) are not wired: the spell is not offered
+    public virtual bool EffectImplemented => true;
 }
