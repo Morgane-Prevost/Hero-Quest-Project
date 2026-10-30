@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-// Temporary demo panel (IMGUI): action buttons + dice log. It only calls the TurnManager API.
 public class DemoHud : MonoBehaviour
 {
     private readonly List<string> diceLog = new List<string>();
@@ -30,33 +29,54 @@ public class DemoHud : MonoBehaviour
         TurnManager turn = TurnManager.Instance;
         if (turn == null || turn.Phase == TurnPhase.NotStarted) return;
 
-        GUILayout.BeginArea(new Rect(10, 80, 260, 420), GUI.skin.box);
+        float width = 480f;
+        float height = 140f;
+
+        Rect area = new Rect(Screen.width - width - 20f, (Screen.height - height) / 2f - 50f, width, height);
+        GUILayout.BeginArea(area, GUI.skin.box);
+        GUILayout.BeginHorizontal();
+
+        GUILayout.BeginVertical(GUILayout.Width(270f));
 
         if (turn.Phase == TurnPhase.HeroTurn && turn.CurrentHero != null)
         {
             Hero hero = turn.CurrentHero;
             GUILayout.Label("Round " + turn.Round + " - " + hero.heroName);
             GUILayout.Label("Body " + hero.currentBodyPoints + "/" + hero.MaxBodyPoints + "   Gold " + hero.gold);
-            GUILayout.Label((turn.HasMoved ? "Move: done" : "Move: available") + "   |   " +
+            GUILayout.Label((turn.HasMoved ? "Move: done" : "Move: available") + " | " +
                             (turn.HasActed ? "Action: done" : "Action: available"));
 
+            GUILayout.BeginHorizontal();
+
             GUI.enabled = turn.CanMove;
-            if (GUILayout.Button("Move (roll red dice)", GUILayout.Height(32))) turn.RequestMove();
+            if (GUILayout.Button("Move", GUILayout.Height(30))) turn.RequestMove();
 
             GUI.enabled = turn.CanAct;
-            if (GUILayout.Button("Attack", GUILayout.Height(32))) turn.RequestAction(HeroActionType.Attack);
-            if (GUILayout.Button("Search for treasure", GUILayout.Height(32))) turn.RequestAction(HeroActionType.SearchTreasure);
+            if (GUILayout.Button("Attack", GUILayout.Height(30))) turn.RequestAction(HeroActionType.Attack);
+            if (GUILayout.Button("Treasure", GUILayout.Height(30))) turn.RequestAction(HeroActionType.SearchTreasure);
             GUI.enabled = true;
+
+            GUILayout.EndHorizontal();
         }
         else
         {
             GUILayout.Label("Zargon's turn...");
         }
 
-        GUILayout.Space(8);
-        GUILayout.Label("Dice:");
-        foreach (string line in diceLog) GUILayout.Label(line);
+        GUILayout.EndVertical();
 
+        GUILayout.BeginVertical();
+        GUILayout.Label("Dice:");
+
+        int start = Mathf.Max(0, diceLog.Count - 5);
+        for (int i = start; i < diceLog.Count; i++)
+        {
+            GUILayout.Label(diceLog[i]);
+        }
+
+        GUILayout.EndVertical();
+
+        GUILayout.EndHorizontal();
         GUILayout.EndArea();
     }
 }
