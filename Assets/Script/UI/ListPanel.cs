@@ -9,7 +9,7 @@ public class ListPanel : MonoBehaviour
     [SerializeField] private Button arrowButton;
     [SerializeField] private TMP_Text arrowText;
     [SerializeField] private FichePanel fichePanel;
-    [SerializeField] private QuestPanel questPanel;
+    //[SerializeField] private QuestPanel questPanel;
     [SerializeField] private InventoryPanel inventoryPanel;
 
     [Header("Lists")]
@@ -112,7 +112,7 @@ public class ListPanel : MonoBehaviour
         selectedButton = button;
         SetUnderline(selectedButton, true);
 
-        questPanel.Close();
+        //questPanel.Close();
         inventoryPanel.Close();
         return true;
     }
