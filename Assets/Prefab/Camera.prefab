@@ -191,8 +191,7 @@ MonoBehaviour:
   maxHeight: 25
   startPosition: {fileID: 4731929815498711384}
   focusDistance: 25
-  camMoveSpeed: 3
-  camRotateSpeed: 3
+  smoothSpeed: 8
 --- !u!1 &5252006163165249284
 GameObject:
   m_ObjectHideFlags: 0
