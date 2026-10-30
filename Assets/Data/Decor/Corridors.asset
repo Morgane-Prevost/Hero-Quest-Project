@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b04a9a3886b2647b2651a437afeabb, type: 3}
+  m_Name: Corridors
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Board.RoomThemeSO
+  themeId: corridors
+  props:
+  - prefab: {fileID: 161946, guid: 7098fb36b610961409481b19c3c89f3d, type: 3}
+    slot: 2
+    size: 0.8
+    weight: 5
+    randomYaw: 1
+  - prefab: {fileID: 118608, guid: faca720d8063fe04ea9eaba459ea2758, type: 3}
+    slot: 2
+    size: 0.3
+    weight: 3
+    randomYaw: 1
+  - prefab: {fileID: 109274, guid: b131c4e5b11659844ad695035a09c896, type: 3}
+    slot: 2
+    size: 0.3
+    weight: 2
+    randomYaw: 1
+  - prefab: {fileID: 132660, guid: d6487cafe050ad94fb7235770972834e, type: 3}
+    slot: 2
+    size: 0.8
+    weight: 4
+    randomYaw: 1
+  density: 0.15
+  minProps: 5
+  maxProps: 10
+  torchPrefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}
+  flameFxPrefab: {fileID: 1283514324608574, guid: 2fba35f53ac35564cb7b58e268e904bd, type: 3}
+  minTorches: 10
+  maxTorches: 15
+  torchSize: 0.35
+  torchHeight: 0.5
+  torchColor: {r: 1, g: 0.7739354, b: 0.25098038, a: 1}
+  torchIntensity: 1.6
+  torchRange: 3.5
+  torchMinSpacing: 3
+  fillIntensity: 0.6
+  fillColor: {r: 0.8, g: 0.75, b: 0.7, a: 1}

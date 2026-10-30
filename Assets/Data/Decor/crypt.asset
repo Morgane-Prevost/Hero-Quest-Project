@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79b04a9a3886b2647b2651a437afeabb, type: 3}
+  m_Name: crypt
+  m_EditorClassIdentifier: Assembly-CSharp::HeroQuest.Board.RoomThemeSO
+  themeId: crypt
+  props:
+  - prefab: {fileID: 1094353618168382, guid: 22c54b1dddacc1d4f9fbbd03d11095a1, type: 3}
+    slot: 2
+    size: 1
+    weight: 2
+    randomYaw: 1
+  - prefab: {fileID: 1505542250231858, guid: d4fa17e8c80cfe249be92becbf42ac34, type: 3}
+    slot: 1
+    size: 0.3
+    weight: 5
+    randomYaw: 0
+  - prefab: {fileID: 1395345469812158, guid: 3547ccdebfb33f04095620758a890316, type: 3}
+    slot: 2
+    size: 0.5
+    weight: 1
+    randomYaw: 1
+  - prefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}
+    slot: 0
+    size: 0.35
+    weight: 1
+    randomYaw: 0
+  - prefab: {fileID: 1090822546823394, guid: 27f4a21e2514df54f866ebe53b36a940, type: 3}
+    slot: 2
+    size: 0.5
+    weight: 3
+    randomYaw: 1
+  - prefab: {fileID: 1395345469812158, guid: 3547ccdebfb33f04095620758a890316, type: 3}
+    slot: 2
+    size: 0.5
+    weight: 4
+    randomYaw: 0
+  density: 0.3
+  minProps: 3
+  maxProps: 10
+  torchPrefab: {fileID: 129940, guid: 2ac3e0251c277c64aa84107937f03027, type: 3}
+  flameFxPrefab: {fileID: 1283514324608574, guid: 2fba35f53ac35564cb7b58e268e904bd, type: 3}
+  minTorches: 1
+  maxTorches: 3
+  torchSize: 0.35
+  torchHeight: 0.5
+  torchColor: {r: 0.41037738, g: 0.5517721, b: 1, a: 1}
+  torchIntensity: 1.6
+  torchRange: 3.5
+  torchMinSpacing: 3
+  fillIntensity: 0.4
+  fillColor: {r: 0.8, g: 0.75, b: 0.7, a: 1}

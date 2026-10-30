@@ -22,6 +22,7 @@ public class CellPicker : MonoBehaviour
     [SerializeField] private GameObject defaultHighlightPrefab; // quad/plane with a collider
     [SerializeField] private LayerMask highlightMask;           // layer of the highlights
     [SerializeField] private float highlightHeight = 0.2f;
+    [SerializeField] private LevelBuilder levelBuilder;
 
     private readonly List<GameObject> activeHighlights = new();
     private Action<Vector2Int> onChosen;
@@ -39,6 +40,11 @@ public class CellPicker : MonoBehaviour
             return;
         }
         Instance = this;
+
+        if (levelBuilder == null)
+        {
+            levelBuilder = FindObjectOfType<LevelBuilder>();
+        }
     }
 
     // ───────── Public API ─────────
@@ -126,6 +132,17 @@ public class CellPicker : MonoBehaviour
             return;
         }
         Debug.Log($"2. Hit {hit.collider.name} (layer {LayerMask.LayerToName(hit.collider.gameObject.layer)})");
+
+        PlacedElement pe = hit.collider.GetComponentInParent<PlacedElement>();
+        if (pe != null && pe.Def.kind == ElementKind.Door)
+        {
+            if (levelBuilder != null)
+            {
+                levelBuilder.OpenDoor(pe.Def.id);
+                Debug.Log("[CellPicker] Ouverture de la porte : " + pe.Def.id);
+                return;
+            }
+        }
 
         CellHighlight h = hit.collider.GetComponentInParent<CellHighlight>();
         if (h == null) return;
