@@ -20,6 +20,20 @@ public class Monster : MonoBehaviour, ISpellMonsterTarget, IDamageable
     public bool castsSpellInsteadOfAttacking;
     public bool spellsOncePerQuest;
     public bool revealedToHeroes = false;
+
+    [SerializeField] private bool _revealedToHeroes = false;
+    public bool revealedToHeroes
+    {
+        get => _revealedToHeroes;
+        set
+        {
+            if (_revealedToHeroes != value)
+            {
+                _revealedToHeroes = value;
+                UpdateVisuals();
+            }
+        }
+    }
     public Hero LastAttacker { get; private set; }
 
     public int healthPoints;
