@@ -181,7 +181,7 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
         }
 
         // Roll the movement dice and display where the hero can move on the board
-        int diceToRoll = MovementDiceCap >= 0 ? Mathf.Min(movementDices, MovementDiceCap) : movementDices;
+        int diceToRoll = MovementDiceCap >= 0 ? Mathf.Min(dice, MovementDiceCap) : dice;
         for (int i = 0; i < diceToRoll; i++)
         {
             finalMovement += ActionManager.Instance.RollRedDice(ActionManager.Instance.diceAnimator);
@@ -347,16 +347,10 @@ public class Hero : MonoBehaviour, IPotionTarget, ISpellHeroTarget, IDreadHeroTa
             }
         }
     }
-    public void SpellAction()
-    {
-        // Look at every enemy in the field of view that can be attacked
+    public void SpellAction() => SpellCastUI.Instance?.Open(this);
 
-        // Wait for the player to select an enemy to attack
-
-        // Roll the attack dices and calculate the damage
-
-        // Apply the damage to the enemy
-    }
+    // For the spell targeting: same wall check as the attack
+    public List<GameObject> VisibleAmong(List<GameObject> targets) => GetVisibleTargets(targets);
 
     public void LookForTreasureAction()
     {

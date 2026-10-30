@@ -18,4 +18,6 @@ public class SleepSpellSO :SpellCardSO
         target.FallAsleep();
         target.TryBreakSleep(picker);
     }
+
+    public override SpellTargets Targets => SpellTargets.Monster;
 }

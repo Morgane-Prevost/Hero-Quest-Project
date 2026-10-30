@@ -10,4 +10,7 @@ public class HealSpellSO : SpellCardSO
     {
         target.Heal(amount);
     }
+
+    public override SpellTargets Targets => SpellTargets.Hero;
+
 }
